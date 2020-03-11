@@ -1,0 +1,56 @@
+.ChainTable {
+  margin: 1em auto;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ChainTableRow:hover .ChainTableCell {
+  background: #fffbdc !important;
+}
+
+.ChainTableRow:hover .ChainTableCellHide {
+  color: #333 !important;
+}
+
+.ChainTableRow:nth-child(even) .ChainTableCell {
+  background: rgba(0, 0, 0, .055);
+}
+
+.ChainTableCell {
+  border-right: 1px solid black;
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.ChainTableCellHide {
+  color: rgba(1, 1, 1, .2);
+}
+
+.ChainTableCell:first-child {
+  border-left: 1px solid black;
+}
+
+.ChainTableRow:first-child .ChainTableCell {
+  border-top: 1px solid black;
+}
+
+.ChainTableRow:last-child .ChainTableCell {
+  border-bottom: 1px solid black;
+}
+
+.ChainTableRow:first-child .ChainTableCell:first-child {
+  border-top-left-radius: 1em;
+}
+
+.ChainTableRow:first-child .ChainTableCell:last-child {
+  border-top-right-radius: 1em;
+}
+
+.ChainTableRow:last-child .ChainTableCell:first-child {
+  border-bottom-left-radius: 1em;
+}
+
+.ChainTableRow:last-child .ChainTableCell:last-child {
+  border-bottom-right-radius: 1em;
+}

@@ -1,0 +1,70 @@
+.ChainDetail {
+  text-align: center;
+}
+
+.ChainDetailItem {
+  max-width: 45vw;
+  margin: 0 auto;
+}
+
+.ChainDetailAuthorPart {
+  padding: 0.4em 0;
+}
+
+.ChainDetailAuthorPartName {
+  font-size: 150%;
+}
+
+.ChainDetailAuthorPartAffil {
+  color: #444444;
+}
+
+.ChainDetailAuthorPartAffilWrapped {
+  max-width: 70%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.ChainDetailAuthorPartAffilUnwrapped {
+  max-width: 70%;
+}
+
+.ChainDetailDocumentPart {
+  font-size: 125%;
+  padding: 0.4em 0;
+}
+
+.ChainDetailJournalPart {
+  font-style: italic;
+}
+
+.ChainDetailADSPart {
+  margin-left: 0.5em;
+}
+
+.ChainDetailSingleDocButton {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+.ChainDetailDocButton {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.dropdown-toggle {
+  white-space: normal;
+}
+
+.ChainDetailArrowPart {
+  width: 5em;
+  padding: 1em 0;
+}
+
+.ChainDetailItem:last-child .ChainDetailArrowPart {
+  display: none;
+}

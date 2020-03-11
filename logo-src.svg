@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="180"
+   height="180"
+   viewBox="0 0 180 180"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="logo-src.svg"
+   inkscape:export-filename="/home/sam/Documents/Research/appa-web/public/favicon-512x512.png"
+   inkscape:export-xdpi="255.8"
+   inkscape:export-ydpi="255.8">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="21.621265"
+     inkscape:cy="120.19111"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     inkscape:window-x="3585"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-872.36216)">
+    <path
+       sodipodi:type="star"
+       style="fill:#000000"
+       id="path19051"
+       sodipodi:sides="3"
+       sodipodi:cx="90"
+       sodipodi:cy="967.7619"
+       sodipodi:r1="84.497314"
+       sodipodi:r2="42.248657"
+       sodipodi:arg1="-2.6179939"
+       sodipodi:arg2="-1.5707963"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 16.823178,925.51325 146.353642,-10e-6 -73.176818,126.74596 z"
+       inkscape:transform-center-y="15.736847"
+       transform="matrix(1.2277704,0,0,0.74496324,-20.49934,268.36478)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#000000"
+       id="path19072"
+       sodipodi:sides="4"
+       sodipodi:cx="88.388344"
+       sodipodi:cy="903.11212"
+       sodipodi:r1="71.300781"
+       sodipodi:r2="50.417263"
+       sodipodi:arg1="2.3561945"
+       sodipodi:arg2="3.1415927"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 37.971077,953.52939 10e-7,-100.83453 100.834532,0 0,100.83453 z"
+       transform="matrix(0.69946232,0,0,0.90449085,28.175684,101.17228)"
+       inkscape:export-filename="/home/sam/Documents/Research/appa-web/public/path19072.png"
+       inkscape:export-xdpi="100.02403"
+       inkscape:export-ydpi="100.02403" />
+  </g>
+</svg>
