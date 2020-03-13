@@ -1,5 +1,5 @@
 import React from 'react';
-import ChainTable from './ChainTable'
+import { ChainTable, sortChains } from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
 import './App.css';
@@ -8,7 +8,10 @@ import './App.css';
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {chain: props.chains[0]}
+        const chains = sortChains(this.props.chains,
+                                  "alphabetical",
+                                  this.props.repo);
+        this.state = {chain: chains[0]};
         
         this.onChainSelected = this.onChainSelected.bind(this);
     }
@@ -26,7 +29,8 @@ class App extends React.Component {
                                 dest={destName}
                                 dist={this.props.chains[0].length - 1}/>
                 <ChainTable chains={this.props.chains}
-                            onChainSelected={this.onChainSelected}/>
+                            onChainSelected={this.onChainSelected}
+                            repo={this.props.repo} />
                 <ChainDetail chain={this.state.chain}
                              repo={this.props.repo} />
             </div>

@@ -1,5 +1,15 @@
-.ChainTable {
+.ChainTableContainer {
+  display: inline-block;
+  text-align: right;
   margin: 1em auto;
+}
+
+.ChainTableSortSelector {
+  margin-bottom: 0.3em;
+  margin-right: 0.3em;
+}
+
+.ChainTable {
   border-collapse: separate;
   border-spacing: 0;
 }
