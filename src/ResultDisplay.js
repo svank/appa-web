@@ -2,10 +2,10 @@ import React from 'react';
 import { ChainTable, sortChains } from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
-import './App.css';
+import './ResultDisplay.css';
 
 
-class App extends React.Component {
+class ResultDisplay extends React.Component {
     constructor(props) {
         super(props);
         const chains = sortChains(this.props.chains,
@@ -24,7 +24,7 @@ class App extends React.Component {
         const sourceName = this.props.chains[0][0];
         const destName = this.props.chains[0][this.props.chains[0].length - 1];
         return (
-            <div className="App">
+            <div className="ResultDisplay">
                 <DistanceReport source={sourceName}
                                 dest={destName}
                                 dist={this.props.chains[0].length - 1}/>
@@ -39,4 +39,4 @@ class App extends React.Component {
 
 }
 
-export default App;
+export default ResultDisplay;

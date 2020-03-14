@@ -1,0 +1,25 @@
+.Header {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.5em 1em 1em 1em;
+}
+
+.PageTitle {
+  font-size: x-large;
+  font-weight: bold;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.LeftArrow {
+  border: solid #007bfe;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.Header a {
+  color: #007bfe;
+}

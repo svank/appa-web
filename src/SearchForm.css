@@ -1,0 +1,19 @@
+.SearchForm {
+  width: 30vw;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.SearchFormArrowPart {
+  width: 5em;
+  padding: 1em 0;
+  margin: 0 auto;
+}
+
+.SearchFormEditSearch {
+  max-width: 45vw;
+  margin: 0 auto;
+}
