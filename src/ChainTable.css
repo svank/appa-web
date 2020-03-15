@@ -5,8 +5,8 @@
 }
 
 .ChainTableSortSelector {
-  margin-bottom: 0.3em;
-  margin-right: 0.3em;
+  margin-bottom: 6px;
+  margin-right: 6px;
 }
 
 .ChainTable {
@@ -50,17 +50,17 @@
 }
 
 .ChainTableRow:first-child .ChainTableCell:first-child {
-  border-top-left-radius: 1em;
+  border-top-left-radius: 16px;
 }
 
 .ChainTableRow:first-child .ChainTableCell:last-child {
-  border-top-right-radius: 1em;
+  border-top-right-radius: 16px;
 }
 
 .ChainTableRow:last-child .ChainTableCell:first-child {
-  border-bottom-left-radius: 1em;
+  border-bottom-left-radius: 16px;
 }
 
 .ChainTableRow:last-child .ChainTableCell:last-child {
-  border-bottom-right-radius: 1em;
+  border-bottom-right-radius: 16px;
 }

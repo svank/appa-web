@@ -1,7 +1,7 @@
 .Header {
   display: flex;
   align-items: flex-start;
-  margin: 0.5em 1em 1em 1em;
+  margin: 10px 20px 20px 20px;
 }
 
 .PageTitle {

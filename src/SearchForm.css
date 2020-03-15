@@ -1,10 +1,11 @@
 .SearchForm {
-  width: 30vw;
+  width: 500px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
+  padding: 32px;
 }
 
 .SearchFormArrowPart {
@@ -14,6 +15,15 @@
 }
 
 .SearchFormEditSearch {
-  max-width: 45vw;
-  margin: 0 auto;
+  margin: .5em 1em;
+  text-align: left;
+}
+
+.SearchFormLeftArrow {
+  border: solid #007bfe;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
 }

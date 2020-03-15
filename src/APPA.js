@@ -3,6 +3,12 @@ import parseResponse from "./ServerResponseParser";
 import Header from './Header';
 import SearchForm from './SearchForm';
 import ResultDisplay from "./ResultDisplay";
+import './APPA.css';
+
+import Popper from 'popper.js';
+
+// see: https://github.com/twbs/bootstrap/issues/23590
+Popper.Defaults.modifiers.computeStyle.gpuAcceleration = false;
 
 class APPA extends React.Component {
     constructor(props) {
@@ -53,30 +59,36 @@ class APPA extends React.Component {
     render() {
         if (!this.state.data && !this.state.isLoading) {
             return (
-                <div>
+                <div className="Page">
                     <Header/>
-                    <SearchForm onSubmit={this.onFormSubmitted}
-                                mini={false}
-                                state={this.state.searchState} />
+                    <div className="MainContent">
+                        <SearchForm onSubmit={this.onFormSubmitted}
+                                    mini={false}
+                                    state={this.state.searchState} />
+                    </div>
                 </div>
             );
         }
         else if (this.state.isLoading) {
             return (
-                <div>
+                <div className="Page">
                     <Header />
-                    Loading...
+                    <div className="MainContent">
+                        Loading...
+                    </div>
                 </div>
             )
         } else {
             return (
-                <div>
+                <div className="Page">
                     <Header />
-                    <SearchForm onSubmit={this.onFormSubmitted}
-                                mini={true}
-                                state={this.state.searchState} />
-                    <ResultDisplay repo={this.state.data}
-                                   chains={this.state.data.chains} />
+                    <div className="MainContent">
+                        <SearchForm onSubmit={this.onFormSubmitted}
+                                    mini={true}
+                                    state={this.state.searchState} />
+                        <ResultDisplay repo={this.state.data}
+                                       chains={this.state.data.chains} />
+                    </div>
                 </div>
             )
         }

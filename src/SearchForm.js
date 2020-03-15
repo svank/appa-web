@@ -50,7 +50,7 @@ class SearchForm extends React.Component {
                 <div className="SearchFormEditSearch">
                     <Button variant="link"
                             onClick={this.onClear}>
-                        Edit search
+                    <span className="SearchFormLeftArrow" /> Edit search
                     </Button>
                 </div>
             )

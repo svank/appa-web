@@ -1,9 +1,10 @@
 .ChainDetail {
   text-align: center;
+  margin-top: 50px;
 }
 
 .ChainDetailItem {
-  max-width: 45vw;
+  max-width: 825px;
   margin: 0 auto;
 }
 
@@ -40,11 +41,6 @@
 
 .ChainDetailAuthorPartAffilUnwrapped {
   max-width: 70%;
-}
-
-.ChainDetailDocumentPart {
-  font-size: 125%;
-  padding: 0.4em 0;
 }
 
 .ChainDetailJournalPart {

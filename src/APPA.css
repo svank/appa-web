@@ -1,0 +1,12 @@
+.Page {
+    text-align: center;
+    height: 100%;
+}
+
+.MainContent {
+    background-color: #FFF;
+    border: solid 3px #CCC;
+    border-radius: 2em;
+    display: inline-block;
+    margin-bottom: 80px;
+}
