@@ -1,5 +1,5 @@
 import React from 'react';
-import {DropdownButton, Dropdown} from "react-bootstrap";
+import {Dropdown, DropdownButton} from "react-bootstrap";
 import './ChainTable.css';
 
 const sortOptions = [
@@ -22,11 +22,11 @@ class ChainTable extends React.Component {
         this.state = {sortOption: "alphabetical"};
         this.onSortSelected = this.onSortSelected.bind(this);
     }
-
+    
     onSortSelected(sortOption) {
         this.setState({sortOption: sortOption});
     }
-
+    
     render() {
         let chains = sortChains(this.props.chains,
                                 this.state.sortOption,
@@ -41,16 +41,18 @@ class ChainTable extends React.Component {
         return (
             <div className="ChainTableContainer">
                 <SortSelector onSortSelected={this.onSortSelected}
-                              currentOption={this.state.sortOption} />
+                              currentOption={this.state.sortOption}
+                />
                 <table className="ChainTable">
                     <tbody>
-                        {chainPairs.map((chain) =>
-                            <ChainTableRow
-                                key={chain[0].toString()}
-                                rowData={chain[0]}
-                                prevRowData={chain[1]}
-                                onClick={() => this.props.onChainSelected(chain[0])}/>
-                        )}
+                    {chainPairs.map((chain) =>
+                        <ChainTableRow
+                            key={chain[0].toString()}
+                            rowData={chain[0]}
+                            prevRowData={chain[1]}
+                            onClick={() => this.props.onChainSelected(chain[0])}
+                        />
+                    )}
                     </tbody>
                 </table>
             </div>
@@ -58,19 +60,21 @@ class ChainTable extends React.Component {
     }
 }
 
-class SortSelector extends React.Component {    
+class SortSelector extends React.Component {
     render() {
         return (
             <DropdownButton id="table-sort"
                             title="Sort table"
                             alignRight
                             size="sm"
-                            className="ChainTableSortSelector">
+                            className="ChainTableSortSelector"
+            >
                 {sortOptions.map((option, idx) =>
                     <Dropdown.Item key={option}
                                    eventKey={option}
                                    active={option === this.props.currentOption}
-                                   onSelect={this.props.onSortSelected}>
+                                   onSelect={this.props.onSortSelected}
+                    >
                         {sortOptionsDisplayNames[idx]}
                     </Dropdown.Item>
                 )}
@@ -100,8 +104,8 @@ class ChainTableRow extends React.Component {
                 {rowData.map((cellData, idx) =>
                     <ChainTableCell key={cellData}
                                     name={cellData}
-                                    hide={hideData[idx]}/>
-                    
+                                    hide={hideData[idx]}
+                    />
                 )}
             </tr>
         )
@@ -140,7 +144,7 @@ function sortChains(chains, sortOption, repo) {
 }
 
 function compareChainsAlphabetically(chain1, chain2) {
-    for (let i=0; i<chain1.length; i++) {
+    for (let i = 0; i < chain1.length; i++) {
         if (chain1[i] === chain2[i])
             continue;
         return chain1[i] > chain2[i] ? 1 : -1;
@@ -154,8 +158,8 @@ function compareChainsAuthorOrder(chain1, chain2, repo) {
 
 function calcAuthorOrderScore(chain, repo) {
     let totalScore = 0;
-    for (let i=0; i<chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i+1]];
+    for (let i = 0; i < chain.length - 1; i++) {
+        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
         totalScore += Math.min(
             ...documents.map((data) => data[1] + data[2])
         );
@@ -170,8 +174,8 @@ function compareChainsCitationCount(chain1, chain2, repo) {
 
 function calcCitationCountScore(chain, repo) {
     let totalScore = 0;
-    for (let i=0; i<chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i+1]];
+    for (let i = 0; i < chain.length - 1; i++) {
+        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
         totalScore += Math.max(
             ...documents.map((data) => repo.docData[data[0]].citation_count)
         );
@@ -185,8 +189,8 @@ function compareChainsReadCount(chain1, chain2, repo) {
 
 function calcReadCountScore(chain, repo) {
     let totalScore = 0;
-    for (let i=0; i<chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i+1]];
+    for (let i = 0; i < chain.length - 1; i++) {
+        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
         totalScore += Math.max(
             ...documents.map((data) => repo.docData[data[0]].read_count)
         );
@@ -194,4 +198,4 @@ function calcReadCountScore(chain, repo) {
     return totalScore;
 }
 
-export { ChainTable, sortChains }
+export {ChainTable, sortChains}

@@ -41,11 +41,13 @@ class APPA extends React.Component {
     }
     
     setStateFromSearchParams(params) {
-        this.setState({searchState: {
+        this.setState({
+            searchState: {
                 src: params.get("src") || "",
                 dest: params.get("dest") || "",
                 exclusions: params.get("exclusions") || ""
-            }});
+            }
+        });
         window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
         this.setState({haveData: false, isLoading: true});
         fetch("http://127.0.0.1:5000/find_route?" + params.toString())
@@ -74,16 +76,16 @@ class APPA extends React.Component {
         if (!this.state.data && !this.state.isLoading) {
             return (
                 <div className="Page">
-                    <Header/>
+                    <Header />
                     <div className="MainContent">
                         <SearchForm onSubmit={this.onFormSubmitted}
                                     mini={false}
-                                    state={this.state.searchState} />
+                                    state={this.state.searchState}
+                        />
                     </div>
                 </div>
             );
-        }
-        else if (this.state.isLoading) {
+        } else if (this.state.isLoading) {
             return (
                 <div className="Page">
                     <Header />
@@ -99,10 +101,12 @@ class APPA extends React.Component {
                     <div className="MainContent">
                         <SearchForm onSubmit={this.onFormSubmitted}
                                     mini={true}
-                                    state={this.state.searchState} />
+                                    state={this.state.searchState}
+                        />
                         <ResultDisplay repo={this.state.data}
                                        chains={this.state.data.chains}
-                                       addExclusion={this.addExclusion} />
+                                       addExclusion={this.addExclusion}
+                        />
                     </div>
                 </div>
             )

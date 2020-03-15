@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Modal from 'react-bootstrap/Modal';
-import { Button } from 'react-bootstrap';
+import {Button} from 'react-bootstrap';
 import './Header.css';
 
 function Header(props) {
@@ -11,12 +11,19 @@ function Header(props) {
     
     return (
         <div className="Header">
-            <div><a href="https://samvankooten.net">
-                <span className="LeftArrow" /> Home</a></div>
-            <div className="PageTitle">Astronomy Publication Proximity
-                Analyzer
+            <div>
+                <a href="https://samvankooten.net">
+                    <span className="LeftArrow" /> Home
+                </a>
             </div>
-            <div><Button variant="link" onClick={handleShowAbout}>About</Button></div>
+            <div className="PageTitle">
+                Astronomy Publication Proximity Analyzer
+            </div>
+            <div>
+                <Button variant="link" onClick={handleShowAbout}>
+                    About
+                </Button>
+            </div>
             
             <Modal show={showAbout} onHide={handleCloseAbout} size="lg">
                 <Modal.Header closeButton>
@@ -25,8 +32,8 @@ function Header(props) {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Astronomy Publication Proximity Analyzer (APPA) is a tool {}
-                    to search {}
+                    Astronomy Publication Proximity Analyzer (APPA) is a {}
+                    tool to search {}
                     <a href="https://ui.adsabs.harvard.edu/">ADS</a> {}
                     and find the shortest chains of collaboration that link {}
                     two astronomers (inspired by the {}
@@ -75,7 +82,6 @@ function Header(props) {
                 </Modal.Body>
             </Modal>
         </div>
-        
     );
 }
 

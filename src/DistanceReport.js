@@ -7,7 +7,7 @@ function DistanceReport(props) {
             The distance between {}
             <span className="DistanceReportName">{props.source}</span>
             {} and {}
-            <span className="DistanceReportName">{props.dest}</span> 
+            <span className="DistanceReportName">{props.dest}</span>
             {} appears to be {}
             <span className="DistanceReportDistance">{props.dist}</span>.
         </div>

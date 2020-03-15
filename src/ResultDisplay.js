@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChainTable, sortChains } from './ChainTable'
+import {ChainTable, sortChains} from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
 import './ResultDisplay.css';
@@ -19,7 +19,7 @@ class ResultDisplay extends React.Component {
     onChainSelected(chain) {
         this.setState({"chain": chain});
     }
-
+    
     render() {
         const sourceName = this.props.chains[0][0];
         const destName = this.props.chains[0][this.props.chains[0].length - 1];
@@ -27,17 +27,19 @@ class ResultDisplay extends React.Component {
             <div className="ResultDisplay">
                 <DistanceReport source={sourceName}
                                 dest={destName}
-                                dist={this.props.chains[0].length - 1}/>
+                                dist={this.props.chains[0].length - 1}
+                />
                 <ChainTable chains={this.props.chains}
                             onChainSelected={this.onChainSelected}
-                            repo={this.props.repo} />
+                            repo={this.props.repo}
+                />
                 <ChainDetail chain={this.state.chain}
                              repo={this.props.repo}
-                             addExclusion={this.props.addExclusion}/>
+                             addExclusion={this.props.addExclusion}
+                />
             </div>
         );
     }
-
 }
 
 export default ResultDisplay;

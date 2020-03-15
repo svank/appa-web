@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Form } from 'react-bootstrap';
+import {Button, Form} from 'react-bootstrap';
 import './SearchForm.css';
 
 class SearchForm extends React.Component {
     constructor(props) {
         super(props);
-        if (props.state === null) 
+        if (props.state === null)
             this.state = {
                 src: '',
                 dest: '',
@@ -49,8 +49,9 @@ class SearchForm extends React.Component {
             return (
                 <div className="SearchFormEditSearch">
                     <Button variant="link"
-                            onClick={this.onClear}>
-                    <span className="SearchFormLeftArrow" /> Edit search
+                            onClick={this.onClear}
+                    >
+                        <span className="SearchFormLeftArrow" /> Edit search
                     </Button>
                 </div>
             )
@@ -58,39 +59,53 @@ class SearchForm extends React.Component {
         return (
             <div>
                 <Form className="SearchForm"
-                      onSubmit={this.onSubmit}>
+                      onSubmit={this.onSubmit}
+                >
                     <Form.Group controlId="src">
-                        <Form.Label>Search for a link between this author</Form.Label>
+                        <Form.Label>
+                            Search for a link between this author
+                        </Form.Label>
                         <Form.Control type="text"
                                       onChange={this.onChange}
                                       name="src"
                                       value={this.state.src}
-                                      placeholder="Last, First Middle" />
+                                      placeholder="Last, First Middle"
+                        />
                     </Form.Group>
                     <img src="arrow.png"
                          className="SearchFormArrowPart"
-                         alt=""/>
+                         alt=""
+                    />
                     <Form.Group controlId="dest">
-                        <Form.Label>and this author</Form.Label>
+                        <Form.Label>
+                            and this author
+                        </Form.Label>
                         <Form.Control type="text"
                                       onChange={this.onChange}
                                       name="dest"
                                       value={this.state.dest}
-                                      placeholder="Last, First Middle" />
+                                      placeholder="Last, First Middle"
+                        />
                     </Form.Group>
                     
                     <Form.Group controlId="excluding">
-                        <Form.Label>Excluding these</Form.Label>
+                        <Form.Label>
+                            Excluding these
+                        </Form.Label>
                         <Form.Control as="textarea"
                                       rows="3"
                                       onChange={this.onChange}
                                       name="exclusions"
-                                      value={this.state.exclusions} />
+                                      value={this.state.exclusions}
+                        />
                         <Form.Text className="text-muted">
-                            Enter author names or bibcodes to ignore, one per line.
+                            Enter author names or bibcodes to ignore, one {}
+                            per line.
                         </Form.Text>
                     </Form.Group>
-                    <Button type="submit" variant="primary">Search!</Button>
+                    <Button type="submit" variant="primary">
+                        Search!
+                    </Button>
                 </Form>
             </div>
         )

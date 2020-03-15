@@ -3,9 +3,11 @@ function parseResponse(data) {
     let chain_starter = [];
     
     processChildNode(data.author_graph, list_of_chains, chain_starter);
-    return {chains: list_of_chains,
-            bibcodeLookup: data.bibcode_pairings,
-            docData: data.doc_data};
+    return {
+        chains: list_of_chains,
+        bibcodeLookup: data.bibcode_pairings,
+        docData: data.doc_data
+    };
 }
 
 function processChildNode(node, list_of_chains, chain_starter) {
