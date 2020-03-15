@@ -1,5 +1,5 @@
-import React from 'react';
-import { Dropdown, Button } from "react-bootstrap";
+import React, {useState} from 'react';
+import {Button, Dropdown, Form, Overlay, Popover} from "react-bootstrap";
 import './ChainDetail.css';
 
 class ChainDetail extends React.Component {
@@ -10,7 +10,8 @@ class ChainDetail extends React.Component {
                 <ChainDetailItem author={this.props.chain[i]}
                                  nextAuthor={this.props.chain[i + 1]}
                                  repo={this.props.repo}
-                                 key={this.props.chain[i] + this.props.chain[i + 1]} />)
+                                 key={this.props.chain[i] + this.props.chain[i + 1]}
+                                 addExclusion={this.props.addExclusion} />)
         }
         return (
             <div className="ChainDetail">
@@ -40,22 +41,93 @@ class ChainDetailItem extends React.Component {
         return (
             <div className="ChainDetailItem">
                 <AuthorPart name={document.authors[authorIdx]}
-                            affil={document.affils[authorIdx]} />
+                            affil={document.affils[authorIdx]}
+                            addExclusion={this.props.addExclusion} />
                 published
                 <DocumentPart repo={this.props.repo}
                               author={this.props.author}
                               documents={documents}
                               documentNumber={this.state.documentNumber}
-                              onDocumentSelected={this.setDocumentNumber}/>
+                              onDocumentSelected={this.setDocumentNumber}
+                              addExclusion={this.props.addExclusion} />
                 in <JournalPart journal={document.publication}/> {}
                 in <DatePart date={date} /> <ADSPart bibcode={bibcode} />
                 <br/>with
                 <AuthorPart name={document.authors[nextAuthorIdx]}
-                            affil={document.affils[nextAuthorIdx]} />
+                            affil={document.affils[nextAuthorIdx]}
+                            addExclusion={this.props.addExclusion} />
                 <ArrowPart />
             </div>
         )
     }
+}
+
+class ExcludeButtonPart extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {showPopup: false, forceShowX: false};
+    }
+    
+    render() {
+        const className = this.state.forceShowX
+                            ? "ChainDetailExcludeButtonPart ChainDetailExcludeButtonPartForce"
+                            : "ChainDetailExcludeButtonPart";
+        return (
+            <div className={className}>
+                <Button variant="link"
+                        onClick={() =>
+                        this.setState({showPopup: !this.state.showPopup})}
+                        ref={(button) => { this.target = button; }}
+                        className="ChainDetailExcludeButtonPartButton">
+                    ×
+                </Button>
+                <Overlay show={this.state.showPopup}
+                         target={this.target}
+                         placement="bottom"
+                         rootClose={true}
+                         onHide={() => this.setState({showPopup: false})}
+                         onEnter={() => this.setState({forceShowX: true})}
+                         onExited={() => this.setState({forceShowX: false})} >
+                    <Popover id="popover-positioned-bottom">
+                        <Popover.Content>
+                            <ExcludeConfirmation exclusion={this.props.exclusion}
+                                                 addExclusion={this.props.addExclusion}
+                                                 onHide={
+                                                     () => this.setState(
+                                                         {showPopup: false})
+                                                 }/>
+                        </Popover.Content>
+                    </Popover>
+                </Overlay>
+            </div>
+        );
+    }
+}
+
+function ExcludeConfirmation(props) {
+    const [exclusion, setExclusion] = useState(props.exclusion);
+    return (
+        <Form onSubmit={() => {
+            props.addExclusion(exclusion);
+            props.onHide();
+        }}>
+            <Form.Group controlId="exclusionConfirmation" style={{margin: 0}}>
+                Adding
+                <Form.Control className="ExclusionConfirmationInput"
+                              type="text"
+                              value={exclusion}
+                              onChange={
+                                  (event) => setExclusion(event.target.value)
+                                  } />
+                to the exclusion list
+            </Form.Group>
+            <div className="ExclusionConfirmationButtonRow">
+                <Button type="submit" variant="primary">Confirm</Button>
+                <Button variant="secondary"
+                        onClick={props.onHide}>Cancel</Button>
+            </div>
+        </Form>
+    )
 }
 
 function DatePart(props) {
@@ -111,6 +183,8 @@ class AuthorPart extends React.Component {
             : "ChainDetailAuthorPartAffilContainerUnwrapped";
         return (
             <div className="ChainDetailAuthorPart">
+                <ExcludeButtonPart exclusion={this.props.name}
+                                   addExclusion={this.props.addExclusion} />
                 <div className="ChainDetailAuthorPartName">
                     {this.props.name}
                 </div>
@@ -133,36 +207,43 @@ function DocumentPart(props) {
     const document = findDocument(props, bibcode);
     if (props.documents.length <= 1)
         return (
-            <div>
-            <Button id={props.author}
-                    size="lg"
-                    disabled
-                    className="ChainDetailSingleDocButton ChainDetailDocButton"
-                    variant="link">
-                {document.title}
-            </Button></div>
+            <div className="ChainDetailDocumentPart">
+                <ExcludeButtonPart exclusion={bibcode}
+                                   addExclusion={props.addExclusion} />
+                <Button id={props.author}
+                        size="lg"
+                        disabled
+                        className="ChainDetailSingleDocButton ChainDetailDocButton"
+                        variant="link">
+                    {document.title}
+                </Button>
+            </div>
         );
     else
         return (
-            <Dropdown alignRight>
-                <Dropdown.Toggle id={props.author}
-                                className="ChainDetailDocButton"
-                                size="lg"
-                                variant="link">
-                    {document.title}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                    {props.documents.map( (data, idx) => 
-                        <Dropdown.Item key={data[0]}
-                                       eventKey={idx}
-                                       onSelect={props.onDocumentSelected}
-                                       active={data[0] === bibcode}
-                                       size="lg">
-                            {findDocument(props, data[0]).title}
-                        </Dropdown.Item>
-                    )}
-                </Dropdown.Menu>
-            </Dropdown>
+            <div className="ChainDetailDocumentPart">
+                <ExcludeButtonPart exclusion={bibcode}
+                                   addExclusion={props.addExclusion} />
+                <Dropdown alignRight>
+                    <Dropdown.Toggle id={props.author}
+                                    className="ChainDetailDocButton"
+                                    size="lg"
+                                    variant="link">
+                        {document.title}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {props.documents.map( (data, idx) => 
+                            <Dropdown.Item key={data[0]}
+                                           eventKey={idx}
+                                           onSelect={props.onDocumentSelected}
+                                           active={data[0] === bibcode}
+                                           size="lg">
+                                {findDocument(props, data[0]).title}
+                            </Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
     )
 }
 

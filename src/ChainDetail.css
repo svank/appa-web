@@ -8,8 +8,44 @@
   margin: 0 auto;
 }
 
+.ChainDetailExcludeButtonPart {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding: 0.8em 0;
+  display: none;
+}
+
+div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
+  display: block !important;
+}
+
+.ChainDetailExcludeButtonPartButton {
+  padding: 0 7px;
+  border: solid 1px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.ChainDetailExcludeButtonPartButton:hover {
+  text-decoration: none;
+}
+
+.ExclusionConfirmationInput {
+  margin: 2px 0;
+}
+
+.ExclusionConfirmationButtonRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  margin-bottom: 3px;
+}
+
 .ChainDetailAuthorPart {
-  padding: 0.4em 0;
+  padding: 0.8em 2.5em;
+  position: relative;
 }
 
 .ChainDetailAuthorPartName {
@@ -51,9 +87,15 @@
   margin-left: 0.5em;
 }
 
+.ChainDetailDocumentPart {
+  position: relative;
+  padding: 0.8em 2.5em;
+}
+
 .ChainDetailSingleDocButton {
   color: #000 !important;
   opacity: 1 !important;
+  padding: 0;
 }
 
 .ChainDetailDocButton {
@@ -61,6 +103,7 @@
   -moz-user-select: text;
   -ms-user-select: text;
   user-select: text;
+  padding: 0;
 }
 
 .dropdown-toggle {

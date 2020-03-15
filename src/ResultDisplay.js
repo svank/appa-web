@@ -32,7 +32,8 @@ class ResultDisplay extends React.Component {
                             onChainSelected={this.onChainSelected}
                             repo={this.props.repo} />
                 <ChainDetail chain={this.state.chain}
-                             repo={this.props.repo} />
+                             repo={this.props.repo}
+                             addExclusion={this.props.addExclusion}/>
             </div>
         );
     }

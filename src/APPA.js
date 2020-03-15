@@ -17,6 +17,7 @@ class APPA extends React.Component {
         this.state = {isLoading: false, data: null, searchState: null};
         this.onFormSubmitted = this.onFormSubmitted.bind(this);
         this.setStateFromSearchParams = this.setStateFromSearchParams.bind(this);
+        this.addExclusion = this.addExclusion.bind(this);
     }
     
     componentDidMount() {
@@ -56,6 +57,19 @@ class APPA extends React.Component {
             }));
     }
     
+    addExclusion(exclusion) {
+        let newSearchState = {
+            src: this.state.searchState.src,
+            dest: this.state.searchState.dest,
+            exclusions: this.state.searchState.exclusions || ""
+        };
+        if (newSearchState.exclusions.length !== 0
+            && newSearchState.exclusions.slice(-1) !== '\n')
+            newSearchState.exclusions += '\n';
+        newSearchState.exclusions += exclusion;
+        this.onFormSubmitted(newSearchState);
+    }
+    
     render() {
         if (!this.state.data && !this.state.isLoading) {
             return (
@@ -87,7 +101,8 @@ class APPA extends React.Component {
                                     mini={true}
                                     state={this.state.searchState} />
                         <ResultDisplay repo={this.state.data}
-                                       chains={this.state.data.chains} />
+                                       chains={this.state.data.chains}
+                                       addExclusion={this.addExclusion} />
                     </div>
                 </div>
             )
