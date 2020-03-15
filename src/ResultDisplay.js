@@ -25,8 +25,8 @@ class ResultDisplay extends React.Component {
         const destName = this.props.chains[0][this.props.chains[0].length - 1];
         return (
             <div className="ResultDisplay">
-                <DistanceReport source={sourceName}
-                                dest={destName}
+                <DistanceReport source={this.props.source}
+                                dest={this.props.dest}
                                 dist={this.props.chains[0].length - 1}
                 />
                 <ChainTable chains={this.props.chains}

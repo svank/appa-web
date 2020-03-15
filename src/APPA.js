@@ -106,6 +106,8 @@ class APPA extends React.Component {
                         <ResultDisplay repo={this.state.data}
                                        chains={this.state.data.chains}
                                        addExclusion={this.addExclusion}
+                                       source={this.state.data.originalSource}
+                                       dest={this.state.data.originalDest}
                         />
                     </div>
                 </div>

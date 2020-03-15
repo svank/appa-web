@@ -6,7 +6,9 @@ function parseResponse(data) {
     return {
         chains: list_of_chains,
         bibcodeLookup: data.bibcode_pairings,
-        docData: data.doc_data
+        docData: data.doc_data,
+        originalSource: data.original_src,
+        originalDest: data.original_dest
     };
 }
 
