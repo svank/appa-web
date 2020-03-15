@@ -1,12 +1,7 @@
 .ChainTableContainer {
   display: inline-block;
   text-align: right;
-  margin: 1em auto;
-}
-
-.ChainTableSortSelector {
-  margin-bottom: 6px;
-  margin-right: 6px;
+  margin: 0 auto;
 }
 
 .ChainTable {

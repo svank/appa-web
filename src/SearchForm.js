@@ -45,17 +45,6 @@ class SearchForm extends React.Component {
     }
     
     render() {
-        if (this.props.mini) {
-            return (
-                <div className="SearchFormEditSearch">
-                    <Button variant="link"
-                            onClick={this.onClear}
-                    >
-                        <span className="SearchFormLeftArrow" /> Edit search
-                    </Button>
-                </div>
-            )
-        }
         return (
             <div>
                 <Form className="SearchForm"

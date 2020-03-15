@@ -2,3 +2,27 @@
   text-align: center;
   padding: 0 32px 80px 32px;
 }
+
+.ResultDisplayHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.ResultDisplayLeftArrow {
+  border: solid #007bfe;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.ResultDisplayEditSearchButton {
+  padding: 0;
+}
+
+.ResultDisplaySortSelector {
+  margin-top: 4px;
+  margin-right: 6px;
+}

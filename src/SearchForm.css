@@ -13,17 +13,3 @@
   padding: 1em 0;
   margin: 0 auto;
 }
-
-.SearchFormEditSearch {
-  margin: .5em 1em;
-  text-align: left;
-}
-
-.SearchFormLeftArrow {
-  border: solid #007bfe;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
-}

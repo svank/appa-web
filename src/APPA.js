@@ -79,7 +79,6 @@ class APPA extends React.Component {
                     <Header />
                     <div className="MainContent">
                         <SearchForm onSubmit={this.onFormSubmitted}
-                                    mini={false}
                                     state={this.state.searchState}
                         />
                     </div>
@@ -99,13 +98,11 @@ class APPA extends React.Component {
                 <div className="Page">
                     <Header />
                     <div className="MainContent">
-                        <SearchForm onSubmit={this.onFormSubmitted}
-                                    mini={true}
-                                    state={this.state.searchState}
-                        />
                         <ResultDisplay repo={this.state.data}
                                        chains={this.state.data.chains}
                                        addExclusion={this.addExclusion}
+                                       onEditSearch={() => 
+                                           this.onFormSubmitted(null)}
                                        source={this.state.data.originalSource}
                                        dest={this.state.data.originalDest}
                         />

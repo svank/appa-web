@@ -12,6 +12,7 @@ class ChainDetail extends React.Component {
                                  repo={this.props.repo}
                                  key={this.props.chain[i] + this.props.chain[i + 1]}
                                  addExclusion={this.props.addExclusion}
+                                 sortOption={this.props.sortOption}
                 />)
         }
         return (
@@ -225,7 +226,7 @@ function DocumentPart(props) {
                 <ExcludeButtonPart exclusion={bibcode}
                                    addExclusion={props.addExclusion}
                 />
-                <Button id={props.author}
+                <Button id={document.title}
                         size="lg"
                         disabled
                         className="ChainDetailSingleDocButton ChainDetailDocButton"
@@ -242,7 +243,7 @@ function DocumentPart(props) {
                                    addExclusion={props.addExclusion}
                 />
                 <Dropdown alignRight>
-                    <Dropdown.Toggle id={props.author}
+                    <Dropdown.Toggle id={document.title}
                                      className="ChainDetailDocButton"
                                      size="lg"
                                      variant="link"
@@ -290,11 +291,62 @@ function ArrowPart(props) {
 }
 
 function findDocuments(props) {
-    return props.repo.bibcodeLookup[props.author][props.nextAuthor];
+    let documents = props.repo.bibcodeLookup[props.author][props.nextAuthor];
+    documents = sortDocuments(documents, props.sortOption, props.repo);
+    return documents;
 }
 
 function findDocument(props, bibcode) {
-    return props.repo.docData[bibcode];
+    let repo = props;
+    if ('repo' in props)
+        repo = props.repo;
+    
+    return repo.docData[bibcode];
+}
+
+function sortDocuments(documents, sortOption, repo) {
+    switch (sortOption) {
+        case "alphabetical":
+            return documents.sort((doc1, doc2) =>
+                compareDocumentsAlphabetically(doc1, doc2, repo));
+        case "author_order":
+            return documents.sort(compareDocumentsAuthorOrder);
+        case "citation_count":
+            return documents.sort((doc1, doc2) =>
+                compareDocumentsCitationCount(doc1, doc2, repo));
+        case "read_count":
+            return documents.sort((doc1, doc2) =>
+                compareDocumentsReadCount(doc1, doc2, repo));
+        default:
+            return documents;
+    }
+}
+
+function compareDocumentsAlphabetically(docData1, docData2, repo) {
+    const doc1 = findDocument(repo, docData1[0]);
+    const doc2 = findDocument(repo, docData2[0]);
+    if (doc1.title < doc2.title)
+        return -1;
+    if (doc1.title > doc2.title)
+        return 1;
+    return 0;
+}
+
+function compareDocumentsAuthorOrder(docData1, docData2) {
+    
+    return (docData1[1] + docData1[2]) - (docData2[1] + docData2[2])
+}
+
+function compareDocumentsCitationCount(docData1, docData2, repo) {
+    const doc1 = findDocument(repo, docData1[0]);
+    const doc2 = findDocument(repo, docData2[0]);
+    return doc2.citation_count - doc1.citation_count;
+}
+
+function compareDocumentsReadCount(docData1, docData2, repo) {
+    const doc1 = findDocument(repo, docData1[0]);
+    const doc2 = findDocument(repo, docData2[0]);
+    return doc2.read_count - doc1.read_count;
 }
 
 const month_list = ["January", "February", "March", "April", "May", "June",
