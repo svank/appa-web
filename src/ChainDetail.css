@@ -15,12 +15,23 @@
   font-size: 150%;
 }
 
-.ChainDetailAuthorPartAffil {
+.ChainDetailAuthorPartAffilContainerWrapped {
   color: #444444;
 }
 
+.ChainDetailAuthorPartAffilContainerUnwrapped {
+  color: #444444;
+  /* These properties are removed from ChainDetailAuthorPartAffil when it
+  unwraps, and that seems to shift everything below on the page a little bit.
+  Not sure why, but moving those properties to the container seems to ensure
+  everything falls in the exact same place when unwrapping a one-line affil */
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+}
+
 .ChainDetailAuthorPartAffilWrapped {
-  max-width: 70%;
+  max-width: 95%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

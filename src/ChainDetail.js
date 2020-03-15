@@ -90,23 +90,38 @@ class AuthorPart extends React.Component {
     }
     
     render() {
-        const affil = this.props.affil.length === 0 ? "-" : this.props.affil;
-        let className = this.state.wrapped ?
+        let affil = this.props.affil.length === 0 ? "-" : this.props.affil;
+        
+        // Attempt to detect the start of an address included in the affil,
+        // and have word-wrapping happen there. If no address is found,
+        // look for a zip code
+        if (this.state.wrapped) {
+            let n = affil.search(/, \d/i);
+            if (n === -1)
+                n = affil.search(/ \d{5},/i)
+            if (n >= 0)
+                affil = affil.slice(0, n) + "\u2026";
+        }
+        
+        const textClassName = this.state.wrapped ?
               "ChainDetailAuthorPartAffilWrapped"
             : "ChainDetailAuthorPartAffilUnwrapped";
+        const containerClassName = this.state.wrapped ?
+              "ChainDetailAuthorPartAffilContainerWrapped"
+            : "ChainDetailAuthorPartAffilContainerUnwrapped";
         return (
             <div className="ChainDetailAuthorPart">
                 <div className="ChainDetailAuthorPartName">
                     {this.props.name}
                 </div>
-                <div className="ChainDetailAuthorPartAffil"
+                <div className={containerClassName}
                      title={this.props.affil}>
-                    <span className={className}>(</span>
-                    <span className={className}
+                    <span className={textClassName}>(</span>
+                    <span className={textClassName}
                           onClick={this.toggleExpandAffil}>
                         {affil}
                     </span>
-                    <span className={className}>)</span>
+                    <span className={textClassName}>)</span>
                 </div>
             </div>
         )
