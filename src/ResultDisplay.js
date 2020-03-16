@@ -1,9 +1,10 @@
 import React from 'react';
+import {Button, Dropdown, DropdownButton} from "react-bootstrap";
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
+import StatsDisplay from "./StatsDisplay";
 import './ResultDisplay.css';
-import {Button, Dropdown, DropdownButton} from "react-bootstrap";
 
 const sortOptions = [
     'alphabetical',
@@ -59,13 +60,16 @@ class ResultDisplay extends React.Component {
                     >
                         <span className="ResultDisplayLeftArrow" /> Edit search
                     </Button>
-                    <SortSelector onSortSelected={this.onSortSelected}
-                                  currentOption={this.state.sortOption}
+                    <StatsDisplay stats={this.props.repo.stats}
+                                  repo={this.props.repo}
                     />
                 </div>
                 <DistanceReport source={this.props.source}
                                 dest={this.props.dest}
                                 dist={this.state.chains[0].length - 1}
+                />
+                <SortSelector onSortSelected={this.onSortSelected}
+                              currentOption={this.state.sortOption}
                 />
                 <ChainTable chains={this.state.chains}
                             onChainSelected={this.onChainSelected}
@@ -85,22 +89,23 @@ class ResultDisplay extends React.Component {
 class SortSelector extends React.Component {
     render() {
         return (
-            <DropdownButton id="table-sort"
-                            title="Sort Results"
-                            alignRight
-                            size="sm"
-                            className="ResultDisplaySortSelector"
-            >
-                {sortOptions.map((option, idx) =>
-                    <Dropdown.Item key={option}
-                                   eventKey={option}
-                                   active={option === this.props.currentOption}
-                                   onSelect={this.props.onSortSelected}
-                    >
-                        {sortOptionsDisplayNames[idx]}
-                    </Dropdown.Item>
-                )}
-            </DropdownButton>
+            <div className="ResultDisplaySortSelectorContainer">
+                <DropdownButton id="table-sort"
+                                title="Sort Results"
+                                alignRight
+                                size="sm"
+                >
+                    {sortOptions.map((option, idx) =>
+                        <Dropdown.Item key={option}
+                                       eventKey={option}
+                                       active={option === this.props.currentOption}
+                                       onSelect={this.props.onSortSelected}
+                        >
+                            {sortOptionsDisplayNames[idx]}
+                        </Dropdown.Item>
+                    )}
+                </DropdownButton>
+            </div>
         )
     }
 }

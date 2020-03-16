@@ -8,7 +8,8 @@ function parseResponse(data) {
         bibcodeLookup: data.bibcode_pairings,
         docData: data.doc_data,
         originalSource: data.original_src,
-        originalDest: data.original_dest
+        originalDest: data.original_dest,
+        stats: data.stats
     };
 }
 
