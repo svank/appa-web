@@ -1,9 +1,10 @@
 import React from 'react';
-import {Button, Dropdown, DropdownButton} from "react-bootstrap";
+import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
 import StatsDisplay from "./StatsDisplay";
+import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
 
 const sortOptions = [
@@ -29,11 +30,13 @@ class ResultDisplay extends React.Component {
         this.state = {
             chain: chains[0],
             chains: chains,
-            sortOption: "alphabetical"
+            sortOption: "alphabetical",
+            activeTab: "table"
         };
                 
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
+        this.onTabSelected = this.onTabSelected.bind(this);
     }
     
     onChainSelected(chain) {
@@ -48,6 +51,10 @@ class ResultDisplay extends React.Component {
             sortOption: sortOption,
             chains: chains
         });
+    }
+    
+    onTabSelected(tab) {
+        this.setState({activeTab: tab});
     }
     
     render() {
@@ -68,19 +75,31 @@ class ResultDisplay extends React.Component {
                                 dest={this.props.dest}
                                 dist={this.state.chains[0].length - 1}
                 />
-                <SortSelector onSortSelected={this.onSortSelected}
-                              currentOption={this.state.sortOption}
-                />
-                <ChainTable chains={this.state.chains}
-                            onChainSelected={this.onChainSelected}
-                            repo={this.props.repo}
-                />
-                <ChainDetail chain={this.state.chain}
-                             repo={this.props.repo}
-                             addExclusion={this.props.addExclusion}
-                             sortOption={this.state.sortOption}
-                             key={this.state.sortOption}
-                />
+                <Tabs activeKey={this.state.activeTab}
+                      onSelect={this.onTabSelected}
+                      id="top-row-tabs"
+                >
+                    <Tab eventKey="table" title="Table">
+                        <SortSelector onSortSelected={this.onSortSelected}
+                                      currentOption={this.state.sortOption}
+                        />
+                        <ChainTable chains={this.state.chains}
+                                    onChainSelected={this.onChainSelected}
+                                    repo={this.props.repo}
+                        />
+                        <ChainDetail chain={this.state.chain}
+                                     repo={this.props.repo}
+                                     addExclusion={this.props.addExclusion}
+                                     sortOption={this.state.sortOption}
+                                     key={this.state.sortOption}
+                        />
+                    </Tab>
+                    <Tab eventKey="word-cloud" title="Word Cloud">
+                        <WordCloud repo={this.props.repo}
+                                   active={this.state.activeTab === "word-cloud"}
+                        />
+                    </Tab>
+                </Tabs>
             </div>
         );
     }

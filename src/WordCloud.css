@@ -1,0 +1,50 @@
+.WordCloud {
+  width: 825px;
+  margin: 0 auto;
+}
+
+.WordCloudControls {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.WordCloudSourceControlBox {
+  text-align: left;
+  width: 225px;
+  margin: 0 25px;
+}
+
+.WordCloudMiscControlsBox {
+  text-align: left;
+  width: 225px;
+  margin: 0 25px;
+}
+
+.WordCloudSizeControlBox {
+  width: 225px;
+  margin: 0 25px;
+}
+
+.WordCloudControlButtons {
+  margin: 5px 0;
+  text-align: center;
+}
+
+.WordCloudControlButtons Button {
+  margin: 3px 0;
+}
+
+.custom-range {
+  border: 0;
+}
+
+.WordCloudNoColor text {
+  fill: black !important;
+}
+
+.WordCloudFooter {
+  margin-top: 100px;
+  text-align: right;
+}
