@@ -195,7 +195,7 @@ class WordCloud extends React.Component {
                 
                 <canvas id="renderCanvas" style={{display: "none"}}/>
                 
-                <div className="WordCloudFooter text-muted">
+                <div className="ResultDisplayFooter text-muted">
                     Generated with {}
                     <a target="_blank" rel="noopener"
                        href="https://github.com/Yoctol/react-d3-cloud">

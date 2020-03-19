@@ -3,6 +3,7 @@ import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
+import Graph from "./Graph";
 import StatsDisplay from "./StatsDisplay";
 import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
@@ -98,6 +99,9 @@ class ResultDisplay extends React.Component {
                         <WordCloud repo={this.props.repo}
                                    active={this.state.activeTab === "word-cloud"}
                         />
+                    </Tab>
+                    <Tab eventKey="graph" title="Graph">
+                        <Graph repo={this.props.repo} />
                     </Tab>
                 </Tabs>
             </div>

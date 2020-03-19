@@ -1,0 +1,12 @@
+.Graph {
+  width: 825px;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.GraphDisplay {
+  width: 825px;
+  height: 800px;
+  margin-top: 10px;
+  border: solid 3px #CCC;
+}
