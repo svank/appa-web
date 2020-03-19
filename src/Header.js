@@ -11,15 +11,15 @@ function Header(props) {
     
     return (
         <div className="Header">
-            <div>
+            <div style={{textAlign: "left"}}>
                 <a href="https://samvankooten.net">
-                    <span className="LeftArrow" /> Home
+                    <span className="LeftArrow" />&nbsp;Home
                 </a>
             </div>
             <div className="PageTitle">
                 Astronomy Publication Proximity Analyzer
             </div>
-            <div>
+            <div style={{textAlign: "right"}}>
                 <Button variant="link" onClick={handleShowAbout}>
                     About
                 </Button>

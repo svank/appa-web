@@ -4,11 +4,15 @@
   margin: 10px 20px 20px 20px;
 }
 
+.Header div {
+  flex: 0 0 150px;
+}
+
 .PageTitle {
   font-size: x-large;
   font-weight: bold;
-  flex-grow: 1;
   text-align: center;
+  flex: 1 0 200px !important;
 }
 
 .LeftArrow {
