@@ -25,8 +25,15 @@
 .ResultDisplaySortSelectorContainer {
   text-align: right;
   margin-right: 10px;
-  margin-bottom: 10px;
+}
+
+.TableDisplayHeader {
   margin-top: 10px;
+  margin-bottom: 10px;
+  color: #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .ResultDisplayFooter {

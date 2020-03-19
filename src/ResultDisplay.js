@@ -81,10 +81,16 @@ class ResultDisplay extends React.Component {
                       id="top-row-tabs"
                 >
                     <Tab eventKey="table" title="Table">
-                        <SortSelector onSortSelected={this.onSortSelected}
-                                      currentOption={this.state.sortOption}
-                        />
+                        <div className="TableDisplayHeader">
+                            <div>
+                                The selected row is displayed in detail below.
+                            </div>
+                            <SortSelector onSortSelected={this.onSortSelected}
+                                          currentOption={this.state.sortOption}
+                            />
+                        </div>
                         <ChainTable chains={this.state.chains}
+                                    selectedChain={this.state.chain}
                                     onChainSelected={this.onChainSelected}
                                     repo={this.props.repo}
                         />

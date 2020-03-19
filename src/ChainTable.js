@@ -15,12 +15,13 @@ class ChainTable extends React.Component {
             <div className="ChainTableContainer">
                 <table className="ChainTable">
                     <tbody>
-                    {chainPairs.map((chain) =>
+                    {chainPairs.map((chainPair) =>
                         <ChainTableRow
-                            key={chain[0].toString()}
-                            rowData={chain[0]}
-                            prevRowData={chain[1]}
-                            onClick={() => this.props.onChainSelected(chain[0])}
+                            key={chainPair[0].toString()}
+                            rowData={chainPair[0]}
+                            prevRowData={chainPair[1]}
+                            selected={chainPair[0]===this.props.selectedChain}
+                            onClick={() => this.props.onChainSelected(chainPair[0])}
                         />
                     )}
                     </tbody>
@@ -47,7 +48,10 @@ class ChainTableRow extends React.Component {
             hideData.push(hideCell);
         }
         return (
-            <tr className="ChainTableRow" onClick={this.props.onClick}>
+            <tr className={this.props.selected
+                    ? "ChainTableRow ChainTableSelectedRow"
+                    : "ChainTableRow ChainTableUnselectedRow"}
+                onClick={this.props.onClick}>
                 {rowData.map((cellData, idx) =>
                     <ChainTableCell key={cellData}
                                     name={cellData}

@@ -1,6 +1,6 @@
 .ChainTableContainer {
   display: inline-block;
-  text-align: right;
+  text-align: left;
   margin: 0 auto;
 }
 
@@ -9,27 +9,28 @@
   border-spacing: 0;
 }
 
-.ChainTableRow:hover .ChainTableCell {
-  background: #fffbdc !important;
+.ChainTableUnselectedRow .ChainTableCellHide {
+  color: #999;
 }
 
-.ChainTableRow:hover .ChainTableCellHide {
-  color: #333 !important;
+.ChainTableUnselectedRow:nth-child(even) .ChainTableCell {
+  background: #F0F0F0;
 }
 
-.ChainTableRow:nth-child(even) .ChainTableCell {
-  background: rgba(0, 0, 0, .055);
+.ChainTableUnselectedRow:hover .ChainTableCell {
+  background: #529efe !important;
+  color: #FFF !important;
+}
+
+.ChainTableSelectedRow .ChainTableCell {
+  background: #1f8aff !important;
+  color: #FFF;
 }
 
 .ChainTableCell {
   border-right: 1px solid black;
-  text-align: left;
   padding: 10px;
   cursor: pointer;
-}
-
-.ChainTableCellHide {
-  color: rgba(1, 1, 1, .2);
 }
 
 .ChainTableCell:first-child {
