@@ -14,16 +14,29 @@ class APPA extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {isLoading: false, data: null, searchState: null};
+        this.state = {
+            isLoading: false,
+            data: null,
+            searchState: null,
+            hasSetHistory: false
+        };
         this.onFormSubmitted = this.onFormSubmitted.bind(this);
         this.setStateFromSearchParams = this.setStateFromSearchParams.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
+        
+        window.onpopstate = () => {
+            if (window.location.search.length === 0)
+                this.setState({isLoading: false, data: null});
+            else
+                this.setStateFromSearchParams(
+                    new URLSearchParams(window.location.search), false);
+        }
     }
     
     componentDidMount() {
         if (window.location.search.length > 0) {
             this.setStateFromSearchParams(
-                new URLSearchParams(window.location.search));
+                new URLSearchParams(window.location.search), false);
         }
     }
     
@@ -37,10 +50,10 @@ class APPA extends React.Component {
             if (formData[key] !== '')
                 params.set(key, formData[key]);
         }
-        this.setStateFromSearchParams(params);
+        this.setStateFromSearchParams(params, true);
     }
     
-    setStateFromSearchParams(params) {
+    setStateFromSearchParams(params, shouldAlterHistory) {
         this.setState({
             searchState: {
                 src: params.get("src") || "",
@@ -48,8 +61,14 @@ class APPA extends React.Component {
                 exclusions: params.get("exclusions") || ""
             }
         });
-        window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-        this.setState({haveData: false, isLoading: true});
+        if (shouldAlterHistory) {
+            if (this.state.hasSetHistory) {
+                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+            } else {
+                window.history.pushState({}, '', `${window.location.pathname}?${params}`);
+            }
+        }
+        this.setState({haveData: false, isLoading: true, hasSetHistory: true});
         fetch("http://127.0.0.1:5000/find_route?" + params.toString())
             .then(response => response.json())
             .then(data => parseResponse(data))
