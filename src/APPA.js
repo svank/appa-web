@@ -1,6 +1,7 @@
 import React from "react";
 import parseResponse from "./ServerResponseParser";
 import Header from './Header';
+import LoadingDisplay from "./LoadingDisplay";
 import SearchForm from './SearchForm';
 import ResultDisplay from "./ResultDisplay";
 import './APPA.css';
@@ -16,6 +17,7 @@ class APPA extends React.Component {
         
         this.state = {
             isLoading: false,
+            loadData: null,
             data: null,
             searchState: null,
             hasSetHistory: false
@@ -68,14 +70,36 @@ class APPA extends React.Component {
                 window.history.pushState({}, '', `${window.location.pathname}?${params}`);
             }
         }
-        this.setState({haveData: false, isLoading: true, hasSetHistory: true});
+        this.setState({
+            haveData: false,
+            isLoading: true,
+            loadData: null,
+            data: null,
+            hasSetHistory: true
+        });
+        
         fetch("http://127.0.0.1:5000/find_route?" + params.toString())
             .then(response => response.json())
             .then(data => parseResponse(data))
             .then(data => this.setState({
                 isLoading: false,
+                loadData: null,
                 data: data
             }));
+        
+        setTimeout(() => {
+            const intervalId = setInterval(() => {
+                if (this.state.isLoading)
+                    fetch("http://127.0.0.1:5000/get_progress?" + params.toString())
+                        .then(response => response.json())
+                        .then(data => {
+                            if (this.state.isLoading && data.error === undefined)
+                                this.setState({loadData: data})
+                        });
+                else
+                    clearInterval(intervalId);
+            }, 500);
+        }, 800);
     }
     
     addExclusion(exclusion) {
@@ -92,43 +116,38 @@ class APPA extends React.Component {
     }
     
     render() {
+        let content;
         if (!this.state.data && !this.state.isLoading) {
-            return (
-                <div className="Page">
-                    <Header />
-                    <div className="MainContent">
-                        <SearchForm onSubmit={this.onFormSubmitted}
-                                    state={this.state.searchState}
-                        />
-                    </div>
-                </div>
+            content = (
+                <SearchForm onSubmit={this.onFormSubmitted}
+                            state={this.state.searchState}
+                />
             );
         } else if (this.state.isLoading) {
-            return (
-                <div className="Page">
-                    <Header />
-                    <div className="MainContent">
-                        Loading...
-                    </div>
-                </div>
+            content = (
+                <LoadingDisplay data={this.state.loadData} />
             )
         } else {
-            return (
+            content = (
+                <ResultDisplay repo={this.state.data}
+                               chains={this.state.data.chains}
+                               addExclusion={this.addExclusion}
+                               onEditSearch={() => 
+                                   this.onFormSubmitted(null)}
+                               source={this.state.data.originalSource}
+                               dest={this.state.data.originalDest}
+                />
+            )
+        }
+        
+        return (
                 <div className="Page">
                     <Header />
                     <div className="MainContent">
-                        <ResultDisplay repo={this.state.data}
-                                       chains={this.state.data.chains}
-                                       addExclusion={this.addExclusion}
-                                       onEditSearch={() => 
-                                           this.onFormSubmitted(null)}
-                                       source={this.state.data.originalSource}
-                                       dest={this.state.data.originalDest}
-                        />
+                        {content}
                     </div>
                 </div>
-            )
-        }
+        )
     }
 }
 
