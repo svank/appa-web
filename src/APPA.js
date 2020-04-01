@@ -1,4 +1,5 @@
 import React from "react";
+import {Alert} from "react-bootstrap";
 import parseResponse from "./ServerResponseParser";
 import Header from './Header';
 import LoadingDisplay from "./LoadingDisplay";
@@ -19,6 +20,7 @@ class APPA extends React.Component {
             isLoading: false,
             loadData: null,
             data: null,
+            error: null,
             searchState: null,
             hasSetHistory: false
         };
@@ -71,21 +73,38 @@ class APPA extends React.Component {
             }
         }
         this.setState({
-            haveData: false,
             isLoading: true,
+            error: null,
             loadData: null,
             data: null,
             hasSetHistory: true
         });
         
         fetch("http://127.0.0.1:5000/find_route?" + params.toString())
-            .then(response => response.json())
-            .then(data => parseResponse(data))
-            .then(data => this.setState({
-                isLoading: false,
-                loadData: null,
-                data: data
-            }));
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    isLoading: false,
+                    loadData: null,
+                });
+                if ("error_key" in data) {
+                    this.setState({error: data})
+                } else {
+                    const parsedData = parseResponse(data);
+                    this.setState({data: parsedData});
+                }
+            })
+            .catch(() =>
+                this.setState({
+                    error: {error_key: "unknown_client_detected"},
+                    isLoading: false,
+                    loadData: null})
+            );
         
         setTimeout(() => {
             const intervalId = setInterval(() => {
@@ -116,6 +135,17 @@ class APPA extends React.Component {
     }
     
     render() {
+        let error = "";
+        if (this.state.error != null) {
+            error = (
+                <Alert variant="danger"
+                       dismissible
+                       onClose={() => this.setState({error: null})}
+                >
+                    {parseError(this.state.error)}
+                </Alert>
+            );
+        }
         let content;
         if (!this.state.data && !this.state.isLoading) {
             content = (
@@ -143,11 +173,31 @@ class APPA extends React.Component {
         return (
                 <div className="Page">
                     <Header />
+                    {error}
                     <div className="MainContent">
                         {content}
                     </div>
                 </div>
         )
+    }
+}
+
+function parseError(error) {
+    switch(error.error_key) {
+        case "no_authors_to_expand":
+            return "No possible connections found.";
+        case "src_empty":
+            return 'No papers found for author "' + error.src + '"';
+        case "dest_empty":
+            return 'No papers found for author "' + error.dest + '"';
+        case "rate_limit":
+            return "Unfortunately, APPA has exceeded its daily allowed quota of ADS queries. This limit will reset at " + error.reset + ".";
+        case "unknown":
+            return "Unexpected server error :(";
+        case "unknown_client_detected":
+            return "Unexpected error :(";
+        default:
+            return error.error_msg;
     }
 }
 
