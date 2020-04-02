@@ -72,8 +72,8 @@ class ResultDisplay extends React.Component {
                                   repo={this.props.repo}
                     />
                 </div>
-                <DistanceReport source={this.props.source}
-                                dest={this.props.dest}
+                <DistanceReport source={this.props.repo.originalSource}
+                                dest={this.props.repo.originalDest}
                                 dist={this.state.chains[0].length - 1}
                 />
                 <Tabs activeKey={this.state.activeTab}

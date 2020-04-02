@@ -164,8 +164,6 @@ class APPA extends React.Component {
                                addExclusion={this.addExclusion}
                                onEditSearch={() => 
                                    this.onFormSubmitted(null)}
-                               source={this.state.data.originalSource}
-                               dest={this.state.data.originalDest}
                 />
             )
         }
