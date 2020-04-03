@@ -37,6 +37,13 @@ class ChainDetailItem extends React.Component {
         this.setState({documentNumber: documentNumber});
     }
     
+    static getDerivedStateFromProps(props, state) {
+        const documents = findDocuments(props, false);
+        if (state.documentNumber >= documents.length)
+            return {documentNumber: documents.length - 1};
+        return null;
+    }
+    
     render() {
         const documents = findDocuments(this.props);
         const [bibcode, authorIdx, nextAuthorIdx] = documents[this.state.documentNumber];
@@ -118,7 +125,8 @@ class ExcludeButtonPart extends React.Component {
 function ExcludeConfirmation(props) {
     const [exclusion, setExclusion] = useState(props.exclusion);
     return (
-        <Form onSubmit={() => {
+        <Form onSubmit={(event) => {
+            event.preventDefault();
             props.addExclusion(exclusion);
             props.onHide();
         }}>
@@ -198,7 +206,7 @@ class AuthorPart extends React.Component {
             : "ChainDetailAuthorPartAffilContainerUnwrapped";
         return (
             <div className="ChainDetailAuthorPart">
-                <ExcludeButtonPart exclusion={this.props.name}
+                <ExcludeButtonPart exclusion={'=' + this.props.name}
                                    addExclusion={this.props.addExclusion}
                 />
                 <div className="ChainDetailAuthorPartName">
@@ -293,9 +301,10 @@ function ArrowPart(props) {
     )
 }
 
-function findDocuments(props) {
+function findDocuments(props, sort = true) {
     let documents = props.repo.bibcodeLookup[props.author][props.nextAuthor];
-    documents = sortDocuments(documents, props.sortOption, props.repo);
+    if (sort)
+        documents = sortDocuments(documents, props.sortOption, props.repo);
     return documents;
 }
 

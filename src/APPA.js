@@ -1,6 +1,6 @@
 import React from "react";
 import {Alert} from "react-bootstrap";
-import parseResponse from "./ServerResponseParser";
+import {parseResponse} from "./ServerResponseParser";
 import Header from './Header';
 import LoadingDisplay from "./LoadingDisplay";
 import SearchForm from './SearchForm';
@@ -25,22 +25,23 @@ class APPA extends React.Component {
             hasSetHistory: false
         };
         this.onFormSubmitted = this.onFormSubmitted.bind(this);
-        this.setStateFromSearchParams = this.setStateFromSearchParams.bind(this);
+        this.queryServerForData = this.queryServerForData.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
+        this.updateURL = this.updateURL.bind(this);
         
         window.onpopstate = () => {
             if (window.location.search.length === 0)
                 this.setState({isLoading: false, data: null});
             else
-                this.setStateFromSearchParams(
-                    new URLSearchParams(window.location.search), false);
+                this.queryServerForData(
+                    new URLSearchParams(window.location.search));
         }
     }
     
     componentDidMount() {
         if (window.location.search.length > 0) {
-            this.setStateFromSearchParams(
-                new URLSearchParams(window.location.search), false);
+            this.queryServerForData(
+                new URLSearchParams(window.location.search));
         }
     }
     
@@ -49,15 +50,30 @@ class APPA extends React.Component {
             this.setState({data: null});
             return;
         }
+        const params = this.formDataToUrlParams(formData); 
+        this.updateURL(formData);
+        this.queryServerForData(params);
+    }
+    
+    formDataToUrlParams(formData) {
         const params = new URLSearchParams();
-        for (let key in formData) {
+        for (const key of Object.keys(formData)) {
             if (formData[key] !== '')
                 params.set(key, formData[key]);
         }
-        this.setStateFromSearchParams(params, true);
+        return params;
     }
     
-    setStateFromSearchParams(params, shouldAlterHistory) {
+    updateURL(formData) {
+        const params = this.formDataToUrlParams(formData);
+        if (this.state.hasSetHistory)
+            window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+        else
+            window.history.pushState({}, '', `${window.location.pathname}?${params}`);
+        return params;
+    }
+    
+    queryServerForData(params) {
         this.setState({
             searchState: {
                 src: params.get("src") || "",
@@ -65,13 +81,6 @@ class APPA extends React.Component {
                 exclusions: params.get("exclusions") || ""
             }
         });
-        if (shouldAlterHistory) {
-            if (this.state.hasSetHistory) {
-                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-            } else {
-                window.history.pushState({}, '', `${window.location.pathname}?${params}`);
-            }
-        }
         this.setState({
             isLoading: true,
             error: null,
@@ -121,7 +130,7 @@ class APPA extends React.Component {
         }, 800);
     }
     
-    addExclusion(exclusion) {
+    addExclusion(exclusion, needServer) {
         let newSearchState = {
             src: this.state.searchState.src,
             dest: this.state.searchState.dest,
@@ -131,7 +140,12 @@ class APPA extends React.Component {
             && newSearchState.exclusions.slice(-1) !== '\n')
             newSearchState.exclusions += '\n';
         newSearchState.exclusions += exclusion;
-        this.onFormSubmitted(newSearchState);
+        if (needServer)
+            this.onFormSubmitted(newSearchState);
+        else {
+            this.updateURL(newSearchState);
+            this.setState({searchState: newSearchState});
+        }
     }
     
     render() {
@@ -160,7 +174,7 @@ class APPA extends React.Component {
         } else {
             content = (
                 <ResultDisplay repo={this.state.data}
-                               chains={this.state.data.chains}
+                               key={this.state.data}
                                addExclusion={this.addExclusion}
                                onEditSearch={() => 
                                    this.onFormSubmitted(null)}

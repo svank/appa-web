@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
+import {applyNewExclusion} from './ServerResponseParser';
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
@@ -25,12 +26,12 @@ const sortOptionsDisplayNames = [
 class ResultDisplay extends React.Component {
     constructor(props) {
         super(props);
-        const chains = sortChains(this.props.chains,
+        const chains = sortChains(props.repo.chains,
                                   "alphabetical",
-                                  this.props.repo);
+                                  props.repo);
         this.state = {
+            repo: props.repo,
             chain: chains[0],
-            chains: chains,
             sortOption: "alphabetical",
             activeTab: "table"
         };
@@ -38,27 +39,41 @@ class ResultDisplay extends React.Component {
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
         this.onTabSelected = this.onTabSelected.bind(this);
+        this.addExclusion = this.addExclusion.bind(this);
     }
     
     onChainSelected(chain) {
-        this.setState({"chain": chain});
+        this.setState({chain: chain});
     }
     
     onSortSelected(sortOption) {
-        let chains = sortChains(this.props.chains,
-                                sortOption,
-                                this.props.repo);
-        this.setState({
-            sortOption: sortOption,
-            chains: chains
-        });
+        this.setState({sortOption: sortOption});
     }
     
     onTabSelected(tab) {
         this.setState({activeTab: tab});
     }
     
+    addExclusion(exclusion) {
+        const chainIdx = sortChains(
+            this.state.repo.chains, this.state.sortOption, this.state.repo)
+            .indexOf(this.state.chain);
+        let [newData, newIdx] = applyNewExclusion(
+            this.state.repo, exclusion, chainIdx);
+        const needServer = newData === null || newData.chains.length === 0;
+        if (!needServer) {
+            if (newIdx >= newData.chains.length)
+                newIdx = newData.chains.length - 1;
+            const newChain = sortChains(
+                newData.chains, this.state.sortOption, newData)[newIdx];
+            this.setState({repo: newData, chain: newChain});
+        }
+        this.props.addExclusion(exclusion, needServer);
+    }
+    
     render() {
+        const chains = sortChains(
+            this.state.repo.chains, this.state.sortOption, this.state.repo);
         return (
             <div className="ResultDisplay">
                 <div className="ResultDisplayHeader">
@@ -68,13 +83,13 @@ class ResultDisplay extends React.Component {
                     >
                         <span className="ResultDisplayLeftArrow" /> Edit search
                     </Button>
-                    <StatsDisplay stats={this.props.repo.stats}
-                                  repo={this.props.repo}
+                    <StatsDisplay stats={this.state.repo.stats}
+                                  repo={this.state.repo}
                     />
                 </div>
-                <DistanceReport source={this.props.repo.originalSource}
-                                dest={this.props.repo.originalDest}
-                                dist={this.state.chains[0].length - 1}
+                <DistanceReport source={this.state.repo.originalSource}
+                                dest={this.state.repo.originalDest}
+                                dist={chains[0].length - 1}
                 />
                 <Tabs activeKey={this.state.activeTab}
                       onSelect={this.onTabSelected}
@@ -89,25 +104,25 @@ class ResultDisplay extends React.Component {
                                           currentOption={this.state.sortOption}
                             />
                         </div>
-                        <ChainTable chains={this.state.chains}
+                        <ChainTable chains={chains}
                                     selectedChain={this.state.chain}
                                     onChainSelected={this.onChainSelected}
-                                    repo={this.props.repo}
+                                    repo={this.state.repo}
                         />
                         <ChainDetail chain={this.state.chain}
-                                     repo={this.props.repo}
-                                     addExclusion={this.props.addExclusion}
+                                     repo={this.state.repo}
+                                     addExclusion={this.addExclusion}
                                      sortOption={this.state.sortOption}
                                      key={this.state.sortOption}
                         />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
-                        <WordCloud repo={this.props.repo}
+                        <WordCloud repo={this.state.repo}
                                    active={this.state.activeTab === "word-cloud"}
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
-                        <Graph repo={this.props.repo} />
+                        <Graph repo={this.state.repo} />
                     </Tab>
                 </Tabs>
             </div>
