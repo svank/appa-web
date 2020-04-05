@@ -8,5 +8,9 @@
   border: solid 3px #CCC;
   border-radius: 2em;
   display: inline-block;
-  margin-bottom: 80px;
+  /*
+  This calc() bit ensures the box doesn't jump when the scrollbar
+  comes or goes. Based on https://aykevl.nl/2014/09/fix-jumping-scrollbar
+   */
+  margin: 0 calc(0px - 100vw + 100%) 20px 0;
 }

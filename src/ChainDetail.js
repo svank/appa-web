@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Dropdown, Form, Overlay, Popover} from "react-bootstrap";
+import NameSyntaxHelp from "./NameSyntaxHelp";
 import './ChainDetail.css';
 
 class ChainDetail extends React.Component {
@@ -20,6 +21,10 @@ class ChainDetail extends React.Component {
         }
         return (
             <div className="ChainDetail">
+                <div className="ChainDetailHeader text-muted">
+                    To exclude false positives, hover over a name {}
+                    or paper to reveal an "exclude" button.
+                </div>
                 {items}
             </div>
         )
@@ -125,11 +130,13 @@ class ExcludeButtonPart extends React.Component {
 function ExcludeConfirmation(props) {
     const [exclusion, setExclusion] = useState(props.exclusion);
     return (
-        <Form onSubmit={(event) => {
-            event.preventDefault();
-            props.addExclusion(exclusion);
-            props.onHide();
-        }}>
+        <Form className="ExclusionConfirmation"
+              onSubmit={(event) => {
+                  event.preventDefault();
+                  props.addExclusion(exclusion);
+                  props.onHide();
+              }}
+        >
             <Form.Group controlId="exclusionConfirmation" style={{margin: 0}}>
                 Adding
                 <Form.Control className="ExclusionConfirmationInput"
@@ -141,6 +148,7 @@ function ExcludeConfirmation(props) {
                 />
                 to the exclusion list
             </Form.Group>
+            
             <div className="ExclusionConfirmationButtonRow">
                 <Button type="submit" variant="primary">Confirm</Button>
                 <Button variant="secondary"
@@ -149,6 +157,9 @@ function ExcludeConfirmation(props) {
                     Cancel
                 </Button>
             </div>
+            
+            {props.exclusion.charAt(0) === "="
+                ? <NameSyntaxHelp /> : null}
         </Form>
     )
 }
@@ -232,13 +243,15 @@ function DocumentPart(props) {
     const bibcode = props.documents[props.documentNumber][0];
     const document = findDocument(props, bibcode);
     if (props.documents.length <= 1)
+        // We don't _need_ to use a Button when there's only one document,
+        // but using the same element we use when there are multiple
+        // documents ensures everything lines up exactly the same.
         return (
             <div className="ChainDetailDocumentPart">
                 <ExcludeButtonPart exclusion={bibcode}
                                    addExclusion={props.addExclusion}
                 />
-                <Button id={document.title}
-                        size="lg"
+                <Button size="lg"
                         disabled
                         className="ChainDetailSingleDocButton ChainDetailDocButton"
                         variant="link"
@@ -254,8 +267,7 @@ function DocumentPart(props) {
                                    addExclusion={props.addExclusion}
                 />
                 <Dropdown alignRight>
-                    <Dropdown.Toggle id={document.title}
-                                     className="ChainDetailDocButton"
+                    <Dropdown.Toggle className="ChainDetailDocButton"
                                      size="lg"
                                      variant="link"
                     >
@@ -282,9 +294,8 @@ function ADSPart(props) {
     const url = "https://ui.adsabs.harvard.edu/abs/" + props.bibcode + "/abstract";
     return (
         <a href={url}
-           /* eslint-disable-next-line react/jsx-no-target-blank */
            target="_blank"
-           rel="noopener"
+           rel="noopener noreferrer"
            className="ChainDetailADSPart"
         >
             [ADS]

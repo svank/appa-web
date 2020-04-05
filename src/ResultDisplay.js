@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
+import Octicon, {ChevronLeft, Stop} from "@primer/octicons-react";
 import {applyNewExclusion} from './ServerResponseParser';
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
@@ -19,7 +20,7 @@ const sortOptions = [
 const sortOptionsDisplayNames = [
     'Alphabetically',
     'Closer to first author',
-    'Citation count',
+    'Total citation count',
     'Recent read count'
 ];
 
@@ -80,8 +81,10 @@ class ResultDisplay extends React.Component {
                     <Button variant="link"
                             onClick={this.props.onEditSearch}
                             className="ResultDisplayEditSearchButton"
+                             style={{display: "flex", alignItems: "center"}}
                     >
-                        <span className="ResultDisplayLeftArrow" /> Edit search
+                        <Octicon icon={ChevronLeft} />
+                    &nbsp;Edit search
                     </Button>
                     <StatsDisplay stats={this.state.repo.stats}
                                   repo={this.state.repo}
@@ -91,14 +94,28 @@ class ResultDisplay extends React.Component {
                                 dest={this.state.repo.originalDest}
                                 dist={chains[0].length - 1}
                 />
+                <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <Octicon icon={Stop} />
+                    &nbsp;Name-matching can be ambiguous. 
+                </div>
+                <div className="text-muted"
+                     style={{marginBottom: "15px"}}
+                >
+                    Verify {}
+                    the results below and remove false positives before {}
+                    believing them.
+                </div>
                 <Tabs activeKey={this.state.activeTab}
                       onSelect={this.onTabSelected}
                       id="top-row-tabs"
                 >
                     <Tab eventKey="table" title="Table">
                         <div className="TableDisplayHeader">
-                            <div>
-                                The selected row is displayed in detail below.
+                            <div className="text-muted">
+                                Each row in the table below represents one {}
+                                chain of coauthorship between the two {}
+                                authors.<br />The selected row is displayed in {}
+                                detail below.
                             </div>
                             <SortSelector onSortSelected={this.onSortSelected}
                                           currentOption={this.state.sortOption}
@@ -116,13 +133,13 @@ class ResultDisplay extends React.Component {
                                      key={this.state.sortOption}
                         />
                     </Tab>
+                    <Tab eventKey="graph" title="Graph">
+                        <Graph repo={this.state.repo} />
+                    </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
                         <WordCloud repo={this.state.repo}
                                    active={this.state.activeTab === "word-cloud"}
                         />
-                    </Tab>
-                    <Tab eventKey="graph" title="Graph">
-                        <Graph repo={this.state.repo} />
                     </Tab>
                 </Tabs>
             </div>

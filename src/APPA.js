@@ -52,6 +52,10 @@ class APPA extends React.Component {
         }
         const params = this.formDataToUrlParams(formData); 
         this.updateURL(formData);
+        if (formData.src === "" || formData.dest === "") {
+            this.setState({error: "empty_author"});
+            return;
+        }
         this.queryServerForData(params);
     }
     
@@ -65,11 +69,18 @@ class APPA extends React.Component {
     }
     
     updateURL(formData) {
-        const params = this.formDataToUrlParams(formData);
+        let params = this.formDataToUrlParams(formData);
+        if (params.toString().length > 0)
+            params = "?" + params;
+        if (params.toString() === window.location.search.toString())
+            return;
+        const newURL = `${window.location.pathname}${params}`;
         if (this.state.hasSetHistory)
-            window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-        else
-            window.history.pushState({}, '', `${window.location.pathname}?${params}`);
+            window.history.replaceState({}, '', newURL);
+        else {
+            window.history.pushState({}, '', newURL);
+            this.setState({hasSetHistory: true});
+        }
         return params;
     }
     
@@ -85,8 +96,7 @@ class APPA extends React.Component {
             isLoading: true,
             error: null,
             loadData: null,
-            data: null,
-            hasSetHistory: true
+            data: null
         });
         
         fetch("http://127.0.0.1:5000/find_route?" + params.toString())
@@ -195,7 +205,10 @@ class APPA extends React.Component {
 }
 
 function parseError(error) {
-    switch(error.error_key) {
+    let error_key = error;
+    if (error.error_key)
+        error_key = error.error_key;
+    switch(error_key) {
         case "no_authors_to_expand":
             return "No possible connections found.";
         case "src_empty":
@@ -206,6 +219,8 @@ function parseError(error) {
             return "Unfortunately, APPA has exceeded its daily allowed quota of ADS queries. This limit will reset at " + error.reset + ".";
         case "unknown":
             return "Unexpected server error :(";
+        case "empty_author":
+            return 'A "from" and a "to" author must be specified.';
         case "unknown_client_detected":
             return "Unexpected error :(";
         default:

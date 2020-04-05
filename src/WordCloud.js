@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Form} from "react-bootstrap";
+import Octicon, {CloudDownload} from "@primer/octicons-react";
 import D3WordCloud from 'react-d3-cloud';
 import './WordCloud.css';
 
@@ -139,7 +140,9 @@ class WordCloud extends React.Component {
                             <Button variant="primary"
                                     onClick={this.saveAsPNG}
                             >
-                                Save as Image
+                                <Octicon icon={CloudDownload}
+                                         verticalAlign="middle"/>
+                                     &nbsp;Save as Image
                             </Button>
                         </div>
                     </div>
@@ -197,15 +200,15 @@ class WordCloud extends React.Component {
                 
                 <div className="ResultDisplayFooter text-muted">
                     Generated with {}
-                    <a target="_blank" rel="noopener"
+                    <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/Yoctol/react-d3-cloud">
                         react-d3-cloud
                     </a>, {}
-                    <a target="_blank" rel="noopener"
+                    <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/jasondavies/d3-cloud">
                         d3-cloud
                     </a>, and {}
-                    <a target="_blank" rel="noopener"
+                    <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/d3/d3">d3</a>.
                 </div>
             </div>

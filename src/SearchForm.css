@@ -1,11 +1,14 @@
-.SearchForm {
+.SearchFormContainer {
   width: 500px;
   margin: 0 auto;
+  padding: 32px;
+}
+
+.SearchForm {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  padding: 32px;
 }
 
 .SearchFormArrowPart {
@@ -13,3 +16,17 @@
   padding: 1em 0;
   margin: 0 auto;
 }
+
+.SearchFormButtonContainer {
+  display: flex;
+  margin: 0 -10px;
+}
+
+.SearchFormButtonContainer Button {
+  margin: 0 10px;
+}
+
+.SearchFormButtonContainer .submit {
+  flex-grow: 2;
+}
+

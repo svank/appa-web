@@ -1,4 +1,5 @@
 import React from 'react';
+import Octicon, {ChevronRight} from "@primer/octicons-react";
 import './ChainTable.css';
 
 class ChainTable extends React.Component {
@@ -47,17 +48,31 @@ class ChainTableRow extends React.Component {
             }
             hideData.push(hideCell);
         }
+        const cells = [];
+        for (let i=0; i<rowData.length; i++) {
+            cells.push(
+                <ChainTableCell key={rowData[i]}
+                                name={rowData[i]}
+                                hide={hideData[i]}
+                />
+            );
+            if (i !== rowData.length - 1)
+                cells.push(
+                    <td className="ChainTableCell"
+                        key={"div" + i}
+                    >
+                        <div className="ChainTableCellArrow">
+                            <Octicon icon={ChevronRight} />
+                        </div>
+                    </td>
+                );
+        }
         return (
             <tr className={this.props.selected
                     ? "ChainTableRow ChainTableSelectedRow"
                     : "ChainTableRow ChainTableUnselectedRow"}
                 onClick={this.props.onClick}>
-                {rowData.map((cellData, idx) =>
-                    <ChainTableCell key={cellData}
-                                    name={cellData}
-                                    hide={hideData[idx]}
-                    />
-                )}
+                {cells}
             </tr>
         )
     }

@@ -1,7 +1,8 @@
 .DistanceReport {
   text-align: center;
-  font-size: 110%;
-  margin: 20px 0;
+  font-size: 115%;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }
 
 .DistanceReportName {

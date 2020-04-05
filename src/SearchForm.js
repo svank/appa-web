@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Form} from 'react-bootstrap';
+import NameSyntaxHelp from "./NameSyntaxHelp";
 import './SearchForm.css';
 
 class SearchForm extends React.Component {
@@ -19,7 +20,7 @@ class SearchForm extends React.Component {
             };
         this.onSubmit = this.onSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onClear = this.onClear.bind(this);
+        this.onReset = this.onReset.bind(this);
     }
     
     onSubmit(event) {
@@ -31,6 +32,15 @@ class SearchForm extends React.Component {
         });
     }
     
+    onReset(event) {
+        event.preventDefault();
+        this.setState({
+            src: "",
+            dest: "",
+            exclusions: ""
+        });
+    }
+    
     onChange(event) {
         event.preventDefault();
         const target = event.target;
@@ -39,14 +49,9 @@ class SearchForm extends React.Component {
         this.setState({[name]: value})
     }
     
-    onClear(event) {
-        event.preventDefault();
-        this.props.onSubmit(null);
-    }
-    
     render() {
         return (
-            <div>
+            <div className="SearchFormContainer">
                 <Form className="SearchForm"
                       onSubmit={this.onSubmit}
                 >
@@ -88,14 +93,27 @@ class SearchForm extends React.Component {
                                       value={this.state.exclusions}
                         />
                         <Form.Text className="text-muted">
-                            Enter author names or bibcodes to ignore, one {}
-                            per line.
+                            Enter any author names or bibcodes to ignore, {}
+                            one per line.
                         </Form.Text>
                     </Form.Group>
-                    <Button type="submit" variant="primary">
-                        Search!
-                    </Button>
+                    <div className="SearchFormButtonContainer">
+                        <Button type="submit"
+                                variant="primary"
+                                className="submit">
+                            Search!
+                        </Button>
+                        <Button type="reset"
+                                variant="secondary"
+                                onClick={this.onReset}
+                        >
+                            Clear Form
+                        </Button>
+                    </div>
                 </Form>
+                
+                <NameSyntaxHelp style={{paddingTop: "20px"}}/>
+                
             </div>
         )
     }

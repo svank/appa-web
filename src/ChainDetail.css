@@ -1,6 +1,10 @@
 .ChainDetail {
   text-align: center;
-  margin: 50px 0;
+  margin-bottom: 50px;
+}
+
+.ChainDetailHeader {
+  margin: 20px 0;
 }
 
 .ChainDetailItem {
@@ -33,6 +37,10 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
 
 .ExclusionConfirmationInput {
   margin: 2px 0;
+}
+
+.ExclusionConfirmation .NameSyntaxHelpButton {
+  font-size: small;
 }
 
 .ExclusionConfirmationButtonRow {

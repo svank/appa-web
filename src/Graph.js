@@ -46,7 +46,7 @@ class Graph extends React.Component {
     render() {
         return (
             <div className="Graph">
-                <div>
+                <div className="text-muted">
                     Click or hover to highlight, scroll to zoom, drag to {}
                     move. Size indicates the number of routes through that {}
                     node or edge.
@@ -97,11 +97,11 @@ class Graph extends React.Component {
                 
                 <div className="ResultDisplayFooter text-muted">
                     Generated with {}
-                    <a target="_blank" rel="noopener"
+                    <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/plotly/react-cytoscapejs">
                         react-cytoscapejs
                     </a> and {}
-                    <a target="_blank" rel="noopener"
+                    <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/cytoscape/cytoscape.js">
                         cytoscape.js
                     </a>.
@@ -115,7 +115,7 @@ class Graph extends React.Component {
         const edges = {};
         const nodeWidth = this.props.repo.chains[0].length;
         
-        const horizStepSize = 625 / (nodeWidth - 1);
+        const horizStepSize = 635 / (nodeWidth - 1);
         const horizOffset = 100;
         
         const counters = [];

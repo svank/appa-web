@@ -22,7 +22,7 @@ class LoadingDisplay extends React.Component {
                         {nAuths} {authsNoun} loaded
                     </div>
                     <div className="LoadStatusPiece">
-                        {nDocs} {docsNoun} loaded
+                        {nDocs} {docsNoun} checked
                     </div>
                     <div className="LoadStatusPiece">
                         {nADS} ADS {adsNoun} completed

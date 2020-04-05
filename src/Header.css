@@ -1,11 +1,15 @@
 .Header {
   display: flex;
   align-items: flex-start;
-  margin: 10px 20px 20px 20px;
+  /*
+  This calc() bit ensures the header doesn't jump when the scrollbar
+  comes or goes. Based on https://aykevl.nl/2014/09/fix-jumping-scrollbar
+   */
+  margin: 10px calc(20px - 100vw + 100%) 20px 20px;
 }
 
 .Header div {
-  flex: 0 0 150px;
+  flex: 0 0 70px;
 }
 
 .PageTitle {
@@ -13,15 +17,6 @@
   font-weight: bold;
   text-align: center;
   flex: 1 0 200px !important;
-}
-
-.LeftArrow {
-  border: solid #007bfe;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
 }
 
 .Header a {
