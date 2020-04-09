@@ -34,7 +34,8 @@ class ResultDisplay extends React.Component {
             repo: props.repo,
             chain: chains[0],
             sortOption: "alphabetical",
-            activeTab: "table"
+            activeTab: "table",
+            width: null
         };
                 
         this.onChainSelected = this.onChainSelected.bind(this);
@@ -72,11 +73,26 @@ class ResultDisplay extends React.Component {
         this.props.addExclusion(exclusion, needServer);
     }
     
+    componentDidMount() {
+        // We want the display to expand so the full table fits inside.
+        // But we don't want the display to shrink when switching tabs.
+        // So after the first render we record the width of the display
+        // and lock it in on all future renders.
+        let bbox = this.element.getBoundingClientRect();
+        this.setState({width: bbox.width});
+    }
+    
     render() {
         const chains = sortChains(
             this.state.repo.chains, this.state.sortOption, this.state.repo);
+        const containerStyle = {};
+        if (this.state.width)
+            containerStyle.width = this.state.width + "px";
         return (
-            <div className="ResultDisplay">
+            <div className="ResultDisplay"
+                 style={containerStyle}
+                 ref={(e) => this.element = e}
+            >
                 <div className="ResultDisplayHeader">
                     <Button variant="link"
                             onClick={this.props.onEditSearch}
