@@ -1,0 +1,4 @@
+Header set Content-Security-Policy "default-src self"
+Header always set Content-Security-Policy "upgrade-insecure-requests;"
+Header always set X-Frame-Options SAMEORIGIN
+Header set X-XSS-Protection "1"
