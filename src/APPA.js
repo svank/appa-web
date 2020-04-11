@@ -102,13 +102,20 @@ class APPA extends React.Component {
         
         this.getDataFromUrl(URL_BASE + "find_route?" + params.toString());
         
+        // Set a recent, dummy timestamp to ensure we don't use stale data
+        // from a previous query run
+        this.setState({loadData:
+                {timestamp: Date.now()/1000 - 10, isDummy: true}});
         setTimeout(() => {
             const intervalId = setInterval(() => {
                 if (this.state.isLoading)
                     fetch(URL_BASE + "get_progress?" + params.toString())
                         .then(response => response.json())
                         .then(data => {
-                            if (this.state.isLoading && data.error === undefined)
+                            if (this.state.isLoading
+                                && data.error === undefined
+                                // Ensure we only ever update to newer data
+                                && data.timestamp > this.state.loadData.timestamp)
                                 this.setState({loadData: data})
                         });
                 else

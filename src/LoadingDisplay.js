@@ -4,7 +4,8 @@ import './LoadingDisplay.css'
 class LoadingDisplay extends React.Component {
     render() {
         let content;
-        if (this.props.data === null)
+        if (this.props.data === null
+            || this.props.data.isDummy)
             content = <div />;
         else {
             const nAuths = this.props.data.n_authors_queried;
