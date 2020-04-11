@@ -6,6 +6,7 @@ import LoadingDisplay from "./LoadingDisplay";
 import SearchForm from './SearchForm';
 import ResultDisplay from "./ResultDisplay";
 import './APPA.css';
+import {URL_BASE} from './LocalConfig';
 
 import Popper from 'popper.js';
 
@@ -99,36 +100,12 @@ class APPA extends React.Component {
             data: null
         });
         
-        fetch("http://127.0.0.1:5000/find_route?" + params.toString())
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                this.setState({
-                    isLoading: false,
-                    loadData: null,
-                });
-                if ("error_key" in data) {
-                    this.setState({error: data})
-                } else {
-                    const parsedData = parseResponse(data);
-                    this.setState({data: parsedData});
-                }
-            })
-            .catch(() =>
-                this.setState({
-                    error: {error_key: "unknown_client_detected"},
-                    isLoading: false,
-                    loadData: null})
-            );
+        this.getDataFromUrl(URL_BASE + "find_route?" + params.toString());
         
         setTimeout(() => {
             const intervalId = setInterval(() => {
                 if (this.state.isLoading)
-                    fetch("http://127.0.0.1:5000/get_progress?" + params.toString())
+                    fetch(URL_BASE + "get_progress?" + params.toString())
                         .then(response => response.json())
                         .then(data => {
                             if (this.state.isLoading && data.error === undefined)
@@ -136,8 +113,43 @@ class APPA extends React.Component {
                         });
                 else
                     clearInterval(intervalId);
-            }, 500);
-        }, 800);
+            }, 1000);
+        }, 1500);
+    }
+    
+    getDataFromUrl(url) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if ("responseAtUrl" in data) {
+                    this.getDataFromUrl(data.responseAtUrl);
+                } else
+                    this.processNetworkResponse(data);
+            })
+            .catch(() =>
+                this.setState({
+                    error: {error_key: "unknown_client_detected"},
+                    isLoading: false,
+                    loadData: null})
+            );
+    }
+    
+    processNetworkResponse(data) {
+        this.setState({
+            isLoading: false,
+            loadData: null,
+        });
+        if ("error_key" in data) {
+            this.setState({error: data})
+        } else {
+            const parsedData = parseResponse(data);
+            this.setState({data: parsedData});
+        }
     }
     
     addExclusion(exclusion, needServer) {
@@ -180,7 +192,7 @@ class APPA extends React.Component {
         } else if (this.state.isLoading) {
             content = (
                 <LoadingDisplay data={this.state.loadData} />
-            )
+            );
         } else {
             content = (
                 <ResultDisplay repo={this.state.data}
@@ -189,7 +201,7 @@ class APPA extends React.Component {
                                onEditSearch={() => 
                                    this.onFormSubmitted(null)}
                 />
-            )
+            );
         }
         
         return (

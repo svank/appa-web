@@ -18,8 +18,8 @@ function StatsDisplay(props) {
                     ref={target}
                     onClick={() => setShow(!show)}
             >
-                Queried {props.stats.n_authors_loaded} authors and checked {}
-                {props.stats.n_docs_loaded} documents {}
+                Queried {props.stats.n_authors_queried} authors and checked {}
+                {props.stats.n_docs_queried} documents {}
                 in {props.stats.total_time.toFixed(2)} s {}
             </Button>
             <Overlay show={show}
@@ -30,8 +30,8 @@ function StatsDisplay(props) {
             >
                 <Popover id="popover-positioned-bottom">
                     <Popover.Content>
-                        Queried {props.stats.n_authors_loaded} authors and {}
-                        checked {props.stats.n_docs_loaded} documents. {}
+                        Queried {props.stats.n_authors_queried} authors and {}
+                        checked {props.stats.n_docs_queried} documents. {}
                         A total of {props.stats.n_network_queries} {}
                         queries to ADS were required, which took {}
                         {props.stats.time_waiting_network.toFixed(2)} {}
