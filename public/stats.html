@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <title>Backend stats</title>
+    <style>
+        body {
+            margin: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #FFFFFF;
+        }
+        
+        .plot-container {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        
+        .plot {
+            width: 550px;
+            height: 350px;
+            flex: 0 0 auto;
+        }
+        
+        .description {
+            max-width: 300px;
+            min-width: 200px;
+        }
+        
+        .header {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<p class="header">
+    Stats related to the APPA backend. Histograms cover the last month's data.
+    All plots are updated hourly, at ten minutes past the hour. Histogram bins
+    include their <i>left</i> edge.
+</p>
+
+<hr>
+
+<div class="plot-container">
+    <div class="plot"> </div>
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/distance_found-distribution.png"
+         />
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/ads_query_count-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/ads_query_count-distribution.png"
+         />
+    <div class="description">
+        How many times APPA had to look up data on ADS. APPA re-uses the
+        results of past ADS queries to speed things up, which
+        reduces this number's growth.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/authors_queried-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/authors_queried-distribution.png"
+         />
+    <div class="description">
+        The number of authors whose list of coauthors is loaded (from cache
+        or from ADS) and used to build the authorship graph while searching.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/coauthors_seen-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/coauthors_seen-distribution.png"
+         />
+    <div class="description">
+        The number of (seemingly-unique per search) author names that are seen
+        during a search and which are candidates to be loaded later in the
+        search if a path between the source and destination authors is not
+        found before then.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/docs_queried-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/docs_queried-distribution.png"
+         />
+    <div class="description">
+        The number of documents which served as a source when building up a
+        list of an author's coauthors
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/docs_returned-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/docs_returned-distribution.png"
+         />
+    <div class="description">
+        The number of documents which actually served a role in connecting the
+        source and destination authors. These are the documents that are fully
+        loaded (title, authors, affiliations, etc.) and sent back to the
+        user's browser.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/connections_found-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/connections_found-distribution.png"
+         />
+    <div class="description">
+        The number of distinct coauthorship chains found (i.e. the number of
+        rows in the table displayed in-browser after the search finishes).
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_total-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_total-distribution.png"
+         />
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_ads-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_ads-distribution.png"
+         />
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_search-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_search-distribution.png"
+         />
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_response-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_response-distribution.png"
+         />
+    <div class="description">
+        This time spent loading the documents found to be involved in
+        connecting the two authors and packing up all the data to be sent to
+        the user's browser.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_cache_authors-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_cache_authors-distribution.png"
+         />
+    <div class="description">
+        This is a subset of the time spent searching.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_cache_docs-cumulative.png"
+         />
+    <img class="plot hist"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/duration_cache_docs-distribution.png"
+         />
+    <div class="description">
+        This is a subset of the time spent preparing the response.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/pf_count-cumulative.png"
+         />
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/cold_starts-cumulative.png"
+         />
+    <div class="description">
+        GCP Cloud Functions creates and shuts down instances of the
+        path-finding code as needed to meet demand. (Requests served) / (cold
+        starts) tells you how many requests an instance ended up handling
+        before it was shut down for inactivity.
+    </div>
+</div>
+
+<div class="plot-container">
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/cache_size_authors.png"
+         />
+    <img class="plot timeseries"
+         src="https://storage.cloud.google.com/appa-backend-stats-plots/cache_size_documents.png"
+         />
+</div>
+
+</body>
+</html>

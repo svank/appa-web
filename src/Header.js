@@ -103,6 +103,10 @@ function Header(props) {
                         you tools to explore the proposed coauthorship {}
                         chains and remove false positives.
                     </Alert>
+                    
+                    <a href="stats.html" target="_blank">
+                        View backend stats
+                    </a>
                 </Modal.Body>
             </Modal>
         </div>
