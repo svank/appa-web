@@ -29,10 +29,11 @@ class APPA extends React.Component {
         this.queryServerForData = this.queryServerForData.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
         this.updateURL = this.updateURL.bind(this);
+        this.onBackToSearch = this.onBackToSearch.bind(this);
         
         window.onpopstate = () => {
             if (window.location.search.length === 0)
-                this.setState({isLoading: false, data: null});
+                this.setState({isLoading: false, data: null, hasSetHistory: false});
             else
                 this.queryServerForData(
                     new URLSearchParams(window.location.search));
@@ -46,11 +47,19 @@ class APPA extends React.Component {
         }
     }
     
-    onFormSubmitted(formData) {
-        if (formData === null) {
-            this.setState({data: null});
-            return;
+    onBackToSearch() {
+        if (this.state.hasSetHistory) {
+            console.log("back");
+            window.history.back();
+            this.setState({hasSetHistory: false});
+        } else {
+            console.log("replace");
+            window.history.replaceState({}, '', window.location.pathname);
         }
+        this.setState({data: null});
+    }
+    
+    onFormSubmitted(formData) {
         const params = this.formDataToUrlParams(formData); 
         this.updateURL(formData);
         if (formData.src === "" || formData.dest === "") {
@@ -205,8 +214,7 @@ class APPA extends React.Component {
                 <ResultDisplay repo={this.state.data}
                                key={this.state.data}
                                addExclusion={this.addExclusion}
-                               onEditSearch={() => 
-                                   this.onFormSubmitted(null)}
+                               onEditSearch={this.onBackToSearch}
                 />
             );
         }
