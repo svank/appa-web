@@ -37,14 +37,11 @@ class ChainTableRow extends React.Component {
         const rowData = this.props.rowData;
         const prevRowData = this.props.prevRowData;
         let hideData = [];
-        let forceDisplay = false;
         for (let i = 0; i < rowData.length; i++) {
             let hideCell = true;
             if (prevRowData === null
-                || forceDisplay
-                || prevRowData[i] !== rowData[i]) {
+                    || prevRowData[i] !== rowData[i]) {
                 hideCell = false;
-                //forceDisplay = true;
             }
             hideData.push(hideCell);
         }

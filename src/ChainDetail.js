@@ -63,7 +63,6 @@ class ChainDetailItem extends React.Component {
                 />
                 published
                 <DocumentPart repo={this.props.repo}
-                              author={this.props.author}
                               documents={documents}
                               documentNumber={this.state.documentNumber}
                               onDocumentSelected={this.setDocumentNumber}

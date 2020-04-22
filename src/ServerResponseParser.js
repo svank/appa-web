@@ -129,9 +129,9 @@ function applyNewExclusion(repo, exclusion, selectedIdx)  {
         }
         newRepo.docData = newDocData;
     } else {
-        // Likely an author was excluded with an '=' flag attached to the name.
-        // I don't want to implement the logic to handle full ADS name matching
-        // in JS, so this needs to go up to the server
+        // Likely an author was excluded without an '=' flag attached to the
+        // name. I don't want to implement the logic to handle full ADS name
+        // matching in JS, so this needs to go up to the server
         return [null, null];
     }
     return [newRepo, selectedIdx];
