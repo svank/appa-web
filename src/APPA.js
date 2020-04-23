@@ -8,11 +8,6 @@ import ResultDisplay from "./ResultDisplay";
 import './APPA.css';
 import {URL_BASE} from './LocalConfig';
 
-import Popper from 'popper.js';
-
-// see: https://github.com/twbs/bootstrap/issues/23590
-Popper.Defaults.modifiers.computeStyle.gpuAcceleration = false;
-
 class APPA extends React.Component {
     constructor(props) {
         super(props);
