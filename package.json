@@ -12,6 +12,7 @@
     "d3-cloud": "^1.2.5",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
+    "react-constellation-sketcher": "^1.0.0",
     "react-cytoscapejs": "^1.2.1",
     "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.13.1",

@@ -7,10 +7,6 @@
   margin: 10px 0;
 }
 
-.LoadStatusSubtitle {
-  font-size: large;
-}
-
 .LoadStatusPiece {
   width: 200px;
   display: inline-block;
