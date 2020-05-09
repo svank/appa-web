@@ -195,7 +195,7 @@ class AuthorPart extends React.Component {
     }
     
     render() {
-        let affil = this.props.affil.length === 0 ? "-" : this.props.affil;
+        let affil = this.props.affil;
         
         // Attempt to detect the start of an address included in the affil,
         // and have word-wrapping happen there. If no address is found,
@@ -229,7 +229,9 @@ class AuthorPart extends React.Component {
                     <span className={textClassName}
                           onClick={this.toggleExpandAffil}
                     >
-                        {affil}
+                        {this.props.affil === ""
+                            ? <i>No affiliation given</i>
+                            : affil}
                     </span>
                     <span className={textClassName}>)</span>
                 </div>
