@@ -217,7 +217,9 @@ class APPA extends React.Component {
         
         return (
                 <div className="Page">
-                    <Header />
+                    <header>
+                        <Header />
+                    </header>
                     {welcomeMessage(this)}
                     {error}
                     <div className="MainContent">

@@ -19,9 +19,9 @@ function Header(props) {
                         </span>
                 </a>
             </div>
-            <div className="PageTitle">
+            <h1 className="PageTitle">
                 Astronomy Publication Proximity Analyzer
-            </div>
+            </h1>
             <div style={{textAlign: "right"}}>
                 <Button variant="link" onClick={handleShowAbout}>
                     About
