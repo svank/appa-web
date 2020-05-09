@@ -55,6 +55,7 @@ class APPA extends React.Component {
     }
     
     onFormSubmitted(formData) {
+        recordWelcomeSeen();
         const params = this.formDataToUrlParams(formData); 
         this.updateURL(formData);
         if (formData.src === "" || formData.dest === "") {
@@ -182,7 +183,7 @@ class APPA extends React.Component {
     }
     
     render() {
-        let error = "";
+        let error = null;
         if (this.state.error != null) {
             error = (
                 <Alert variant="danger"
@@ -217,6 +218,7 @@ class APPA extends React.Component {
         return (
                 <div className="Page">
                     <Header />
+                    {welcomeMessage(this)}
                     {error}
                     <div className="MainContent">
                         {content}
@@ -224,6 +226,29 @@ class APPA extends React.Component {
                 </div>
         )
     }
+}
+
+function welcomeMessage(component) {
+    if (localStorage.getItem("APPA-WelcomeSeen") !== null)
+        return null;
+    return (
+        <Alert variant="primary"
+               dismissible
+               onClose={() => {recordWelcomeSeen(); component.forceUpdate();}}
+        >
+            <div style={{maxWidth: "600px", margin: "0 auto"}}>
+                Welcome! APPA uses the ADS database to let you explore {}
+                connections between authors. Type in two names and APPA {}
+                will find the chains of coauthorship (person A published a {}
+                paper with B, who wrote a paper with C...) connecting those {}
+                two names.
+            </div>
+        </Alert>
+    )
+}
+
+function recordWelcomeSeen() {
+    localStorage.setItem("APPA-WelcomeSeen", "y");
 }
 
 function parseError(error) {
