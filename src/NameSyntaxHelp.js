@@ -59,8 +59,8 @@ function NameSyntaxHelpContents() {
                     than the name provided.
                 </li>
                 <li>
-                    '<b>&gt;=</b>' and '<b>&lt;=</b>' will match exactly {}
-                    what you type and anything more/less specific.
+                    '<b>&lt;=</b>' and '<b>&gt;=</b>' will match anything {}
+                    less/more specific or exactly equal to the name provided.
                 </li>
                 <li>
                     E.g. given the possibilities "Last, F.", "Last, First" {}
@@ -69,10 +69,14 @@ function NameSyntaxHelpContents() {
                     matched by "&gt;Last, First".
                 </li>
             </ul>
-            "Specific" is defined by a score, the sum of: 100 {}
-            for a last name, 20 for a first name, 10 for a {}
-            first initial, 2 for a middle name, and 1 for a {}
-            middle initial.
+            A name is <i>more specific</i> than another name if it is the {}
+            latter name but with more information added (e.g. an initial is {}
+            replaced with a spelled-out name, or a middle initial is added). {}
+            A name is <i>less specific</i> than another if it is the latter {}
+            name but with information removed. When information is both {}
+            added <i>and</i> removed (e.g. comparing "Last, First M." and {}
+            "Last, F. Middle"), each name is neither more nor less {}
+            specific than the other.
         </div>
     )
 }
