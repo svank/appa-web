@@ -18,7 +18,7 @@ class APPA extends React.Component {
             data: null,
             error: null,
             searchState: null,
-            hasSetHistory: false
+            nHistorySets: 0
         };
         this.onFormSubmitted = this.onFormSubmitted.bind(this);
         this.queryServerForData = this.queryServerForData.bind(this);
@@ -28,10 +28,13 @@ class APPA extends React.Component {
         
         window.onpopstate = () => {
             if (window.location.search.length === 0)
-                this.setState({isLoading: false, data: null, hasSetHistory: false});
+                this.setState({isLoading: false, data: null});
             else
                 this.queryServerForData(
                     new URLSearchParams(window.location.search));
+            this.setState((state) => {
+                const hasSet = state.nHistorySets;
+                return {nHistorySets: hasSet > 0 ? hasSet - 1 : 0}});
         }
     }
     
@@ -43,25 +46,22 @@ class APPA extends React.Component {
     }
     
     onBackToSearch() {
-        if (this.state.hasSetHistory) {
-            console.log("back");
+        if (this.state.nHistorySets > 0) {
             window.history.back();
-            this.setState({hasSetHistory: false});
         } else {
-            console.log("replace");
             window.history.replaceState({}, '', window.location.pathname);
         }
         this.setState({data: null});
     }
     
-    onFormSubmitted(formData) {
+    onFormSubmitted(formData, allowPushState=true) {
         recordWelcomeSeen();
-        const params = this.formDataToUrlParams(formData); 
-        this.updateURL(formData);
+        const params = this.formDataToUrlParams(formData);
         if (formData.src === "" || formData.dest === "") {
             this.setState({error: "empty_author"});
             return;
         }
+        this.updateURL(formData, allowPushState);
         this.queryServerForData(params);
     }
     
@@ -74,19 +74,19 @@ class APPA extends React.Component {
         return params;
     }
     
-    updateURL(formData) {
+    updateURL(formData, allowPushState=true) {
         let params = this.formDataToUrlParams(formData);
         if (params.toString().length > 0)
             params = "?" + params;
         if (params.toString() === window.location.search.toString())
             return;
         const newURL = `${window.location.pathname}${params}`;
-        if (this.state.hasSetHistory)
-            window.history.replaceState({}, '', newURL);
-        else {
+        if (allowPushState) {
             window.history.pushState({}, '', newURL);
-            this.setState({hasSetHistory: true});
-        }
+            this.setState((state) => {
+                return {nHistorySets: state.nHistorySets + 1}});
+        } else
+            window.history.replaceState({}, '', newURL);
         return params;
     }
     
@@ -143,12 +143,15 @@ class APPA extends React.Component {
                 } else
                     this.processNetworkResponse(data);
             })
-            .catch(() =>
+            .catch(() => {
+                this.onBackToSearch();
                 this.setState({
                     error: {error_key: "unknown_client_detected"},
                     isLoading: false,
-                    loadData: null})
-            );
+                    loadData: null
+                });
+            }
+        );
     }
     
     processNetworkResponse(data) {
@@ -157,7 +160,8 @@ class APPA extends React.Component {
             loadData: null,
         });
         if ("error_key" in data) {
-            this.setState({error: data})
+            this.setState({error: data});
+            this.onBackToSearch();
         } else {
             const parsedData = parseResponse(data);
             this.setState({data: parsedData});
@@ -175,9 +179,9 @@ class APPA extends React.Component {
             newSearchState.exclusions += '\n';
         newSearchState.exclusions += exclusion;
         if (needServer)
-            this.onFormSubmitted(newSearchState);
+            this.onFormSubmitted(newSearchState, false);
         else {
-            this.updateURL(newSearchState);
+            this.updateURL(newSearchState, false);
             this.setState({searchState: newSearchState});
         }
     }
