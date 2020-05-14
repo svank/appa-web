@@ -8,7 +8,7 @@
 }
 
 .LoadStatusPiece {
-  width: 200px;
+  min-width: 200px;
   display: inline-block;
   margin: 10px 0;
 }

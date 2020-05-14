@@ -14,12 +14,13 @@ class LoadingDisplay extends React.Component {
             || this.props.data.isDummy)
             content = <div className={"LoadStatus"}>
                 <div className="LoadStatusSubtitle">&nbsp;</div>
-                <div className="LoadStatusPiece">&nbsp;</div>
+                <div><div className="LoadStatusPiece">&nbsp;</div></div>
+                <div><div className="LoadStatusPiece">&nbsp;</div></div>
             </div>;
         else {
             const nAuths = this.props.data.n_authors_queried;
             const authsNoun = nAuths === 1 ? "author" : "authors";
-            const nDocs = this.props.data.n_docs_loaded;
+            const nDocs = this.props.data.n_docs_queried;
             const docsNoun = nDocs === 1 ? "paper" : "papers";
             const nADS = this.props.data.n_ads_queries;
             const adsNoun = nADS === 1 ? "query" : "queries";
@@ -28,14 +29,23 @@ class LoadingDisplay extends React.Component {
                     <div className="LoadStatusSubtitle">
                         Progress:
                     </div>
-                    <div className="LoadStatusPiece">
-                        {nAuths} {authsNoun} loaded
+                    <div>
+                        <div className="LoadStatusPiece">
+                            {nAuths} {authsNoun} loaded
+                        </div>
+                        <div className="LoadStatusPiece">
+                            {nDocs} {docsNoun} checked
+                        </div>
+                        <div className="LoadStatusPiece">
+                            {nADS} ADS {adsNoun} completed
+                        </div>
                     </div>
-                    <div className="LoadStatusPiece">
-                        {nDocs} {docsNoun} checked
-                    </div>
-                    <div className="LoadStatusPiece">
-                        {nADS} ADS {adsNoun} completed
+                    <div>
+                        <div className="LoadStatusPiece">
+                            {this.props.data.path_finding_complete 
+                                 ? "Search complete; collecting & ranking results"
+                                 : <span>&nbsp;</span>}
+                        </div>
                     </div>
                 </div>
             );
