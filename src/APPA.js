@@ -194,6 +194,7 @@ class APPA extends React.Component {
                        dismissible
                        onClose={() => this.setState({error: null})}
                 >
+                    <h6>Error</h6>
                     {parseError(this.state.error)}
                 </Alert>
             );
@@ -270,6 +271,10 @@ function parseError(error) {
             return 'No papers found for author "' + error.dest + '"';
         case "rate_limit":
             return "Unfortunately, APPA has exceeded its daily allowed quota of ADS queries. This limit will reset at " + error.reset + ".";
+        case "ads_error":
+            return "Error during ADS query. ADS says: " + error.error_msg;
+        case "too_far":
+            return "The distance between these two authors is more than 8, which is quite large. APPA isn't entirely sure a connection can be found and is giving up."
         case "unknown":
             return "Unexpected server error :(";
         case "empty_author":
