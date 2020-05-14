@@ -113,7 +113,7 @@ class Graph extends React.Component {
     buildData() {
         const nodes = {};
         const edges = {};
-        const nodeWidth = this.props.repo.chains[0].length;
+        const nodeWidth = this.props.chains[0].length;
         
         const horizStepSize = 635 / (nodeWidth - 1);
         const horizOffset = 100;
@@ -126,7 +126,7 @@ class Graph extends React.Component {
             counters.push(0);
         
         // Generate all the nodes
-        for (let chain of this.props.repo.chains) {
+        for (let chain of this.props.chains) {
             // eslint-disable-next-line
             chain.forEach((author, i) => {
                 if (!(author in nodes)) {
@@ -148,7 +148,7 @@ class Graph extends React.Component {
         }
         
         // Generate all the edges
-        for (let chain of this.props.repo.chains) {
+        for (let chain of this.props.chains) {
             for (let i=0; i<chain.length - 1; i++) {
                 const author = chain[i];
                 const nextAuthor = chain[i+1];

@@ -150,7 +150,9 @@ class ResultDisplay extends React.Component {
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
-                        <Graph repo={this.state.repo} />
+                        <Graph chains={this.state.chains}
+                               key={this.state.sortOption}
+                        />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
                         <WordCloud repo={this.state.repo}
