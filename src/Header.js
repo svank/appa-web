@@ -84,7 +84,7 @@ function Header(props) {
                     publish in astronomy, it isn't possible to determine who {}
                     wrote a paper published under the name "J. Doe" (barring {}
                     universal and retroactive ORCID ID adoption). APPA {}
-                    follows my understanding of how ADS performs {}
+                    follows how ADS performs {}
                     <a target="_blank" rel="noopener noreferrer"
                        href="https://adsabs.github.io/help/search/search-syntax#author-searches">
                         name matching
@@ -92,7 +92,10 @@ function Header(props) {
                     equal if they are consistent with each other". For {}
                     example, a search for "J. Doe" will match J., Jane and {}
                     John Doe, while a search for "Jane Doe" will match {}
-                    Jane and J. Doe, but not John Doe.
+                    Jane and J. Doe, but not John Doe. APPA will do its best {}
+                    to sort your search results by how confident it is about {}
+                    the name-matching in each chain, but it can only do so {}
+                    much.
                     
                     <br /><br />
                     

@@ -3,7 +3,6 @@ import Octicon, {ChevronRight} from "@primer/octicons-react";
 import './ChainTable.css';
 
 class ChainTable extends React.Component {
-    
     render() {
         const chainPairs = [];
         for (let i = 0; i < this.props.chains.length; i++) {
@@ -16,13 +15,13 @@ class ChainTable extends React.Component {
             <div className="ChainTableContainer">
                 <table className="ChainTable">
                     <tbody>
-                    {chainPairs.map((chainPair) =>
+                    {chainPairs.map((chainPair, idx) =>
                         <ChainTableRow
                             key={chainPair[0].toString()}
                             rowData={chainPair[0]}
                             prevRowData={chainPair[1]}
-                            selected={chainPair[0]===this.props.selectedChain}
-                            onClick={() => this.props.onChainSelected(chainPair[0])}
+                            selected={idx===this.props.selectedChainIdx}
+                            onClick={() => this.props.onChainSelected(idx)}
                         />
                     )}
                     </tbody>

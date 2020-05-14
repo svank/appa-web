@@ -119,11 +119,28 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
   white-space: normal;
 }
 
-.ChainDetailArrowPart {
+.ChainDetailArrowContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.ChainDetailArrow {
   width: 5em;
   padding: 1em 0;
 }
 
-.ChainDetailItem:last-child .ChainDetailArrowPart {
+.ChainDetailArrowWithOrcid {
+  margin-left: 32px;
+}
+
+.ORCID-Icon {
+  margin-left: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.ChainDetailItem:last-child .ChainDetailArrow {
   display: none;
 }

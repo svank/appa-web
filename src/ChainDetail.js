@@ -4,21 +4,67 @@ import NameSyntaxHelp from "./NameSyntaxHelp";
 import './ChainDetail.css';
 
 class ChainDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        const selections = [];
+        props.paperChoices.forEach(() => selections.push(0));
+        this.state = {selections: selections};
+        this.setSelection = this.setSelection.bind(this);
+        this.addExclusion = this.addExclusion.bind(this);
+    }
+    
+    setSelection(idx, selection) {
+        const newSelections = this.state.selections.slice();
+        newSelections[idx] = selection;
+        this.setState({selections: newSelections});
+    }
+    
+    addExclusion(exclusion) {
+        // If an author is being axed, this chain is no longer valid, and this
+        // ChainDetail will be destroyed and replaced, so we don't have to
+        // worry about that. Here we just need to check if any DocumentParts
+        // have the last document selected, and that document index is about
+        // to become invalid.
+        
+        const newSelections = this.state.selections.map(
+            (selection, idx) => {
+                const choicesForLink = this.props.paperChoices[idx];
+                if (selection < choicesForLink.length - 2)
+                    return selection;
+                // For this link, the last paper is selected.
+                for (const choice of choicesForLink) {
+                    if (choice[0] === exclusion)
+                        // A paper is about to be removed from the choices list
+                        return selection - 1;
+                }
+                // No papers will be removed here, so the current selection
+                // remains valid.
+                return selection;
+            }
+        );
+        this.setState({selections: newSelections});
+        
+        this.props.addExclusion(exclusion);
+    }
+    
     render() {
-        const items = [];
-        let chain = this.props.chain;
-        if (chain.length === 1)
-            chain = [chain[0], chain[0]];
-        for (let i = 0; i < chain.length - 1; i++) {
-            items.push(
-                <ChainDetailItem author={chain[i]}
-                                 nextAuthor={chain[i + 1]}
-                                 repo={this.props.repo}
-                                 key={chain[i] + chain[i + 1]}
-                                 addExclusion={this.props.addExclusion}
-                                 sortOption={this.props.sortOption}
-                />)
-        }
+        const items = this.props.paperChoices.map((pc, i) => 
+            <ChainDetailItem paperChoices={pc}
+                             documentNumber={this.state.selections[i]}
+                             nextDocumentData={this.props.paperChoices[i+1]
+                                 ? this.props.paperChoices[i+1]
+                                    [this.state.selections[i+1]]
+                                 : null}
+                             setDocumentNumber={
+                                 (newSelection) =>
+                                     this.setSelection(i, newSelection)
+                             }
+                             repo={this.props.repo}
+                             key={i}
+                             addExclusion={this.props.addExclusion}
+                             sortOption={this.props.sortOption}
+            />
+        )
         return (
             <div className="ChainDetail">
                 <div className="ChainDetailHeader text-muted">
@@ -32,28 +78,18 @@ class ChainDetail extends React.Component {
 }
 
 class ChainDetailItem extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {documentNumber: 0};
-        this.setDocumentNumber = this.setDocumentNumber.bind(this);
-    }
-    
-    setDocumentNumber(documentNumber) {
-        this.setState({documentNumber: documentNumber});
-    }
-    
-    static getDerivedStateFromProps(props, state) {
-        const documents = findDocuments(props, false);
-        if (state.documentNumber >= documents.length)
-            return {documentNumber: documents.length - 1};
-        return null;
-    }
-    
     render() {
         const documents = findDocuments(this.props);
-        const [bibcode, authorIdx, nextAuthorIdx] = documents[this.state.documentNumber];
+        const [bibcode, authorIdx, nextAuthorIdx] = documents[this.props.documentNumber];
         const document = findDocument(this.props, bibcode);
+        const orcid = document.orcid_ids[nextAuthorIdx]
         const date = new Date(Date.parse(document.pubdate));
+        let nextOrcid = null;
+        if (this.props.nextDocumentData !== null) {
+            const nextDocument = findDocument(
+                this.props, this.props.nextDocumentData[0]);
+            nextOrcid = nextDocument.orcid_ids[this.props.nextDocumentData[1]];
+        }
         
         return (
             <div className="ChainDetailItem">
@@ -64,8 +100,8 @@ class ChainDetailItem extends React.Component {
                 published
                 <DocumentPart repo={this.props.repo}
                               documents={documents}
-                              documentNumber={this.state.documentNumber}
-                              onDocumentSelected={this.setDocumentNumber}
+                              documentNumber={this.props.documentNumber}
+                              onDocumentSelected={this.props.setDocumentNumber}
                               addExclusion={this.props.addExclusion}
                 />
                 in <JournalPart journal={document.publication} /> {}
@@ -75,7 +111,9 @@ class ChainDetailItem extends React.Component {
                             affil={document.affils[nextAuthorIdx]}
                             addExclusion={this.props.addExclusion}
                 />
-                <ArrowPart />
+                <ArrowPart orcid={orcid}
+                           nextOrcid={nextOrcid}
+                />
             </div>
         )
     }
@@ -305,16 +343,38 @@ function ADSPart(props) {
 }
 
 function ArrowPart(props) {
+    let imgClass = "ChainDetailArrow";
+    let orcidIcon = null;
+    if (props.orcid === props.nextOrcid
+            && props.orcid !== ''
+            && props.nextOrcid !== null) {
+        imgClass += " ChainDetailArrowWithOrcid";
+        orcidIcon = (
+            <a href={"https://orcid.org/" + props.orcid}
+               target="_blank"
+               rel="noopener noreferrer"
+               className="ORCID-Icon"
+            > 
+                <img src="orcid_16x16.gif"
+                     title="Link confirmed via ORCID ID"
+                     alt="Link confirmed via ORCID ID"
+                />
+            </a>
+        );
+    }
     return (
-        <img src="arrow.png"
-             className="ChainDetailArrowPart"
-             alt="The next link in the chain is..."
-        />
+        <div className="ChainDetailArrowContainer">
+            <img src="arrow.png"
+                 className={imgClass}
+                 alt="The next link in the chain is..."
+            />
+            {orcidIcon}
+        </div>
     )
 }
 
 function findDocuments(props, sort = true) {
-    let documents = props.repo.bibcodeLookup[props.author][props.nextAuthor];
+    let documents = props.paperChoices.slice();
     if (sort)
         documents = sortDocuments(documents, props.sortOption, props.repo);
     return documents;
@@ -330,6 +390,8 @@ function findDocument(props, bibcode) {
 
 function sortDocuments(documents, sortOption, repo) {
     switch (sortOption) {
+        case "confidence":
+            return documents;
         case "alphabetical":
             return documents.sort((doc1, doc2) =>
                 compareDocumentsAlphabetically(doc1, doc2, repo));
@@ -357,7 +419,6 @@ function compareDocumentsAlphabetically(docData1, docData2, repo) {
 }
 
 function compareDocumentsAuthorOrder(docData1, docData2) {
-    
     return (docData1[1] + docData1[2]) - (docData2[1] + docData2[2])
 }
 

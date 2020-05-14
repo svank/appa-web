@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
 import Octicon, {ChevronLeft, Stop} from "@primer/octicons-react";
-import {applyNewExclusion} from './ServerResponseParser';
+import {applyNewExclusion} from './RepoManager';
 import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
@@ -11,6 +11,7 @@ import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
 
 const sortOptions = [
+    'confidence',
     'alphabetical',
     'author_order',
     'citation_count',
@@ -18,6 +19,7 @@ const sortOptions = [
 ];
 
 const sortOptionsDisplayNames = [
+    'Name-match confidence',
     'Alphabetically',
     'Closer to first author',
     'Total citation count',
@@ -27,29 +29,41 @@ const sortOptionsDisplayNames = [
 class ResultDisplay extends React.Component {
     constructor(props) {
         super(props);
-        const chains = sortChains(props.repo.chains,
-                                  "alphabetical",
-                                  props.repo);
+        const chains = sortChains("confidence", props.repo);
         this.state = {
             repo: props.repo,
-            chain: chains[0],
-            sortOption: "alphabetical",
+            chains: chains,
+            chainIdx: 0,
+            sortedChainIdx: 0,
+            sortOption: "confidence",
             activeTab: "table",
             width: null
         };
-                
+        
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
         this.onTabSelected = this.onTabSelected.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
     }
     
-    onChainSelected(chain) {
-        this.setState({chain: chain});
+    onChainSelected(idx) {
+        const chain = this.state.chains[idx];
+        const chainIdx = this.state.repo.chains.indexOf(chain);
+        this.setState({
+            chainIdx: chainIdx,
+            sortedChainIdx: idx,
+        });
     }
     
     onSortSelected(sortOption) {
-        this.setState({sortOption: sortOption});
+        const chain = this.state.chains[this.state.sortedChainIdx];
+        const chains = sortChains(sortOption, this.state.repo);
+        const sortedChainIdx = chains.indexOf(chain);
+        this.setState({
+            sortOption: sortOption,
+            chains: chains,
+            sortedChainIdx: sortedChainIdx,
+        });
     }
     
     onTabSelected(tab) {
@@ -57,18 +71,29 @@ class ResultDisplay extends React.Component {
     }
     
     addExclusion(exclusion) {
-        const chainIdx = sortChains(
-            this.state.repo.chains, this.state.sortOption, this.state.repo)
-            .indexOf(this.state.chain);
-        let [newData, newIdx] = applyNewExclusion(
-            this.state.repo, exclusion, chainIdx);
-        const needServer = newData === null || newData.chains.length === 0;
+        let [newRepo, removedChains] = applyNewExclusion(
+            this.state.repo, exclusion);
+        const needServer = newRepo === null || newRepo.chains.length === 0;
         if (!needServer) {
-            if (newIdx >= newData.chains.length)
-                newIdx = newData.chains.length - 1;
-            const newChain = sortChains(
-                newData.chains, this.state.sortOption, newData)[newIdx];
-            this.setState({repo: newData, chain: newChain});
+            const oldChains = this.state.chains;
+            const newChains = sortChains(this.state.sortOption, newRepo);
+            let newSortedChainIdx = this.state.sortedChainIdx;
+            // Check if any of the removed chains were before the selected
+            // chain. For each one that is, our selection index should
+            // decrease so our chain is still selected.
+            removedChains.forEach((removedChain) => {
+                const idx = oldChains.indexOf(removedChain);
+                if (idx < this.state.sortedChainIdx)
+                    newSortedChainIdx--;
+            });
+            if (newSortedChainIdx >= newChains.length)
+                newSortedChainIdx = newChains.length - 1;
+            this.setState({
+                repo: newRepo,
+                chains: newChains,
+                chainIdx: newRepo.chains.indexOf(newChains[newSortedChainIdx]),
+                sortedChainIdx: newSortedChainIdx,
+            });
         }
         this.props.addExclusion(exclusion, needServer);
     }
@@ -83,8 +108,6 @@ class ResultDisplay extends React.Component {
     }
     
     render() {
-        const chains = sortChains(
-            this.state.repo.chains, this.state.sortOption, this.state.repo);
         const containerStyle = {};
         if (this.state.width)
             containerStyle.width = this.state.width + "px";
@@ -108,7 +131,7 @@ class ResultDisplay extends React.Component {
                 </div>
                 <DistanceReport source={this.state.repo.originalSource}
                                 dest={this.state.repo.originalDest}
-                                dist={chains[0].length - 1}
+                                dist={this.state.chains[0].length - 1}
                 />
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <Octicon icon={Stop} />
@@ -137,16 +160,20 @@ class ResultDisplay extends React.Component {
                                           currentOption={this.state.sortOption}
                             />
                         </div>
-                        <ChainTable chains={chains}
-                                    selectedChain={this.state.chain}
+                        <ChainTable chains={this.state.chains}
+                                    selectedChainIdx={this.state.sortedChainIdx}
                                     onChainSelected={this.onChainSelected}
-                                    repo={this.state.repo}
                         />
-                        <ChainDetail chain={this.state.chain}
+                        <ChainDetail chain={
+                                        this.state.chains[
+                                            this.state.sortedChainIdx]}
+                                     paperChoices={
+                                         this.state.repo.paperChoicesForChain[
+                                             this.state.chainIdx]}
                                      repo={this.state.repo}
                                      addExclusion={this.addExclusion}
                                      sortOption={this.state.sortOption}
-                                     key={this.state.sortOption}
+                                     key={this.state.sortOption + this.state.sortedChainIdx}
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
@@ -189,8 +216,11 @@ class SortSelector extends React.Component {
     }
 }
 
-function sortChains(chains, sortOption, repo) {
+function sortChains(sortOption, repo) {
+    const chains = repo.chains.slice();
     switch (sortOption) {
+        case "confidence":
+            return chains;
         case "alphabetical":
             return chains.sort(compareChainsAlphabetically);
         case "author_order":
@@ -222,8 +252,10 @@ function compareChainsAuthorOrder(chain1, chain2, repo) {
 
 function calcAuthorOrderScore(chain, repo) {
     let totalScore = 0;
+    const idx = repo.chains.indexOf(chain);
+    const paperChoices = repo.paperChoicesForChain[idx];
     for (let i = 0; i < chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
+        const documents = paperChoices[i];
         totalScore += Math.min(
             ...documents.map((data) => data[1] + data[2])
         );
@@ -237,8 +269,10 @@ function compareChainsCitationCount(chain1, chain2, repo) {
 
 function calcCitationCountScore(chain, repo) {
     let totalScore = 0;
+    const idx = repo.chains.indexOf(chain);
+    const paperChoices = repo.paperChoicesForChain[idx];
     for (let i = 0; i < chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
+        const documents = paperChoices[i];
         totalScore += Math.max(
             ...documents.map((data) => repo.docData[data[0]].citation_count)
         );
@@ -252,8 +286,10 @@ function compareChainsReadCount(chain1, chain2, repo) {
 
 function calcReadCountScore(chain, repo) {
     let totalScore = 0;
+    const idx = repo.chains.indexOf(chain);
+    const paperChoices = repo.paperChoicesForChain[idx];
     for (let i = 0; i < chain.length - 1; i++) {
-        const documents = repo.bibcodeLookup[chain[i]][chain[i + 1]];
+        const documents = paperChoices[i];
         totalScore += Math.max(
             ...documents.map((data) => repo.docData[data[0]].read_count)
         );

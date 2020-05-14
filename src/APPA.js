@@ -1,6 +1,6 @@
 import React from "react";
 import {Alert} from "react-bootstrap";
-import {parseResponse} from "./ServerResponseParser";
+import {parseServerResponse} from "./RepoManager";
 import Header from './Header';
 import LoadingDisplay from "./LoadingDisplay";
 import SearchForm from './SearchForm';
@@ -163,7 +163,7 @@ class APPA extends React.Component {
             this.setState({error: data});
             this.onBackToSearch();
         } else {
-            const parsedData = parseResponse(data);
+            const parsedData = parseServerResponse(data);
             this.setState({data: parsedData});
         }
     }
