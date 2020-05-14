@@ -107,9 +107,20 @@ function Header(props) {
                         chains and remove false positives.
                     </Alert>
                     
-                    <a href="stats.html" target="_blank">
-                        View backend stats
-                    </a>
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between"
+                    }}>
+                        <a href="stats.html" target="_blank">
+                            View backend stats
+                        </a>
+                        <a href="https://github.com/svank/appa-web"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                       >
+                            View on GitHub
+                        </a>
+                   </div> 
                 </Modal.Body>
             </Modal>
         </div>
