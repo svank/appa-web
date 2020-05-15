@@ -37,13 +37,15 @@ class ResultDisplay extends React.Component {
             sortedChainIdx: 0,
             sortOption: "confidence",
             activeTab: "table",
-            width: null
         };
         
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
         this.onTabSelected = this.onTabSelected.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
+        
+        this.width = null;
+        this.containerRef = React.createRef();
     }
     
     onChainSelected(idx) {
@@ -103,18 +105,19 @@ class ResultDisplay extends React.Component {
         // But we don't want the display to shrink when switching tabs.
         // So after the first render we record the width of the display
         // and lock it in on all future renders.
-        let bbox = this.element.getBoundingClientRect();
-        this.setState({width: bbox.width});
+        let bbox = this.containerRef.current.getBoundingClientRect();
+        this.width = bbox.width;
+        this.containerRef.current.style.width = this.width;
     }
     
     render() {
         const containerStyle = {};
-        if (this.state.width)
-            containerStyle.width = this.state.width + "px";
+        if (this.width)
+            containerStyle.width = this.width + "px";
         return (
             <div className="ResultDisplay"
                  style={containerStyle}
-                 ref={(e) => this.element = e}
+                 ref={this.containerRef}
             >
                 <div className="ResultDisplayHeader">
                     <Button variant="link"
