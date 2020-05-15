@@ -182,6 +182,7 @@ class ResultDisplay extends React.Component {
                     <Tab eventKey="graph" title="Graph">
                         <Graph chains={this.state.chains}
                                key={this.state.sortOption}
+                               active={this.state.activeTab === "graph"}
                         />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
