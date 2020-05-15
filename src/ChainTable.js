@@ -2,26 +2,20 @@ import React from 'react';
 import Octicon, {ChevronRight} from "@primer/octicons-react";
 import './ChainTable.css';
 
-class ChainTable extends React.Component {
+class ChainTable extends React.PureComponent {
     render() {
-        const chainPairs = [];
-        for (let i = 0; i < this.props.chains.length; i++) {
-            if (i === 0)
-                chainPairs.push([this.props.chains[i], null]);
-            else
-                chainPairs.push([this.props.chains[i], this.props.chains[i - 1]])
-        }
         return (
             <div className="ChainTableContainer">
                 <table className="ChainTable">
                     <tbody>
-                    {chainPairs.map((chainPair, idx) =>
+                    {this.props.chains.map((chain, idx) =>
                         <ChainTableRow
-                            key={chainPair[0].toString()}
-                            rowData={chainPair[0]}
-                            prevRowData={chainPair[1]}
-                            selected={idx===this.props.selectedChainIdx}
-                            onClick={() => this.props.onChainSelected(idx)}
+                            key={chain}
+                            rowData={chain}
+                            prevRowData={idx > 0 ? this.props.chains[idx - 1] : null}
+                            selected={idx === this.props.selectedChainIdx}
+                            idx={idx}
+                            onClick={this.props.onChainSelected}
                         />
                     )}
                     </tbody>
@@ -31,57 +25,46 @@ class ChainTable extends React.Component {
     }
 }
 
-class ChainTableRow extends React.Component {
+class ChainTableRow extends React.PureComponent {
     render() {
         const rowData = this.props.rowData;
         const prevRowData = this.props.prevRowData;
-        let hideData = [];
-        for (let i = 0; i < rowData.length; i++) {
-            let hideCell = true;
-            if (prevRowData === null
-                    || prevRowData[i] !== rowData[i]) {
-                hideCell = false;
-            }
-            hideData.push(hideCell);
-        }
-        const cells = [];
-        for (let i=0; i<rowData.length; i++) {
-            cells.push(
-                <ChainTableCell key={rowData[i]}
-                                name={rowData[i]}
-                                hide={hideData[i]}
-                />
-            );
-            if (i !== rowData.length - 1)
-                cells.push(
-                    <td className="ChainTableCell"
-                        key={"div" + i}
-                    >
-                        <div className="ChainTableCellArrow">
-                            <Octicon icon={ChevronRight} />
-                        </div>
-                    </td>
-                );
-        }
+        const hideData = rowData.map((rd, i) =>
+            prevRowData !== null && prevRowData[i] === rowData[i]
+        );
         return (
             <tr className={this.props.selected
                     ? "ChainTableRow ChainTableSelectedRow"
                     : "ChainTableRow ChainTableUnselectedRow"}
                 onClick={this.props.onClick}>
-                {cells}
+                {rowData.map((rowDatum, idx) =>
+                    <ChainTableCell key={rowDatum}
+                                    name={rowDatum}
+                                    hide={hideData[idx]}
+                                    arrow={idx !== 0}
+                    />
+                )}
             </tr>
         )
     }
 }
 
-class ChainTableCell extends React.Component {
+class ChainTableCell extends React.PureComponent {
     render() {
         let className = "ChainTableCell";
         if (this.props.hide)
             className += " ChainTableCellHide";
         return (
             <td className={className}>
-                {this.props.name}
+                <div className="ChainTableCellContents">
+                    {this.props.arrow
+                        ? (
+                            <Octicon icon={ChevronRight}
+                                     className="ChainTableCellArrow"
+                            /> )
+                        : null}
+                    {this.props.name}
+                </div>
             </td>
         )
     }

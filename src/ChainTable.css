@@ -14,10 +14,6 @@
   white-space: nowrap;
 }
 
-.ChainTableUnselectedRow .ChainTableCellHide {
-  color: #999;
-}
-
 .ChainTableUnselectedRow:nth-child(even) .ChainTableCell {
   background: #F0F0F0;
 }
@@ -37,12 +33,22 @@
   cursor: pointer;
 }
 
-.ChainTableCellArrow {
-  height: 100%;
+.ChainTableUnselectedRow .ChainTableCellHide {
+  color: #999;
+}
+
+.ChainTableCellContents {
   display: flex;
-  flex-direction: row;
+  flex-flow: row nowrap;
   align-items: center;
-  align-content: stretch;
+}
+
+.ChainTableCellArrow {
+  margin-right: 8px;
+}
+
+.ChainTableUnselectedRow .ChainTableCellArrow {
+  color: #000;
 }
 
 .ChainTableCell:first-child {
