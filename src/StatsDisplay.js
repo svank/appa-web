@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import {Button, Overlay, Popover} from "react-bootstrap";
 import './StatsDisplay.css';
 
-function StatsDisplay(props) {
+const StatsDisplay = React.memo(props => {
     const [show, setShow] = useState(false);
     const target = useRef(null);
     const authorSet = new Set();
@@ -53,6 +53,6 @@ function StatsDisplay(props) {
             </Overlay>
         </div>
     );
-}
+});
 
 export default StatsDisplay

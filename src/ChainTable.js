@@ -36,7 +36,7 @@ class ChainTableRow extends React.PureComponent {
             <tr className={this.props.selected
                     ? "chain-table-row chain-table-selected-row"
                     : "chain-table-row chain-table-unselected-row"}
-                onClick={this.props.onClick}>
+                onClick={() => this.props.onClick(this.props.idx)}>
                 {rowData.map((rowDatum, idx) =>
                     <ChainTableCell key={rowDatum}
                                     name={rowDatum}

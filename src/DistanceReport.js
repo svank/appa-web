@@ -1,7 +1,7 @@
 import React from 'react';
 import './DistanceReport.css';
 
-function DistanceReport(props) {
+const DistanceReport = React.memo(props => {
     return (
         <div className="distance-report">
             The distance between {}
@@ -12,6 +12,6 @@ function DistanceReport(props) {
             <span className="distance-report-distance">{props.dist}</span>.
         </div>
     )
-}
+});
 
 export default DistanceReport

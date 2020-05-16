@@ -3,7 +3,7 @@ import {Alert, Button, Modal} from 'react-bootstrap';
 import Octicon, {ChevronLeft} from "@primer/octicons-react";
 import './Header.css';
 
-function Header(props) {
+const Header = React.memo(() => {
     const [showAbout, setShowAbout] = useState(false);
     
     const handleCloseAbout = () => setShowAbout(false);
@@ -129,6 +129,6 @@ function Header(props) {
             </Modal>
         </div>
     );
-}
+});
 
 export default Header;

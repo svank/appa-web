@@ -3,7 +3,7 @@ import {Button} from "react-bootstrap";
 import Octicon, {ChevronDown, ChevronUp} from "@primer/octicons-react";
 import './NameSyntaxHelp.css';
 
-function NameSyntaxHelp(props) {
+const NameSyntaxHelp = React.memo(props => {
     const [show, setShow] = useState(false);
     return (
         <div className="name-syntax-help" style={props.style}>
@@ -19,7 +19,7 @@ function NameSyntaxHelp(props) {
                     {show ? <NameSyntaxHelpContents /> : null}
                 </div>
     )
-}
+});
 
 function NameSyntaxHelpContents() {
     return (

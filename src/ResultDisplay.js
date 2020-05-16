@@ -196,7 +196,7 @@ class ResultDisplay extends React.Component {
     }
 }
 
-class SortSelector extends React.Component {
+class SortSelector extends React.PureComponent {
     render() {
         return (
             <div className="result-display-sort-selector-container">

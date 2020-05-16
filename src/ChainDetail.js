@@ -3,7 +3,7 @@ import {Button, Dropdown, Form, Overlay, Popover} from "react-bootstrap";
 import NameSyntaxHelp from "./NameSyntaxHelp";
 import './ChainDetail.css';
 
-class ChainDetail extends React.Component {
+class ChainDetail extends React.PureComponent {
     constructor(props) {
         super(props);
         const selections = [];
@@ -55,12 +55,10 @@ class ChainDetail extends React.Component {
                                  ? this.props.paperChoices[i+1]
                                     [this.state.selections[i+1]]
                                  : null}
-                             setDocumentNumber={
-                                 (newSelection) =>
-                                     this.setSelection(i, newSelection)
-                             }
+                             setDocumentNumber={this.setSelection}
                              repo={this.props.repo}
                              key={i}
+                             index={i}
                              addExclusion={this.props.addExclusion}
                              sortOption={this.props.sortOption}
             />
@@ -77,7 +75,16 @@ class ChainDetail extends React.Component {
     }
 }
 
-class ChainDetailItem extends React.Component {
+class ChainDetailItem extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.setSelection = this.setSelection.bind(this);
+    }
+    
+    setSelection(newSelection) {
+        this.props.setDocumentNumber(this.props.index, newSelection);
+    }
+    
     render() {
         const documents = findDocuments(this.props);
         const [bibcode, authorIdx, nextAuthorIdx] = documents[this.props.documentNumber];
@@ -101,7 +108,7 @@ class ChainDetailItem extends React.Component {
                 <DocumentPart repo={this.props.repo}
                               documents={documents}
                               documentNumber={this.props.documentNumber}
-                              onDocumentSelected={this.props.setDocumentNumber}
+                              onDocumentSelected={this.setSelection}
                               addExclusion={this.props.addExclusion}
                 />
                 in <JournalPart journal={document.publication} /> {}
@@ -119,7 +126,7 @@ class ChainDetailItem extends React.Component {
     }
 }
 
-class ExcludeButtonPart extends React.Component {
+class ExcludeButtonPart extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {showPopup: false, forceShowX: false};
@@ -201,7 +208,7 @@ function ExcludeConfirmation(props) {
     )
 }
 
-function DatePart(props) {
+const DatePart = React.memo(props => {
     const month = props.date.getUTCMonth();
     const year = props.date.getUTCFullYear();
     return (
@@ -209,17 +216,17 @@ function DatePart(props) {
             {month_list[month]} of {year}
         </span>
     );
-}
+});
 
-function JournalPart(props) {
+const JournalPart = React.memo(props => {
     return (
         <span className="chain-detail-journal-part">
             {props.journal}
         </span>
     )
-}
+});
 
-class AuthorPart extends React.Component {
+class AuthorPart extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {wrapped: true};
@@ -278,7 +285,7 @@ class AuthorPart extends React.Component {
     }
 }
 
-function DocumentPart(props) {
+const DocumentPart = React.memo(props => {
     const bibcode = props.documents[props.documentNumber][0];
     const document = findDocument(props, bibcode);
     if (props.documents.length <= 1)
@@ -327,9 +334,9 @@ function DocumentPart(props) {
                 </Dropdown>
             </div>
         )
-}
+});
 
-function ADSPart(props) {
+const ADSPart = React.memo(props => {
     const url = "https://ui.adsabs.harvard.edu/abs/" + props.bibcode + "/abstract";
     return (
         <a href={url}
@@ -340,9 +347,9 @@ function ADSPart(props) {
             [ADS]
         </a>
     );
-}
+});
 
-function ArrowPart(props) {
+const ArrowPart = React.memo(props => {
     let imgClass = "chain-detail-arrow";
     let orcidIcon = null;
     if (props.orcid === props.nextOrcid
@@ -371,7 +378,7 @@ function ArrowPart(props) {
             {orcidIcon}
         </div>
     )
-}
+});
 
 function findDocuments(props, sort = true) {
     let documents = props.paperChoices.slice();
