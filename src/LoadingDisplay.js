@@ -12,10 +12,10 @@ class LoadingDisplay extends React.Component {
         let content;
         if (this.props.data === null
             || this.props.data.isDummy)
-            content = <div className={"LoadStatus"}>
-                <div className="LoadStatusSubtitle">&nbsp;</div>
-                <div><div className="LoadStatusPiece">&nbsp;</div></div>
-                <div><div className="LoadStatusPiece">&nbsp;</div></div>
+            content = <div>
+                <div>&nbsp;</div>
+                <div><div className="loading-status-piece">&nbsp;</div></div>
+                <div><div className="loading-status-piece">&nbsp;</div></div>
             </div>;
         else {
             const nAuths = this.props.data.n_authors_queried;
@@ -25,23 +25,23 @@ class LoadingDisplay extends React.Component {
             const nADS = this.props.data.n_ads_queries;
             const adsNoun = nADS === 1 ? "query" : "queries";
             content = (
-                <div className="LoadStatus text-muted">
-                    <div className="LoadStatusSubtitle">
+                <div className="text-muted">
+                    <div>
                         Progress:
                     </div>
                     <div>
-                        <div className="LoadStatusPiece">
+                        <div className="loading-status-piece">
                             {nAuths} {authsNoun} loaded
                         </div>
-                        <div className="LoadStatusPiece">
+                        <div className="loading-status-piece">
                             {nDocs} {docsNoun} checked
                         </div>
-                        <div className="LoadStatusPiece">
+                        <div className="loading-status-piece">
                             {nADS} ADS {adsNoun} completed
                         </div>
                     </div>
                     <div>
-                        <div className="LoadStatusPiece">
+                        <div className="loading-status-piece">
                             {this.props.data.path_finding_complete 
                                  ? "Search complete; collecting & ranking results"
                                  : <span>&nbsp;</span>}
@@ -55,8 +55,8 @@ class LoadingDisplay extends React.Component {
         const canvasSize = Math.min(minSize-20, 480);
         
         return (
-            <div className="LoadingDisplay">
-                <div className="LoadingTitle">Finding Connections...</div>
+            <div className="loading-display">
+                <div className="loading-title">Finding Connections...</div>
                 <ConstellationSketcher width={canvasSize}
                                        height={canvasSize}
                                        slideshow={true}
@@ -70,7 +70,7 @@ class LoadingDisplay extends React.Component {
                                            medium: 8,
                                            small: 1,
                                        }}
-                                       className="LoadingConstellations"
+                                       className="loading-constellations"
                                        drawFrameCompleteCallback={
                                            (ctx, redrew, constellation) => {
                                                if (!redrew)

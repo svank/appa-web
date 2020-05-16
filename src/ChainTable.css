@@ -1,4 +1,4 @@
-.ChainTableContainer {
+.chain-table-container {
   width: 100%;
   display: inline-block;
   text-align: left;
@@ -8,87 +8,87 @@
 }
 
 @media screen and (max-width: 512px) {
-  .ChainTableContainer {
+  .chain-table-container {
     position: relative;
     left: -6px;
     width: calc(100% + 12px);
   }
 }
 
-.ChainTable {
+.chain-table {
   margin: 0 auto;
   border-collapse: separate;
   border-spacing: 0;
   white-space: nowrap;
 }
 
-.ChainTableUnselectedRow:nth-child(even) .ChainTableCell {
+.chain-table-unselected-row:nth-child(even) .chain-table-cell {
   background: #F0F0F0;
 }
 
-.ChainTableUnselectedRow:hover .ChainTableCell {
+.chain-table-unselected-row:hover .chain-table-cell {
   background: #529efe !important;
   color: #FFF !important;
 }
 
-.ChainTableSelectedRow .ChainTableCell {
+.chain-table-selected-row .chain-table-cell {
   background: #1f8aff !important;
   color: #FFF;
 }
 
-.ChainTableCell {
+.chain-table-cell {
   padding: 10px 4px;
   cursor: pointer;
 }
 
-.ChainTableUnselectedRow .ChainTableCellHide {
+.chain-table-unselected-row .chain-table-cell-hide {
   color: #999;
 }
 
-.ChainTableCellContents {
+.chain-table-cell-contents {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
 }
 
-.ChainTableCellArrow {
+.chain-table-cell-arrow {
   margin-right: 8px;
 }
 
-.ChainTableUnselectedRow .ChainTableCellArrow {
+.chain-table-unselected-row .chain-table-cell-arrow {
   color: #000;
 }
 
-.ChainTableCell:first-child {
+.chain-table-cell:first-child {
   border-left: 1px solid black;
   padding-left: 12px;
 }
 
-.ChainTableCell:last-child {
+.chain-table-cell:last-child {
   border-right: 1px solid black;
   padding-right: 12px;
 }
 
-.ChainTableRow:first-child .ChainTableCell {
+.chain-table-row:first-child .chain-table-cell {
   border-top: 1px solid black;
 }
 
-.ChainTableRow:last-child .ChainTableCell {
+.chain-table-row:last-child .chain-table-cell {
   border-bottom: 1px solid black;
 }
 
-.ChainTableRow:first-child .ChainTableCell:first-child {
+.chain-table-row:first-child .chain-table-cell:first-child {
   border-top-left-radius: 16px;
 }
 
-.ChainTableRow:first-child .ChainTableCell:last-child {
+.chain-table-row:first-child .chain-table-cell:last-child {
   border-top-right-radius: 16px;
 }
 
-.ChainTableRow:last-child .ChainTableCell:first-child {
+.chain-table-row:last-child .chain-table-cell:first-child {
   border-bottom-left-radius: 16px;
 }
 
-.ChainTableRow:last-child .ChainTableCell:last-child {
+.chain-table-row:last-child .chain-table-cell:last-child {
   border-bottom-right-radius: 16px;
 }

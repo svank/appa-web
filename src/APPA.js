@@ -199,7 +199,7 @@ class APPA extends React.Component {
                 </Alert>
             );
         }
-        let mainClass = "MainContent";
+        let mainClass = "main-content";
         let content;
         if (!this.state.data && !this.state.isLoading) {
             content = (
@@ -207,12 +207,12 @@ class APPA extends React.Component {
                             state={this.state.searchState}
                 />
             );
-            mainClass += " MainContentWithSearch"
+            mainClass += " main-content-with-search"
         } else if (this.state.isLoading) {
             content = (
                 <LoadingDisplay data={this.state.loadData} />
             );
-            mainClass += " MainContentWithoutSearch"
+            mainClass += " main-content-without-search"
         } else {
             content = (
                 <ResultDisplay repo={this.state.data}
@@ -221,11 +221,11 @@ class APPA extends React.Component {
                                onEditSearch={this.onBackToSearch}
                 />
             );
-            mainClass += " MainContentWithoutSearch"
+            mainClass += " main-content-without-search"
         }
         
         return (
-                <div className="Page">
+                <div className="page">
                     <header>
                         <Header />
                     </header>

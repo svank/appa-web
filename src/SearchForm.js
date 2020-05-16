@@ -51,8 +51,8 @@ class SearchForm extends React.Component {
     
     render() {
         return (
-            <div className="SearchFormContainer">
-                <Form className="SearchForm"
+            <div className="search-form-container">
+                <Form className="search-form"
                       onSubmit={this.onSubmit}
                 >
                     <Form.Group controlId="src">
@@ -67,7 +67,7 @@ class SearchForm extends React.Component {
                         />
                     </Form.Group>
                     <img src="arrow.png"
-                         className="SearchFormArrowPart"
+                         className="search-form-arrow-part"
                          alt=""
                     />
                     <Form.Group controlId="dest">
@@ -97,7 +97,7 @@ class SearchForm extends React.Component {
                             one per line.
                         </Form.Text>
                     </Form.Group>
-                    <div className="SearchFormButtonContainer">
+                    <div className="search-form-button-container">
                         <Button type="submit"
                                 variant="primary"
                                 className="submit">

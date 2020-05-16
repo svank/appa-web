@@ -73,9 +73,9 @@ class WordCloud extends React.Component {
     render() {
         const cloudWidth = this.getTargetWidth();
         const cloudHeight = this.getTargetHeight();
-        let className = "WordCloud";
+        let className = "word-cloud";
         if (!this.state.color)
-            className += " WordCloudNoColor";
+            className += " word-cloud-no-color";
         const output = (
             <div className={className}>
                 {// The WordCloud Component takes a few beats to render.
@@ -98,8 +98,8 @@ class WordCloud extends React.Component {
                         Rendering...
                       </h3> }
                 
-                <div className="WordCloudControls">
-                    <div className="WordCloudMiscControlsBox">
+                <div className="word-cloud-controls">
+                    <div className="word-cloud-misc-controls-box">
                         <Form.Check type="switch"
                                     id="rotate"
                                     name="rotate"
@@ -123,7 +123,7 @@ class WordCloud extends React.Component {
                                     onChange={this.onCheckboxChange}
                                     checked={this.state.color}
                         />
-                        <div className="WordCloudControlButtons">
+                        <div className="word-cloud-control-buttons">
                             <Button variant="primary"
                                     onClick={() => this.setState(
                                         {shouldRender: false})}
@@ -139,7 +139,7 @@ class WordCloud extends React.Component {
                             </Button>
                         </div>
                     </div>
-                    <div className="WordCloudSourceControlBox">
+                    <div className="word-cloud-source-control-box">
                         <div>Of the papers linking these authors, {}
                         use words from:</div>
                         <Form.Check type="switch"
@@ -171,7 +171,7 @@ class WordCloud extends React.Component {
                                     checked={this.state.journals}
                         />
                     </div>
-                    <div className="WordCloudSizeControlBox">
+                    <div className="word-cloud-size-controls-box">
                         <Form onSubmit={this.onApply}>
                             <div>Word size scale:</div>
                             <Form.Control type="range"
@@ -203,7 +203,7 @@ class WordCloud extends React.Component {
                 
                 <canvas id="renderCanvas" style={{display: "none"}}/>
                 
-                <div className="ResultDisplayFooter text-muted">
+                <div className="result-display-footer text-muted">
                     Generated with {}
                     <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/Yoctol/react-d3-cloud">

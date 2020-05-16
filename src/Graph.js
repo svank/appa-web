@@ -54,13 +54,13 @@ class Graph extends React.Component {
         if (!this.state.shouldShow)
             return null;
         return (
-            <div className="Graph">
+            <div className="graph">
                 <div className="text-muted">
                     Click or hover to highlight, scroll/pinch to zoom, drag to {}
                     move. Size indicates the number of routes through that {}
                     node or edge.
                 </div>
-                <CytoscapeComponent className="GraphDisplay"
+                <CytoscapeComponent className="graph-display"
                                     elements={this.buildData()}
                                     autolock={true}
                                     autoungrabify={true}
@@ -104,7 +104,7 @@ class Graph extends React.Component {
                 >
                 </CytoscapeComponent>
                 
-                <div className="ResultDisplayFooter text-muted">
+                <div className="result-display-footer text-muted">
                     Generated with {}
                     <a target="_blank" rel="noopener noreferrer"
                        href="https://github.com/plotly/react-cytoscapejs">

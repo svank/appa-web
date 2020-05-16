@@ -1,4 +1,4 @@
-.ResultDisplay {
+.result-display {
   min-width: 900px;
   max-width: calc(100vw - 12px) !important;
   text-align: center;
@@ -6,7 +6,7 @@
 }
 
 @media screen and (max-width: 912px) {
-  .ResultDisplay {
+  .result-display {
     width: 100% !important;
     min-width: unset;
     max-width: unset !important;
@@ -16,13 +16,13 @@
 }
 
 @media screen and (max-width: 512px) {
-  .ResultDisplay {
+  .result-display {
     padding-left: 12px;
     padding-right: 12px;
   }
 }
 
-.ResultDisplayHeader {
+.result-display-header {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -30,38 +30,38 @@
   margin-top: 16px;
 }
 
-.ResultDisplayEditSearchButton {
+.result-display-edit-search-button {
   padding: 0;
   flex: 0 0 100px;
 }
 
-.ResultDisplayHeader .StatsDisplayContainer {
+.result-display-header .stats-display-container {
   flex-grow: 1;
   text-align: right;
 }
 
-.ResultDisplayHeader .StatsDisplayButton {
+.result-display-header .stat-display-button {
   text-align: right;
 }
 
 @media screen and (max-width: 620px) {
-  .ResultDisplayHeader .StatsDisplayButton {
+  .result-display-header .stat-display-button {
     font-size: smaller;
   }
 }
 
 @media screen and (max-width: 555px) {
-  .ResultDisplayHeader .StatsDisplayButton {
+  .result-display-header .stat-display-button {
     max-width: 210px;
   }
 }
 
-.ResultDisplaySortSelectorContainer {
+.result-display-sort-selector-container {
   text-align: right;
   margin-right: 10px;
 }
 
-.TableDisplayHeader {
+.table-display-header {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
@@ -73,11 +73,11 @@
   text-align: left;
 }
 
-.ResultDisplayFooter {
+.result-display-footer {
   margin-top: 65px;
   text-align: right;
 }
 
-.ResultDisplaySortSelectorContainer .dropdown-toggle{
+.result-display-sort-selector-container .dropdown-toggle{
   white-space: nowrap;
 }

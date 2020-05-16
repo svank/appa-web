@@ -5,8 +5,8 @@ import './ChainTable.css';
 class ChainTable extends React.PureComponent {
     render() {
         return (
-            <div className="ChainTableContainer">
-                <table className="ChainTable">
+            <div className="chain-table-container">
+                <table className="chain-table">
                     <tbody>
                     {this.props.chains.map((chain, idx) =>
                         <ChainTableRow
@@ -34,8 +34,8 @@ class ChainTableRow extends React.PureComponent {
         );
         return (
             <tr className={this.props.selected
-                    ? "ChainTableRow ChainTableSelectedRow"
-                    : "ChainTableRow ChainTableUnselectedRow"}
+                    ? "chain-table-row chain-table-selected-row"
+                    : "chain-table-row chain-table-unselected-row"}
                 onClick={this.props.onClick}>
                 {rowData.map((rowDatum, idx) =>
                     <ChainTableCell key={rowDatum}
@@ -51,16 +51,16 @@ class ChainTableRow extends React.PureComponent {
 
 class ChainTableCell extends React.PureComponent {
     render() {
-        let className = "ChainTableCell";
+        let className = "chain-table-cell";
         if (this.props.hide)
-            className += " ChainTableCellHide";
+            className += " chain-table-cell-hide";
         return (
             <td className={className}>
-                <div className="ChainTableCellContents">
+                <div className="chain-table-cell-contents">
                     {this.props.arrow
                         ? (
                             <Octicon icon={ChevronRight}
-                                     className="ChainTableCellArrow"
+                                     className="chain-table-cell-arrow"
                             /> )
                         : null}
                     {this.props.name}

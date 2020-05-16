@@ -1,16 +1,16 @@
-.DistanceReport {
+.distance-report {
   text-align: center;
   font-size: 115%;
   margin-top: 30px;
   margin-bottom: 15px;
 }
 
-.DistanceReportName {
+.distance-report-name {
   font-size: 100%;
   font-weight: 600;
 }
 
-.DistanceReportDistance {
+.distance-report-distance {
   font-size: 140%;
   font-weight: 600;
   margin: 0 0.1em;

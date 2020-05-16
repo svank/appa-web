@@ -3,13 +3,13 @@ import './DistanceReport.css';
 
 function DistanceReport(props) {
     return (
-        <div className="DistanceReport">
+        <div className="distance-report">
             The distance between {}
-            <span className="DistanceReportName">{props.source}</span>
+            <span className="distance-report-name">{props.source}</span>
             {} and {}
-            <span className="DistanceReportName">{props.dest}</span>
+            <span className="distance-report-name">{props.dest}</span>
             {} appears to be {}
-            <span className="DistanceReportDistance">{props.dist}</span>.
+            <span className="distance-report-distance">{props.dist}</span>.
         </div>
     )
 }

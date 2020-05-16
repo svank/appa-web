@@ -1,24 +1,24 @@
-.ChainDetail {
+.chain-detail {
   width: 836px;
   text-align: center;
   margin: 0 auto 50px;
 }
 
 @media screen and (max-width: 912px) {
-  .ChainDetail {
+  .chain-detail {
     width: 100%;
   }
 }
 
-.ChainDetailHeader {
+.chain-detail-header {
   margin: 20px 0;
 }
 
-.ChainDetailItem {
+.chain-detail-item {
   margin: 0 auto;
 }
 
-.ChainDetailExcludeButtonPart {
+.chain-detail-exclude-button-container {
   position: absolute;
   top: 0;
   right: 0;
@@ -27,50 +27,50 @@
   display: none;
 }
 
-div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
+div:hover > .chain-detail-exclude-button-container, .chain-detail-exclude-button-container-force {
   display: block !important;
 }
 
-.ChainDetailExcludeButtonPartButton {
+.chain-detail-exclude-button {
   padding: 0 7px;
   border: solid 1px;
   border-radius: 4px;
   font-weight: bold;
 }
 
-.ChainDetailExcludeButtonPartButton:hover {
+.chain-detail-exclude-button:hover {
   text-decoration: none;
 }
 
-.ExclusionConfirmationInput {
+.exclusion-confirmation-input {
   margin: 2px 0;
 }
 
-.ExclusionConfirmation .NameSyntaxHelpButton {
+.exclusion-confirmation .name-syntax-help-button {
   font-size: small;
 }
 
-.ExclusionConfirmationButtonRow {
+.exclusion-confirmation-button-row {
   display: flex;
   justify-content: space-between;
   margin-top: 8px;
   margin-bottom: 3px;
 }
 
-.ChainDetailAuthorPart {
+.chain-detail-author-part {
   padding: 0.8em 2.5em;
   position: relative;
 }
 
-.ChainDetailAuthorPartName {
+.chain-detail-author-part-name {
   font-size: 150%;
 }
 
-.ChainDetailAuthorPartAffilContainerWrapped {
+.chain-detail-affil-container-wrapped {
   color: #444444;
 }
 
-.ChainDetailAuthorPartAffilContainerUnwrapped {
+.chain-detail-affil-container-unwrapped {
   color: #444444;
   /* These properties are removed from ChainDetailAuthorPartAffil when it
   unwraps, and that seems to shift everything below on the page a little bit.
@@ -81,7 +81,7 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
   overflow: hidden;
 }
 
-.ChainDetailAuthorPartAffilWrapped {
+.chain-detail-affil-wrapped {
   max-width: 95%;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -89,30 +89,30 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
   display: inline-block;
 }
 
-.ChainDetailAuthorPartAffilUnwrapped {
+.chain-detail-affil-unwrapped {
   max-width: 70%;
 }
 
-.ChainDetailJournalPart {
+.chain-detail-journal-part {
   font-style: italic;
 }
 
-.ChainDetailADSPart {
+.chain-detail-ADS-part {
   margin-left: 0.5em;
 }
 
-.ChainDetailDocumentPart {
+.chain-detail-document-part {
   position: relative;
   padding: 0.8em 2.5em;
 }
 
-.ChainDetailSingleDocButton {
+.chain-detail-single-doc-button {
   color: #000 !important;
   opacity: 1 !important;
   padding: 0;
 }
 
-.ChainDetailDocButton {
+.chain-detail-doc-button {
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
@@ -124,19 +124,19 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
   white-space: normal;
 }
 
-.ChainDetailArrowContainer {
+.chain-detail-arrow-container {
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
 }
 
-.ChainDetailArrow {
+.chain-detail-arrow {
   width: 5em;
   padding: 1em 0;
 }
 
-.ChainDetailArrowWithOrcid {
+.chain-detail-arrow-with-orcid {
   margin-left: 32px;
 }
 
@@ -146,6 +146,6 @@ div:hover > .ChainDetailExcludeButtonPart, .ChainDetailExcludeButtonPartForce {
   height: 16px;
 }
 
-.ChainDetailItem:last-child .ChainDetailArrow {
+.chain-detail-item:last-child .chain-detail-arrow {
   display: none;
 }

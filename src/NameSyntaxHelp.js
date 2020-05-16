@@ -6,9 +6,9 @@ import './NameSyntaxHelp.css';
 function NameSyntaxHelp(props) {
     const [show, setShow] = useState(false);
     return (
-        <div className="NameSyntaxHelp" style={props.style}>
+        <div className="name-syntax-help" style={props.style}>
                     <Button variant="link"
-                            className="NameSyntaxHelpButton"
+                            className="name-syntax-help-button"
                             style={{padding: 0}}
                             onClick={() => setShow(!show)}
                     >
@@ -23,7 +23,7 @@ function NameSyntaxHelp(props) {
 
 function NameSyntaxHelpContents() {
     return (
-        <div className="NameSyntaxHelpContents">
+        <div className="name-syntax-help-contents">
             APPA closely follows {}
             <a target="_blank" rel="noopener noreferrer"
                 href="https://adsabs.github.io/help/search/search-syntax#author-searches">

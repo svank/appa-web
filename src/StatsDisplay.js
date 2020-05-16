@@ -13,9 +13,9 @@ function StatsDisplay(props) {
     }
     
     return (
-        <div className="StatsDisplayContainer">
+        <div className="stats-display-container">
             <Button variant="link"
-                    className="text-muted dropdown-toggle StatsDisplayButton"
+                    className="text-muted dropdown-toggle stat-display-button"
                     ref={target}
                     onClick={() => setShow(!show)}
             >

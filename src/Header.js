@@ -10,9 +10,9 @@ function Header(props) {
     const handleShowAbout = () => setShowAbout(true);
     
     return (
-        <div className="Header">
+        <div className="header">
             <div style={{textAlign: "left", paddingTop: "6px"}}
-                 className="Header-link-home"
+                 className="header-link-home"
             >
                 <a href="https://samvankooten.net">
                     <span style={{display: "flex", alignItems: "center"}}>
@@ -21,11 +21,11 @@ function Header(props) {
                         </span>
                 </a>
             </div>
-            <h1 className="PageTitle">
+            <h1 className="page-title">
                 Astronomy Publication Proximity Analyzer
             </h1>
             <div style={{textAlign: "right"}}
-                 className="Header-link-about"
+                 className="header-link-about"
             >
                 <Button variant="link" onClick={handleShowAbout}>
                     About

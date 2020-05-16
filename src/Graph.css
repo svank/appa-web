@@ -1,11 +1,11 @@
-.Graph {
+.graph {
   text-align: left;
   display: inline-block;
   margin: 0 auto;
   margin-top: 10px;
 }
 
-.GraphDisplay {
+.graph-display {
   width: 836px;
   height: 800px;
   margin-top: 10px;
@@ -13,7 +13,7 @@
 }
 
 @media screen and (max-width: 912px) {
-  .GraphDisplay {
+  .graph-display {
     width: 100%;
     height: 80vh;
   }

@@ -1,34 +1,34 @@
-.LoadingDisplay {
+.loading-display {
   width: 900px;
 }
 
-.LoadingTitle {
+.loading-title {
   font-size: x-large;
   margin: 10px 0;
 }
 
-.LoadingConstellations {
+.loading-constellations {
   margin: 15px;
   border-radius: 10px;
 }
 
 @media screen and (max-width: 912px) {
-  .LoadingDisplay {
+  .loading-display {
     width: 100%;
   }
   
-  .LoadingConstellations {
+  .loading-constellations {
     margin: 15px 0;
   }
 }
 
 @media screen and (max-width: 512px) {
-  .LoadingConstellations {
+  .loading-constellations {
     border-radius: unset;
   }
 }
 
-.LoadStatusPiece {
+.loading-status-piece {
   min-width: 200px;
   display: inline-block;
   margin: 10px 0;

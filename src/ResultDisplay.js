@@ -115,14 +115,14 @@ class ResultDisplay extends React.Component {
         if (this.width)
             containerStyle.width = this.width + "px";
         return (
-            <div className="ResultDisplay"
+            <div className="result-display"
                  style={containerStyle}
                  ref={this.containerRef}
             >
-                <div className="ResultDisplayHeader">
+                <div className="result-display-header">
                     <Button variant="link"
                             onClick={this.props.onEditSearch}
-                            className="ResultDisplayEditSearchButton"
+                            className="result-display-edit-search-button"
                              style={{display: "flex", alignItems: "center"}}
                     >
                         <Octicon icon={ChevronLeft} />
@@ -152,7 +152,7 @@ class ResultDisplay extends React.Component {
                       id="top-row-tabs"
                 >
                     <Tab eventKey="table" title="Table">
-                        <div className="TableDisplayHeader">
+                        <div className="table-display-header">
                             <div className="text-muted">
                                 Each row in the table below represents one {}
                                 chain of coauthorship between the two {}
@@ -199,7 +199,7 @@ class ResultDisplay extends React.Component {
 class SortSelector extends React.Component {
     render() {
         return (
-            <div className="ResultDisplaySortSelectorContainer">
+            <div className="result-display-sort-selector-container">
                 <DropdownButton id="table-sort"
                                 title="Sort Results"
                                 alignRight

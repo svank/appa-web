@@ -66,8 +66,8 @@ class ChainDetail extends React.Component {
             />
         )
         return (
-            <div className="ChainDetail">
-                <div className="ChainDetailHeader text-muted">
+            <div className="chain-detail">
+                <div className="chain-detail-header text-muted">
                     To exclude false positives, hover over or tap a name {}
                     or paper to reveal an "exclude" button.
                 </div>
@@ -92,7 +92,7 @@ class ChainDetailItem extends React.Component {
         }
         
         return (
-            <div className="ChainDetailItem">
+            <div className="chain-detail-item">
                 <AuthorPart name={document.authors[authorIdx]}
                             affil={document.affils[authorIdx]}
                             addExclusion={this.props.addExclusion}
@@ -127,8 +127,8 @@ class ExcludeButtonPart extends React.Component {
     
     render() {
         const className = this.state.forceShowX
-            ? "ChainDetailExcludeButtonPart ChainDetailExcludeButtonPartForce"
-            : "ChainDetailExcludeButtonPart";
+            ? "chain-detail-exclude-button-container chain-detail-exclude-button-container-force"
+            : "chain-detail-exclude-button-container";
         return (
             <div className={className}>
                 <Button variant="link"
@@ -136,7 +136,7 @@ class ExcludeButtonPart extends React.Component {
                             this.setState({showPopup: !this.state.showPopup})}
                         ref={(button) => 
                             this.target = button}
-                        className="ChainDetailExcludeButtonPartButton"
+                        className="chain-detail-exclude-button"
                 >
                     ×
                 </Button>
@@ -167,7 +167,7 @@ class ExcludeButtonPart extends React.Component {
 function ExcludeConfirmation(props) {
     const [exclusion, setExclusion] = useState(props.exclusion);
     return (
-        <Form className="ExclusionConfirmation"
+        <Form className="exclusion-confirmation"
               onSubmit={(event) => {
                   event.preventDefault();
                   props.addExclusion(exclusion);
@@ -176,7 +176,7 @@ function ExcludeConfirmation(props) {
         >
             <Form.Group controlId="exclusionConfirmation" style={{margin: 0}}>
                 Adding
-                <Form.Control className="ExclusionConfirmationInput"
+                <Form.Control className="exclusion-confirmation-input"
                               type="text"
                               value={exclusion}
                               onChange={
@@ -186,7 +186,7 @@ function ExcludeConfirmation(props) {
                 to the exclusion list
             </Form.Group>
             
-            <div className="ExclusionConfirmationButtonRow">
+            <div className="exclusion-confirmation-button-row">
                 <Button type="submit" variant="primary">Confirm</Button>
                 <Button variant="secondary"
                         onClick={props.onHide}
@@ -213,7 +213,7 @@ function DatePart(props) {
 
 function JournalPart(props) {
     return (
-        <span className="ChainDetailJournalPart">
+        <span className="chain-detail-journal-part">
             {props.journal}
         </span>
     )
@@ -247,17 +247,17 @@ class AuthorPart extends React.Component {
         }
         
         const textClassName = this.state.wrapped
-            ? "ChainDetailAuthorPartAffilWrapped"
-            : "ChainDetailAuthorPartAffilUnwrapped";
+            ? "chain-detail-affil-wrapped"
+            : "chain-detail-affil-unwrapped";
         const containerClassName = this.state.wrapped
-            ? "ChainDetailAuthorPartAffilContainerWrapped"
-            : "ChainDetailAuthorPartAffilContainerUnwrapped";
+            ? "chain-detail-affil-container-wrapped"
+            : "chain-detail-affil-container-unwrapped";
         return (
-            <div className="ChainDetailAuthorPart">
+            <div className="chain-detail-author-part">
                 <ExcludeButtonPart exclusion={'=' + this.props.name}
                                    addExclusion={this.props.addExclusion}
                 />
-                <div className="ChainDetailAuthorPartName">
+                <div className="chain-detail-author-part-name">
                     {this.props.name}
                 </div>
                 <div className={containerClassName}
@@ -286,13 +286,13 @@ function DocumentPart(props) {
         // but using the same element we use when there are multiple
         // documents ensures everything lines up exactly the same.
         return (
-            <div className="ChainDetailDocumentPart">
+            <div className="chain-detail-document-part">
                 <ExcludeButtonPart exclusion={bibcode}
                                    addExclusion={props.addExclusion}
                 />
                 <Button size="lg"
                         disabled
-                        className="ChainDetailSingleDocButton ChainDetailDocButton"
+                        className="chain-detail-single-doc-button chain-detail-doc-button"
                         variant="link"
                 >
                     {document.title}
@@ -301,12 +301,12 @@ function DocumentPart(props) {
         );
     else
         return (
-            <div className="ChainDetailDocumentPart">
+            <div className="chain-detail-document-part">
                 <ExcludeButtonPart exclusion={bibcode}
                                    addExclusion={props.addExclusion}
                 />
                 <Dropdown alignRight>
-                    <Dropdown.Toggle className="ChainDetailDocButton"
+                    <Dropdown.Toggle className="chain-detail-doc-button"
                                      size="lg"
                                      variant="link"
                     >
@@ -335,7 +335,7 @@ function ADSPart(props) {
         <a href={url}
            target="_blank"
            rel="noopener noreferrer"
-           className="ChainDetailADSPart"
+           className="chain-detail-ADS-part"
         >
             [ADS]
         </a>
@@ -343,12 +343,12 @@ function ADSPart(props) {
 }
 
 function ArrowPart(props) {
-    let imgClass = "ChainDetailArrow";
+    let imgClass = "chain-detail-arrow";
     let orcidIcon = null;
     if (props.orcid === props.nextOrcid
             && props.orcid !== ''
             && props.nextOrcid !== null) {
-        imgClass += " ChainDetailArrowWithOrcid";
+        imgClass += " chain-detail-arrow-with-orcid";
         orcidIcon = (
             <a href={"https://orcid.org/" + props.orcid}
                target="_blank"
@@ -363,7 +363,7 @@ function ArrowPart(props) {
         );
     }
     return (
-        <div className="ChainDetailArrowContainer">
+        <div className="chain-detail-arrow-container">
             <img src="arrow.png"
                  className={imgClass}
                  alt="The next link in the chain is..."

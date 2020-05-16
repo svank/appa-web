@@ -1,10 +1,10 @@
-.WordCloud {
+.word-cloud {
   display: inline-block;
   margin: 0 auto;
   padding-top: 10px;
 }
 
-.WordCloudControls {
+.word-cloud-controls {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
@@ -12,29 +12,29 @@
   margin-bottom: 30px;
 }
 
-.WordCloudSourceControlBox {
+.word-cloud-source-control-box {
   text-align: left;
   width: 225px;
   margin: 0 25px;
 }
 
-.WordCloudMiscControlsBox {
+.word-cloud-misc-controls-box {
   text-align: left;
   width: 225px;
   margin: 0 25px;
 }
 
-.WordCloudSizeControlBox {
+.word-cloud-size-controls-box {
   width: 225px;
   margin: 0 25px;
 }
 
-.WordCloudControlButtons {
+.word-cloud-control-buttons {
   margin: 5px 0;
   text-align: center;
 }
 
-.WordCloudControlButtons Button {
+.word-cloud-control-buttons Button {
   margin: 3px 0;
 }
 
@@ -42,6 +42,6 @@
   border: 0;
 }
 
-.WordCloudNoColor text {
+.word-cloud-no-color text {
   fill: black !important;
 }
