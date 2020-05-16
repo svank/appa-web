@@ -51,11 +51,14 @@ class LoadingDisplay extends React.Component {
             );
         }
         
+        const minSize = Math.min(window.innerHeight, window.innerWidth);
+        const canvasSize = Math.min(minSize-20, 480);
+        
         return (
             <div className="LoadingDisplay">
                 <div className="LoadingTitle">Finding Connections...</div>
-                <ConstellationSketcher width={500}
-                                       height={500}
+                <ConstellationSketcher width={canvasSize}
+                                       height={canvasSize}
                                        slideshow={true}
                                        speedScale={1.2}
                                        slideshowDwellTime={2250}
@@ -67,17 +70,14 @@ class LoadingDisplay extends React.Component {
                                            medium: 8,
                                            small: 1,
                                        }}
-                                       style={{
-                                           margin: "15px",
-                                           borderRadius: "10px",
-                                       }}
+                                       className="LoadingConstellations"
                                        drawFrameCompleteCallback={
                                            (ctx, redrew, constellation) => {
                                                if (!redrew)
                                                    return;
                                                ctx.font = "11pt Arial";
                                                ctx.fillStyle = "rgb(170,152,130)";
-                                               ctx.fillText(constellation, 6, 492);
+                                               ctx.fillText(constellation, 6, canvasSize - 8);
                                            }
                                        }
                 />

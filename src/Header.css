@@ -1,11 +1,27 @@
 .Header {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  /*
-  This calc() bit ensures the header doesn't jump when the scrollbar
-  comes or goes. Based on https://aykevl.nl/2014/09/fix-jumping-scrollbar
-   */
-  margin: 10px calc(20px - 100vw + 100%) 20px 20px;
+  justify-content: space-between;
+  margin: 0 calc(20px + var(--scrollbar-offset)) 20px 20px;
+}
+
+@media screen and (max-width: 500px) {
+  .Header h1 {
+    font-size: 24px;
+    width: 100%;
+    order: 3;
+  }
+  .Header .Header-link-about {
+    width: 50%;
+    order: 2;
+    flex: unset;
+  }
+  .Header .Header-link-home {
+    width: 50%;
+    order: 1;
+    flex: unset;
+  }
 }
 
 .Header div {

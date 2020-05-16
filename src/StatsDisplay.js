@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {Button, Overlay, Popover} from "react-bootstrap";
+import './StatsDisplay.css';
 
 function StatsDisplay(props) {
     const [show, setShow] = useState(false);
@@ -12,9 +13,9 @@ function StatsDisplay(props) {
     }
     
     return (
-        <div>
+        <div className="StatsDisplayContainer">
             <Button variant="link"
-                    className="text-muted dropdown-toggle"
+                    className="text-muted dropdown-toggle StatsDisplayButton"
                     ref={target}
                     onClick={() => setShow(!show)}
             >
@@ -49,8 +50,8 @@ function StatsDisplay(props) {
                         and {props.repo.originalDest}.
                     </Popover.Content>
                 </Popover>
-        </Overlay>
-            </div>
+            </Overlay>
+        </div>
     );
 }
 

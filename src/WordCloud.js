@@ -67,45 +67,38 @@ class WordCloud extends React.Component {
         return Math.round(Math.random()) * -90;
     }
     
+    getTargetWidth() {return Math.min(window.innerWidth-50, 825);}
+    getTargetHeight() {return Math.min(window.innerHeight-50, 600);}
+    
     render() {
+        const cloudWidth = this.getTargetWidth();
+        const cloudHeight = this.getTargetHeight();
         let className = "WordCloud";
         if (!this.state.color)
             className += " WordCloudNoColor";
         const output = (
             <div className={className}>
+                {// The WordCloud Component takes a few beats to render.
+                 // Together with the timeout set at the end of this
+                 // function, this switch here ensures the word cloud doesn't
+                 // render until the tab is visible, and ensures a
+                 // "Rendering..." message appears while the cloud renders.
+    
+                this.state.shouldRender
+                    ? <D3WordCloudWrapper
+                        data={this.getWords()}
+                        fontSizeMapper={this.fontSizeMapper}
+                        rotate={this.rotationMapper}
+                        width={cloudWidth}
+                        height={cloudHeight}
+                        padding={this.state.padding}
+                        updateKey={this.state.cloudUpdateKey}
+                      />
+                    : <h3 style={{width: cloudWidth, height: cloudHeight}}>
+                        Rendering...
+                      </h3> }
+                
                 <div className="WordCloudControls">
-                    <div className="WordCloudSourceControlBox">
-                        <div>Of the papers linking these authors, {}
-                        use words from:</div>
-                        <Form.Check type="switch"
-                                    id="titles"
-                                    name="titles"
-                                    label="Article titles"
-                                    onChange={this.onCheckboxChange}
-                                    checked={this.state.titles}
-                        />
-                        <Form.Check type="switch"
-                                    id="keywords"
-                                    name="keywords"
-                                    label="Article keywords"
-                                    onChange={this.onCheckboxChange}
-                                    checked={this.state.keywords}
-                        />
-                        <Form.Check type="switch"
-                                    id="coauthors"
-                                    name="coauthors"
-                                    label="Coauthor names"
-                                    onChange={this.onCheckboxChange}
-                                    checked={this.state.coauthors}
-                        />
-                        <Form.Check type="switch"
-                                    id="journals"
-                                    name="journals"
-                                    label="Journal names"
-                                    onChange={this.onCheckboxChange}
-                                    checked={this.state.journals}
-                        />
-                    </div>
                     <div className="WordCloudMiscControlsBox">
                         <Form.Check type="switch"
                                     id="rotate"
@@ -146,6 +139,38 @@ class WordCloud extends React.Component {
                             </Button>
                         </div>
                     </div>
+                    <div className="WordCloudSourceControlBox">
+                        <div>Of the papers linking these authors, {}
+                        use words from:</div>
+                        <Form.Check type="switch"
+                                    id="titles"
+                                    name="titles"
+                                    label="Article titles"
+                                    onChange={this.onCheckboxChange}
+                                    checked={this.state.titles}
+                        />
+                        <Form.Check type="switch"
+                                    id="keywords"
+                                    name="keywords"
+                                    label="Article keywords"
+                                    onChange={this.onCheckboxChange}
+                                    checked={this.state.keywords}
+                        />
+                        <Form.Check type="switch"
+                                    id="coauthors"
+                                    name="coauthors"
+                                    label="Coauthor names"
+                                    onChange={this.onCheckboxChange}
+                                    checked={this.state.coauthors}
+                        />
+                        <Form.Check type="switch"
+                                    id="journals"
+                                    name="journals"
+                                    label="Journal names"
+                                    onChange={this.onCheckboxChange}
+                                    checked={this.state.journals}
+                        />
+                    </div>
                     <div className="WordCloudSizeControlBox">
                         <Form onSubmit={this.onApply}>
                             <div>Word size scale:</div>
@@ -176,26 +201,6 @@ class WordCloud extends React.Component {
                     </div>
                 </div>
                 
-                {// The WordCloud Component takes a few beats to render.
-                 // Together with the timeout set at the end of this
-                 // function, this switch here ensures the word cloud doesn't
-                 // render until the tab is visible, and ensures a
-                 // "Rendering..." message appears while the cloud renders.
-    
-                this.state.shouldRender
-                    ? <D3WordCloudWrapper
-                        data={this.getWords()}
-                        fontSizeMapper={this.fontSizeMapper}
-                        rotate={this.rotationMapper}
-                        width={825}
-                        height={600}
-                        padding={this.state.padding}
-                        updateKey={this.state.cloudUpdateKey}
-                      />
-                    : <h3 style={{width: 825, height: 600}}>
-                        Rendering...
-                      </h3> }
-                
                 <canvas id="renderCanvas" style={{display: "none"}}/>
                 
                 <div className="ResultDisplayFooter text-muted">
@@ -224,21 +229,23 @@ class WordCloud extends React.Component {
     }
     
     saveAsPNG() {
+        const srcWidth = this.getTargetWidth();
+        const srcHeight = this.getTargetHeight()
         // Coming from https://stackoverflow.com/questions/28226677/save-inline-svg-as-jpeg-png-svg
         let svg = document.querySelector('.WordCloud > div > svg');
         let canvas = document.querySelector('#renderCanvas');
-        canvas.width = 1650;
-        canvas.height = 1200;
+        canvas.width = 2 * srcWidth;
+        canvas.height = 2 * srcHeight;
         const ctx = canvas.getContext('2d');
         let data = (new XMLSerializer()).serializeToString(svg);
         const DOMURL = window.URL || window.webkitURL || window;
         
         const img = new Image();
-        img.width = 1650;
-        img.height = 1200;
-        data = data.replace("<svg", '<svg viewBox="0 0 825 600"');
-        data = data.replace('width="825"', 'width="1650"');
-        data = data.replace('height="600"', 'height="1200"');
+        img.width = canvas.width;
+        img.height = canvas.height;
+        data = data.replace("<svg", `<svg viewBox="0 0 ${srcWidth} ${srcHeight}"`);
+        data = data.replace(`width="${srcWidth}"`, `width="${2*srcWidth}"`);
+        data = data.replace(`height="${srcHeight}"`, `height="${2*srcHeight}"`);
         if (!this.state.color)
             data = data.replace(/rgb\(\d+, \d+, \d+\)/g, "rgb(0, 0, 0)");
         

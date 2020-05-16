@@ -11,3 +11,10 @@
   margin-top: 10px;
   border: solid 3px #CCC;
 }
+
+@media screen and (max-width: 912px) {
+  .GraphDisplay {
+    width: 100%;
+    height: 80vh;
+  }
+}

@@ -4,7 +4,15 @@
   text-align: left;
   overflow-x: auto;
   overflow-y: auto;
-  max-height: 860px;
+  max-height: 80vh;
+}
+
+@media screen and (max-width: 512px) {
+  .ChainTableContainer {
+    position: relative;
+    left: -6px;
+    width: calc(100% + 12px);
+  }
 }
 
 .ChainTable {

@@ -1,16 +1,36 @@
 .Page {
+  --scrollbar-offset: 100% - 100vw;
   text-align: center;
   height: 100%;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .MainContent {
   background-color: #FFF;
   border: solid 3px #CCC;
   border-radius: 2em;
+  margin: 0 calc(3px + var(--scrollbar-offset)) 20px 3px;
   display: inline-block;
-  /*
-  This calc() bit ensures the box doesn't jump when the scrollbar
-  comes or goes. Based on https://aykevl.nl/2014/09/fix-jumping-scrollbar
-   */
-  margin: 0 calc(0px - 100vw + 100%) 20px 0;
+}
+
+@media screen and (max-width: 512px) {
+  .MainContentWithSearch {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 912px) {
+  .MainContentWithoutSearch {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .MainContent {
+    margin: 0;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
 }

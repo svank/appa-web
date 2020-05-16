@@ -7,6 +7,27 @@
   margin: 10px 0;
 }
 
+.LoadingConstellations {
+  margin: 15px;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 912px) {
+  .LoadingDisplay {
+    width: 100%;
+  }
+  
+  .LoadingConstellations {
+    margin: 15px 0;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .LoadingConstellations {
+    border-radius: unset;
+  }
+}
+
 .LoadStatusPiece {
   min-width: 200px;
   display: inline-block;

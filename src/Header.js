@@ -11,7 +11,9 @@ function Header(props) {
     
     return (
         <div className="Header">
-            <div style={{textAlign: "left", paddingTop: "6px"}}>
+            <div style={{textAlign: "left", paddingTop: "6px"}}
+                 className="Header-link-home"
+            >
                 <a href="https://samvankooten.net">
                     <span style={{display: "flex", alignItems: "center"}}>
                     <Octicon icon={ChevronLeft} />
@@ -22,7 +24,9 @@ function Header(props) {
             <h1 className="PageTitle">
                 Astronomy Publication Proximity Analyzer
             </h1>
-            <div style={{textAlign: "right"}}>
+            <div style={{textAlign: "right"}}
+                 className="Header-link-about"
+            >
                 <Button variant="link" onClick={handleShowAbout}>
                     About
                 </Button>

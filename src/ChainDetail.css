@@ -1,8 +1,13 @@
 .ChainDetail {
   width: 836px;
   text-align: center;
-  margin: 0 auto;
-  margin-bottom: 50px;
+  margin: 0 auto 50px;
+}
+
+@media screen and (max-width: 912px) {
+  .ChainDetail {
+    width: 100%;
+  }
 }
 
 .ChainDetailHeader {

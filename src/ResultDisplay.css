@@ -1,17 +1,59 @@
 .ResultDisplay {
   min-width: 900px;
+  max-width: calc(100vw - 12px) !important;
   text-align: center;
-  padding: 0 32px 32px 32px;
+  padding: 8px 32px 32px 32px;
+}
+
+@media screen and (max-width: 912px) {
+  .ResultDisplay {
+    width: 100% !important;
+    min-width: unset;
+    max-width: unset !important;
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .ResultDisplay {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 .ResultDisplayHeader {
   display: flex;
+  flex-flow: row wrap;
   justify-content: space-between;
+  align-items: flex-start;
   margin-top: 16px;
 }
 
 .ResultDisplayEditSearchButton {
   padding: 0;
+  flex: 0 0 100px;
+}
+
+.ResultDisplayHeader .StatsDisplayContainer {
+  flex-grow: 1;
+  text-align: right;
+}
+
+.ResultDisplayHeader .StatsDisplayButton {
+  text-align: right;
+}
+
+@media screen and (max-width: 620px) {
+  .ResultDisplayHeader .StatsDisplayButton {
+    font-size: smaller;
+  }
+}
+
+@media screen and (max-width: 555px) {
+  .ResultDisplayHeader .StatsDisplayButton {
+    max-width: 210px;
+  }
 }
 
 .ResultDisplaySortSelectorContainer {
@@ -26,6 +68,7 @@
   color: #222;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: baseline;
   text-align: left;
 }
@@ -33,4 +76,8 @@
 .ResultDisplayFooter {
   margin-top: 65px;
   text-align: right;
+}
+
+.ResultDisplaySortSelectorContainer .dropdown-toggle{
+  white-space: nowrap;
 }

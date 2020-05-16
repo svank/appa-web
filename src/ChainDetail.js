@@ -68,7 +68,7 @@ class ChainDetail extends React.Component {
         return (
             <div className="ChainDetail">
                 <div className="ChainDetailHeader text-muted">
-                    To exclude false positives, hover over a name {}
+                    To exclude false positives, hover over or tap a name {}
                     or paper to reveal an "exclude" button.
                 </div>
                 {items}

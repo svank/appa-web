@@ -56,7 +56,7 @@ class Graph extends React.Component {
         return (
             <div className="Graph">
                 <div className="text-muted">
-                    Click or hover to highlight, scroll to zoom, drag to {}
+                    Click or hover to highlight, scroll/pinch to zoom, drag to {}
                     move. Size indicates the number of routes through that {}
                     node or edge.
                 </div>

@@ -199,6 +199,7 @@ class APPA extends React.Component {
                 </Alert>
             );
         }
+        let mainClass = "MainContent";
         let content;
         if (!this.state.data && !this.state.isLoading) {
             content = (
@@ -206,10 +207,12 @@ class APPA extends React.Component {
                             state={this.state.searchState}
                 />
             );
+            mainClass += " MainContentWithSearch"
         } else if (this.state.isLoading) {
             content = (
                 <LoadingDisplay data={this.state.loadData} />
             );
+            mainClass += " MainContentWithoutSearch"
         } else {
             content = (
                 <ResultDisplay repo={this.state.data}
@@ -218,6 +221,7 @@ class APPA extends React.Component {
                                onEditSearch={this.onBackToSearch}
                 />
             );
+            mainClass += " MainContentWithoutSearch"
         }
         
         return (
@@ -227,7 +231,7 @@ class APPA extends React.Component {
                     </header>
                     {welcomeMessage(this)}
                     {error}
-                    <div className="MainContent">
+                    <div className={mainClass}>
                         {content}
                     </div>
                 </div>
