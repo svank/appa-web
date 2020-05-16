@@ -2,6 +2,12 @@
   width: 836px;
   text-align: center;
   margin: 0 auto 50px;
+  --item-padding: 0.8em;
+}
+@media screen and (max-width: 512px) {
+  .chain-detail {
+    --item-padding: 0.2em;
+  }
 }
 
 @media screen and (max-width: 912px) {
@@ -11,7 +17,8 @@
 }
 
 .chain-detail-header {
-  margin: 20px 0;
+  margin: 5px 0 10px;
+  font-size: 90%;
 }
 
 .chain-detail-item {
@@ -58,12 +65,12 @@ div:hover > .chain-detail-exclude-button-container, .chain-detail-exclude-button
 }
 
 .chain-detail-author-part {
-  padding: 0.8em 2.5em;
+  padding: var(--item-padding) 2.5em 0;
   position: relative;
 }
 
 .chain-detail-author-part-name {
-  font-size: 150%;
+  font-size: 1.5rem;
 }
 
 .chain-detail-affil-container-wrapped {
@@ -93,6 +100,14 @@ div:hover > .chain-detail-exclude-button-container, .chain-detail-exclude-button
   max-width: 70%;
 }
 
+.chain-detail-published {
+  margin-top: var(--item-padding);
+}
+
+.chain-detail-publication-part {
+  margin-top: var(--item-padding);
+}
+
 .chain-detail-journal-part {
   font-style: italic;
 }
@@ -103,8 +118,12 @@ div:hover > .chain-detail-exclude-button-container, .chain-detail-exclude-button
 
 .chain-detail-document-part {
   position: relative;
-  padding: 0.8em 2.5em;
+  padding: var(--item-padding) 2.5em;
 }
+
+.chain-detail-document-part button {
+  font-size: 1.2rem;
+} 
 
 .chain-detail-single-doc-button {
   color: #000 !important;
@@ -148,4 +167,19 @@ div:hover > .chain-detail-exclude-button-container, .chain-detail-exclude-button
 
 .chain-detail-item:last-child .chain-detail-arrow {
   display: none;
+}
+
+@media screen and (max-width: 512px) {
+  .chain-detail-header {
+    margin: 4px 0;
+  }
+  .chain-detail-author-part-name {
+    font-size: 1.2rem;
+  }
+  .chain-detail-document-part button {
+    font-size: 1.1rem;
+  } 
+  .chain-detail-affil{
+    font-size: .9rem;
+  }
 }

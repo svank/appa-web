@@ -6,7 +6,7 @@
 
 @media screen and (max-width: 512px) {
   .search-form-container {
-    width: unset;
+    width: 100%;
   }
 }
 

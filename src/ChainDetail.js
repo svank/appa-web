@@ -104,16 +104,20 @@ class ChainDetailItem extends React.PureComponent {
                             affil={document.affils[authorIdx]}
                             addExclusion={this.props.addExclusion}
                 />
-                published
+                <div className="chain-detail-published">
+                    published
+                </div>
                 <DocumentPart repo={this.props.repo}
                               documents={documents}
                               documentNumber={this.props.documentNumber}
                               onDocumentSelected={this.setSelection}
                               addExclusion={this.props.addExclusion}
                 />
-                in <JournalPart journal={document.publication} /> {}
-                in <DatePart date={date} /> <ADSPart bibcode={bibcode} />
-                <br />with
+                <div className="chain-detail-publication-part">
+                    in <JournalPart journal={document.publication} /> {}
+                    in <DatePart date={date} /> <ADSPart bibcode={bibcode} />
+                    <br />with
+                </div>
                 <AuthorPart name={document.authors[nextAuthorIdx]}
                             affil={document.affils[nextAuthorIdx]}
                             addExclusion={this.props.addExclusion}
@@ -254,8 +258,8 @@ class AuthorPart extends React.PureComponent {
         }
         
         const textClassName = this.state.wrapped
-            ? "chain-detail-affil-wrapped"
-            : "chain-detail-affil-unwrapped";
+            ? "chain-detail-affil chain-detail-affil-wrapped"
+            : "chain-detail-affil chain-detail-affil-unwrapped";
         const containerClassName = this.state.wrapped
             ? "chain-detail-affil-container-wrapped"
             : "chain-detail-affil-container-unwrapped";

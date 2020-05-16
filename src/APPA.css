@@ -22,6 +22,7 @@
 
 @media screen and (max-width: 912px) {
   .main-content-without-search {
+    margin: 0;
     display: block;
   }
 }

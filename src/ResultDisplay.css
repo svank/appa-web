@@ -59,6 +59,7 @@
 .result-display-sort-selector-container {
   text-align: right;
   margin-right: 10px;
+    flex-grow: 1;
 }
 
 .table-display-header {
@@ -71,6 +72,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   text-align: left;
+  font-size: 90%;
 }
 
 .result-display-footer {
