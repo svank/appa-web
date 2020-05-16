@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Alert, Button, Modal} from 'react-bootstrap';
 
 const NameMatchingHelp = React.memo(() => {
@@ -38,29 +38,55 @@ const NameMatchingHelp = React.memo(() => {
     )
 })
 
-const NameMatchingDialogButton = React.memo((props) => {
-    const [showDialog, setShowDialog] = useState(false);
+class NameMatchingDialogButton extends React.PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            show: false,
+        }
+    }
     
-    const handleCloseAbout = () => setShowDialog(false);
-    const handleShowAbout = () => setShowDialog(true);
-    return (
-        <div >
-            <Button variant="link" onClick={handleShowAbout}>
-                {props.children}
-            </Button>
+    handleCloseDialog() {
+        window.history.back();
+    }
+    
+    handleShowDialog() {
+        window.location.hash = "name-matching";
+    };
+    
+    componentDidMount() {
+        this.listener = window.addEventListener('hashchange', (e) => {
+            if (this.state.show && window.location.hash !== "#name-matching") {
+                this.setState({show: false});
+            } else if (!this.state.show && window.location.hash === "#name-matching") {
+                this.setState({show: true});
+            }
+        });
+    }
+    
+    render() {
+        return (
+            <div>
+                <Button variant="link" onClick={this.handleShowDialog}>
+                    {this.props.children}
+                </Button>
             
-            <Modal show={showDialog} onHide={handleCloseAbout} size="lg">
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        Name Matching
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <NameMatchingHelp />
-                </Modal.Body>
-            </Modal>
-        </div>
-    )
-})
+                <Modal show={this.state.show}
+                       onHide={this.handleCloseDialog}
+                       size="lg"
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            Name Matching
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <NameMatchingHelp />
+                    </Modal.Body>
+                </Modal>
+            </div>
+        )
+    }
+}
 
 export {NameMatchingHelp, NameMatchingDialogButton}

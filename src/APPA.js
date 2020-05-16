@@ -18,8 +18,8 @@ class APPA extends React.Component {
             data: null,
             error: null,
             searchState: null,
-            nHistorySets: 0
         };
+        this.hasSeenSearch = false;
         this.onFormSubmitted = this.onFormSubmitted.bind(this);
         this.queryServerForData = this.queryServerForData.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
@@ -29,12 +29,17 @@ class APPA extends React.Component {
         window.onpopstate = () => {
             if (window.location.search.length === 0)
                 this.setState({isLoading: false, data: null});
-            else
-                this.queryServerForData(
-                    new URLSearchParams(window.location.search));
-            this.setState((state) => {
-                const hasSet = state.nHistorySets;
-                return {nHistorySets: hasSet > 0 ? hasSet - 1 : 0}});
+            else {
+                const params = new URLSearchParams(window.location.search);
+                const src = (params.get("src") || "");
+                const dest = (params.get("dest") || "");
+                const excl = (params.get("exclusions") || "");
+                if (this.state.data === null
+                        || src !== this.state.searchState.src
+                        || dest !== this.state.searchState.dest
+                        || excl !== this.state.searchState.exclusions)
+                    this.queryServerForData(params);
+            }
         }
     }
     
@@ -46,7 +51,7 @@ class APPA extends React.Component {
     }
     
     onBackToSearch() {
-        if (this.state.nHistorySets > 0) {
+        if (this.hasSeenSearch) {
             window.history.back();
         } else {
             window.history.replaceState({}, '', window.location.pathname);
@@ -56,6 +61,7 @@ class APPA extends React.Component {
     
     onFormSubmitted(formData, allowPushState=true) {
         recordWelcomeSeen();
+        this.hasSeenSearch = true;
         const params = this.formDataToUrlParams(formData);
         if (formData.src === "" || formData.dest === "") {
             this.setState({error: "empty_author"});
@@ -83,8 +89,6 @@ class APPA extends React.Component {
         const newURL = `${window.location.pathname}${params}`;
         if (allowPushState) {
             window.history.pushState({}, '', newURL);
-            this.setState((state) => {
-                return {nHistorySets: state.nHistorySets + 1}});
         } else
             window.history.replaceState({}, '', newURL);
         return params;
@@ -96,9 +100,7 @@ class APPA extends React.Component {
                 src: params.get("src") || "",
                 dest: params.get("dest") || "",
                 exclusions: params.get("exclusions") || ""
-            }
-        });
-        this.setState({
+            },
             isLoading: true,
             error: null,
             loadData: null,
