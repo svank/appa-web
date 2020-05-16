@@ -47,8 +47,8 @@ function NameSyntaxHelpContents() {
                     "Last, F").
                 </li>
             </ul>
-            APPA adds <i>specificity</i> modifiers which function like the {}
-            '=' modifier.
+            APPA adds <i>specificity</i> prefixes which function like the {}
+            '=' prefix.
             <ul>
                 <li>
                     '<b>&lt;</b>' will match anything <i>less specific</i> {}

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Alert, Button, Modal} from 'react-bootstrap';
 import Octicon, {ChevronLeft} from "@primer/octicons-react";
+import {NameMatchingHelp} from "./NameMatchingHelp";
 import './Header.css';
 
 const Header = React.memo(() => {
@@ -43,7 +44,7 @@ const Header = React.memo(() => {
                     tool to search {}
                     <a target="_blank" rel="noopener noreferrer"
                        href="https://ui.adsabs.harvard.edu/">ADS</a> (via {}
-                    the <a target="_blank" rel="noopener noreferrer"
+                    their <a target="_blank" rel="noopener noreferrer"
                         href="http://adsabs.github.io/help/api/">API</a>) {}
                     and find the shortest chains of collaboration that link {}
                     two astronomers. It is inspired by the {}
@@ -54,7 +55,8 @@ const Header = React.memo(() => {
                     
                     <br /><br />
                     
-                    APPA works by searching ADS' "astronomy" collection for {}
+                    APPA works by searching ADS' &ldquo;astronomy&rdquo; {}
+                    collection for {}
                     all published papers (not conference abstracts) {}
                     on which either name you enter is an author to determine {}
                     who those people have coauthored with. Then it searches {}
@@ -68,7 +70,8 @@ const Header = React.memo(() => {
                     
                     This process necessarily involves many {}
                     queries to ADS. Each query involves a database search {}
-                    on ADS's side, plus a network round trip, and the total {}
+                    on ADS's side plus a network round trip from the APPA {}
+                    server to ADS, and the total {}
                     time spent can add up quickly. When possible, APPA {}
                     reuses the results of ADS queries from past searches, {}
                     which speeds up searches significantly. Despite this, {}
@@ -83,33 +86,7 @@ const Header = React.memo(() => {
                         not be included in a search.
                     </Alert>
                     
-                    An important caveat in all this is that name {}
-                    disambiguation is hard. If Jane and John Doe both {}
-                    publish in astronomy, it isn't possible to determine who {}
-                    wrote a paper published under the name "J. Doe" (barring {}
-                    universal and retroactive ORCID ID adoption). APPA {}
-                    follows how ADS performs {}
-                    <a target="_blank" rel="noopener noreferrer"
-                       href="https://adsabs.github.io/help/search/search-syntax#author-searches">
-                        name matching
-                    </a>, which can be summarized as "names are considered {}
-                    equal if they are consistent with each other". For {}
-                    example, a search for "J. Doe" will match J., Jane and {}
-                    John Doe, while a search for "Jane Doe" will match {}
-                    Jane and J. Doe, but not John Doe. APPA will do its best {}
-                    to sort your search results by how confident it is about {}
-                    the name-matching in each chain, but it can only do so {}
-                    much.
-                    
-                    <br /><br />
-                    
-                    <Alert variant="warning">
-                        Because of this name ambiguity, every {}
-                        coauthorship chain <i>must</i> be verified before it {}
-                        is believed. Once a search is complete, APPA offers {}
-                        you tools to explore the proposed coauthorship {}
-                        chains and remove false positives.
-                    </Alert>
+                    <NameMatchingHelp />
                     
                     <div style={{
                         display: "flex",
@@ -124,7 +101,7 @@ const Header = React.memo(() => {
                        >
                             View on GitHub
                         </a>
-                   </div> 
+                   </div>
                 </Modal.Body>
             </Modal>
         </div>

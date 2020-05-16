@@ -6,6 +6,7 @@ import ChainTable from './ChainTable'
 import ChainDetail from './ChainDetail'
 import DistanceReport from "./DistanceReport";
 import Graph from "./Graph";
+import {NameMatchingDialogButton} from "./NameMatchingHelp";
 import StatsDisplay from "./StatsDisplay";
 import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
@@ -138,7 +139,10 @@ class ResultDisplay extends React.Component {
                 />
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <Octicon icon={Stop} />
-                    &nbsp;Name-matching can be ambiguous. 
+                    &nbsp;Name-matching can be ambiguous.
+                    <NameMatchingDialogButton>
+                        (why?)
+                    </NameMatchingDialogButton>
                 </div>
                 <div className="text-muted"
                      style={{marginBottom: "15px"}}
