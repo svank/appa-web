@@ -2,6 +2,8 @@ function parseServerResponse(data) {
     return {
         originalSource: data.original_src,
         originalDest: data.original_dest,
+        originalSourceWithMods: data.original_src_with_mods,
+        originalDestWithMods: data.original_dest_with_mods,
         docData: data.doc_data,
         chains: data.chains,
         paperChoicesForChain: data.paper_choices_for_chain,

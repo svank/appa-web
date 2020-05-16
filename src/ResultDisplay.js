@@ -132,8 +132,8 @@ class ResultDisplay extends React.Component {
                                   repo={this.state.repo}
                     />
                 </div>
-                <DistanceReport source={this.state.repo.originalSource}
-                                dest={this.state.repo.originalDest}
+                <DistanceReport source={this.state.repo.originalSourceWithMods}
+                                dest={this.state.repo.originalDestWithMods}
                                 dist={this.state.chains[0].length - 1}
                 />
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
