@@ -12,7 +12,6 @@ class ChainTable extends React.PureComponent {
                         <ChainTableRow
                             key={chain}
                             rowData={chain}
-                            prevRowData={idx > 0 ? this.props.chains[idx - 1] : null}
                             selected={idx === this.props.selectedChainIdx}
                             idx={idx}
                             onClick={this.props.onChainSelected}
@@ -28,10 +27,6 @@ class ChainTable extends React.PureComponent {
 class ChainTableRow extends React.PureComponent {
     render() {
         const rowData = this.props.rowData;
-        const prevRowData = this.props.prevRowData;
-        const hideData = rowData.map((rd, i) =>
-            prevRowData !== null && prevRowData[i] === rowData[i]
-        );
         return (
             <tr className={this.props.selected
                     ? "chain-table-row chain-table-selected-row"
@@ -40,7 +35,6 @@ class ChainTableRow extends React.PureComponent {
                 {rowData.map((rowDatum, idx) =>
                     <ChainTableCell key={rowDatum}
                                     name={rowDatum}
-                                    hide={hideData[idx]}
                                     arrow={idx !== 0}
                     />
                 )}
@@ -51,11 +45,8 @@ class ChainTableRow extends React.PureComponent {
 
 class ChainTableCell extends React.PureComponent {
     render() {
-        let className = "chain-table-cell";
-        if (this.props.hide)
-            className += " chain-table-cell-hide";
         return (
-            <td className={className}>
+            <td className="chain-table-cell">
                 <div className="chain-table-cell-contents">
                     {this.props.arrow
                         ? (

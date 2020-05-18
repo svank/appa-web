@@ -41,10 +41,6 @@
   cursor: pointer;
 }
 
-.chain-table-unselected-row .chain-table-cell-hide {
-  color: #999;
-}
-
 .chain-table-cell-contents {
   display: flex;
   flex-flow: row nowrap;
