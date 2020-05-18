@@ -1,6 +1,6 @@
 import React from 'react';
-import './LoadingDisplay.css'
-import ConstellationSketcher, {categories} from 'react-constellation-sketcher'
+import './LoadingDisplay.css';
+import ConstellationSketcher, {categories} from 'react-constellation-sketcher';
 
 class LoadingDisplay extends React.Component {
     constructor(props) {
@@ -12,11 +12,14 @@ class LoadingDisplay extends React.Component {
         let content;
         if (this.props.data === null
             || this.props.data.isDummy)
-            content = <div>
-                <div>&nbsp;</div>
-                <div><div className="loading-status-piece">&nbsp;</div></div>
-                <div><div className="loading-status-piece">&nbsp;</div></div>
-            </div>;
+            content = [
+                <div key="fillerRow1">
+                    <div className="loading-status-piece">Connecting to server...</div>
+                </div>,
+                <div key="fillerRow2">
+                    <div className="loading-status-piece">&nbsp;</div>
+                </div>
+            ];
         else {
             const nAuths = this.props.data.n_authors_queried;
             const authsNoun = nAuths === 1 ? "author" : "authors";
@@ -24,31 +27,32 @@ class LoadingDisplay extends React.Component {
             const docsNoun = nDocs === 1 ? "paper" : "papers";
             const nADS = this.props.data.n_ads_queries;
             const adsNoun = nADS === 1 ? "query" : "queries";
-            content = (
-                <div className="text-muted">
-                    <div>
-                        Progress:
+            content = [
+                <div key="row1">
+                    <div className="loading-status-piece">
+                        {nAuths} {authsNoun} loaded
                     </div>
-                    <div>
-                        <div className="loading-status-piece">
-                            {nAuths} {authsNoun} loaded
-                        </div>
-                        <div className="loading-status-piece">
-                            {nDocs} {docsNoun} checked
-                        </div>
-                        <div className="loading-status-piece">
-                            {nADS} ADS {adsNoun} completed
-                        </div>
+                    <div className="loading-status-piece">
+                        {nDocs} {docsNoun} checked
                     </div>
-                    <div>
-                        <div className="loading-status-piece">
-                            {this.props.data.path_finding_complete 
-                                 ? "Search complete; collecting & ranking results"
-                                 : <span>&nbsp;</span>}
-                        </div>
+                    <div className="loading-status-piece">
+                        {nADS} ADS {adsNoun} completed
+                    </div>
+                </div>,
+                <div key="row2">
+                    <div className="loading-status-piece">
+                        {this.props.data.path_finding_complete 
+                             ? "Search complete; collecting & ranking results:"
+                             : <span>&nbsp;</span>}
+                    </div>
+                    <div className="loading-status-piece">
+                        {this.props.data.path_finding_complete
+                            ? `${this.props.data.n_docs_loaded} / ${this.props.data.n_docs_relevant}`
+                            : <span>&nbsp;</span>
+                        }
                     </div>
                 </div>
-            );
+            ];
         }
         
         const minSize = Math.min(window.innerHeight, window.innerWidth);
@@ -81,7 +85,12 @@ class LoadingDisplay extends React.Component {
                                            }
                                        }
                 />
-                {content}
+                <div className="text-muted">
+                    <div>
+                        Progress:
+                    </div>
+                    {content}
+                </div>
             </div>
         )
     }

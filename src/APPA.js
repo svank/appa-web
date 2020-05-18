@@ -6,7 +6,7 @@ import LoadingDisplay from "./LoadingDisplay";
 import SearchForm from './SearchForm';
 import ResultDisplay from "./ResultDisplay";
 import './APPA.css';
-import {URL_BASE} from './LocalConfig';
+import {URL_BASE, URL_BASE_PROGRESS} from './LocalConfig';
 
 class APPA extends React.Component {
     constructor(props) {
@@ -107,32 +107,40 @@ class APPA extends React.Component {
             data: null
         });
         
-        this.getDataFromUrl(URL_BASE + "find_route?" + params.toString());
+        const pKey = generateProgressKey();
+        
+        this.getDataFromUrl(URL_BASE + "?" + params.toString(), pKey);
         
         // Set a recent, dummy timestamp to ensure we don't use stale data
         // from a previous query run
         this.setState({loadData:
                 {timestamp: Date.now()/1000 - 10, isDummy: true}});
-        setTimeout(() => {
-            const intervalId = setInterval(() => {
-                if (this.state.isLoading)
-                    fetch(URL_BASE + "get_progress?" + params.toString())
-                        .then(response => response.json())
-                        .then(data => {
-                            if (this.state.isLoading
-                                && data.error === undefined
-                                // Ensure we only ever update to newer data
-                                && data.timestamp > this.state.loadData.timestamp)
-                                this.setState({loadData: data})
-                        });
-                else
-                    clearInterval(intervalId);
-            }, 1000);
-        }, 1500);
+        const intervalId = setInterval(() => {
+            if (this.state.isLoading)
+                fetch(URL_BASE_PROGRESS + "?key=" + pKey)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (this.state.isLoading
+                            && data.error === undefined
+                            // Ensure we only ever update to newer data
+                            && data.timestamp > this.state.loadData.timestamp)
+                            this.setState({loadData: data})
+                    });
+            else
+                clearInterval(intervalId);
+        }, 250);
     }
     
-    getDataFromUrl(url) {
-        fetch(url)
+    getDataFromUrl(url, pKey=null) {
+        let cfg = {};
+        if (pKey)
+            cfg = {
+                method: 'POST',
+                cache: 'no-cache',
+                body: pKey,
+                headers: {"Content-Type": "text/plain;charset=UTF-8"},
+            };
+        fetch(url, cfg)
             .then(response => {
                 if (!response.ok) {
                     throw new Error("not ok");
@@ -290,6 +298,15 @@ function parseError(error) {
         default:
             return error.error_msg;
     }
+}
+
+function generateProgressKey() {
+   let result = '';
+   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   for ( let i = 0; i < 30; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+   }
+   return result;
 }
 
 export default APPA;
