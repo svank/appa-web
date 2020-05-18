@@ -51,7 +51,7 @@
   margin-right: 8px;
 }
 
-.chain-table-unselected-row .chain-table-cell-arrow {
+.chain-table-unselected-row:not(:hover) .chain-table-cell-arrow {
   color: #000;
 }
 
