@@ -67,7 +67,14 @@ class NameMatchingDialogButton extends React.PureComponent {
     render() {
         return (
             <div>
-                <Button variant="link" onClick={this.handleShowDialog}>
+                <Button variant="link"
+                        onClick={this.handleShowDialog}
+                        style={{
+                            paddingTop: "0px",
+                            paddingBottom: "0px",
+                            borderTop: "0px",
+                        }}
+                >
                     {this.props.children}
                 </Button>
             
