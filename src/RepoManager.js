@@ -22,6 +22,8 @@ function copyRepo(repo) {
     newRepo.docData = Object.assign({}, repo.docData);
     newRepo.originalSource = repo.originalSource;
     newRepo.originalDest = repo.originalDest;
+    newRepo.originalSourceWithMods = repo.originalSourceWithMods;
+    newRepo.originalDestWithMods= repo.originalDestWithMods;
     newRepo.stats = Object.assign({}, repo.stats);
     return newRepo;
 }
