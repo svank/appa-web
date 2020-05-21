@@ -21,22 +21,22 @@ class LoadingDisplay extends React.Component {
                 </div>
             ];
         else {
-            const nAuths = this.props.data.n_authors_queried;
+            const nADS = this.props.data.n_ads_queries;
+            const ADSAuthsNoun = nADS === 1 ? "author" : "authors";
+            const nAuths = this.props.data.n_authors_queried - nADS;
             const authsNoun = nAuths === 1 ? "author" : "authors";
             const nDocs = this.props.data.n_docs_queried;
             const docsNoun = nDocs === 1 ? "paper" : "papers";
-            const nADS = this.props.data.n_ads_queries;
-            const adsNoun = nADS === 1 ? "query" : "queries";
             content = [
                 <div key="row1">
-                    <div className="loading-status-piece">
-                        {nAuths} {authsNoun} loaded
-                    </div>
                     <div className="loading-status-piece">
                         {nDocs} {docsNoun} checked
                     </div>
                     <div className="loading-status-piece">
-                        {nADS} ADS {adsNoun} completed
+                        {nAuths} {authsNoun} loaded from cache
+                    </div>
+                    <div className="loading-status-piece">
+                        {nADS} {ADSAuthsNoun} loaded from ADS
                     </div>
                 </div>,
                 <div key="row2">
@@ -46,9 +46,11 @@ class LoadingDisplay extends React.Component {
                              : <span>&nbsp;</span>}
                     </div>
                     <div className="loading-status-piece">
-                        {this.props.data.path_finding_complete
+                        {this.props.data.n_docs_relevant > 0
                             ? `${this.props.data.n_docs_loaded} / ${this.props.data.n_docs_relevant}`
-                            : <span>&nbsp;</span>
+                            : this.props.data.path_finding_complete
+                                    ? "- / -"
+                                    : <span>&nbsp;</span>
                         }
                     </div>
                 </div>

@@ -29,7 +29,7 @@
 }
 
 .loading-status-piece {
-  min-width: 200px;
+  min-width: 50px;
   display: inline-block;
-  margin: 10px 0;
+  margin: 10px 30px;
 }
