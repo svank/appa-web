@@ -276,13 +276,28 @@ function parseError(error) {
     let error_key = error;
     if (error.error_key)
         error_key = error.error_key;
+    let err;
     switch(error_key) {
         case "no_authors_to_expand":
             return "No possible connections found.";
         case "src_empty":
-            return 'No papers found for author "' + error.src + '"';
+            err = `No papers found for author "${error.src}".`;
+            if (error.src.includes(" ") && !error.src.includes(","))
+                err = (
+                    <span>
+                        {err} <br /> (Make sure you've followed the format {}
+                        of "Last name, First name".)
+                    </span>)
+            return err;
         case "dest_empty":
-            return 'No papers found for author "' + error.dest + '"';
+            err = `No papers found for author "${error.dest}".`;
+            if (error.dest.includes(" ") && !error.dest.includes(","))
+                err = (
+                    <span>
+                        {err} <br /> (Make sure you've followed the format {}
+                        of "Last name, First name".)
+                    </span>)
+            return err;
         case "rate_limit":
             return "Unfortunately, APPA has exceeded its daily allowed quota of ADS queries. This limit will reset at " + error.reset + ".";
         case "ads_error":
