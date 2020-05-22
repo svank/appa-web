@@ -1,6 +1,8 @@
 import React from 'react';
+import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import './LoadingDisplay.css';
 import ConstellationSketcher, {categories} from 'react-constellation-sketcher';
+import Octicon, {Question} from "@primer/octicons-react";
 
 class LoadingDisplay extends React.Component {
     constructor(props) {
@@ -21,22 +23,23 @@ class LoadingDisplay extends React.Component {
                 </div>
             ];
         else {
-            const nADS = this.props.data.n_ads_queries;
-            const ADSAuthsNoun = nADS === 1 ? "author" : "authors";
-            const nAuths = this.props.data.n_authors_queried - nADS;
+            const nAuths = this.props.data.n_authors_queried;
             const authsNoun = nAuths === 1 ? "author" : "authors";
             const nDocs = this.props.data.n_docs_queried;
             const docsNoun = nDocs === 1 ? "paper" : "papers";
+            const nADS = this.props.data.n_ads_queries;
+            const ADSAuthsNoun = nADS === 1 ? "author" : "authors";
             content = [
                 <div key="row1">
                     <div className="loading-status-piece">
                         {nDocs} {docsNoun} checked
                     </div>
                     <div className="loading-status-piece">
-                        {nAuths} {authsNoun} loaded from cache
+                        {nAuths} {authsNoun} checked
                     </div>
                     <div className="loading-status-piece">
-                        {nADS} {ADSAuthsNoun} loaded from ADS
+                        {nADS} {ADSAuthsNoun} queried from ADS&nbsp;&nbsp;
+                        <ADSHelp />
                     </div>
                 </div>,
                 <div key="row2">
@@ -45,7 +48,9 @@ class LoadingDisplay extends React.Component {
                              ? "Search complete; collecting & ranking results:"
                              : <span>&nbsp;</span>}
                     </div>
-                    <div className="loading-status-piece">
+                    <div className="loading-status-piece"
+                         style={{minWidth: "100px", marginLeft: "0"}}
+                    >
                         {this.props.data.n_docs_relevant > 0
                             ? `${this.props.data.n_docs_loaded} / ${this.props.data.n_docs_relevant}`
                             : this.props.data.path_finding_complete
@@ -97,5 +102,22 @@ class LoadingDisplay extends React.Component {
         )
     }
 }
+
+const renderTooltip = (props) => (
+    <Tooltip id="ads-help-tooltip" {...props}>
+      When possible, results from past ADS queries are reused to save time.
+    </Tooltip>
+);
+
+const ADSHelp = React.memo(() => (
+    <OverlayTrigger placement="left"
+                    delay={{ show: 250, hide: 300 }}
+                    overlay={renderTooltip}
+    >
+        <div style={{display: "inline"}}>
+            <Octicon icon={Question} />
+        </div>
+    </OverlayTrigger>
+));
 
 export default LoadingDisplay
