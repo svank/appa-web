@@ -54,7 +54,7 @@ class APPA extends React.Component {
         if (this.hasSeenSearch) {
             window.history.back();
         } else {
-            window.history.replaceState({}, '', window.location.pathname);
+            window.history.pushState({}, '', window.location.pathname);
         }
         this.setState({data: null});
     }

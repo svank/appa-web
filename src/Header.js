@@ -8,29 +8,43 @@ class Header extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {show: false};
+        this.handleCloseAbout = this.handleCloseAbout.bind(this);
+        this.handleShowAbout = this.handleShowAbout.bind(this);
+        this.hashListener = this.hashListener.bind(this);
     }
     
     handleCloseAbout() {
-        window.history.back();
+        if (this.can_use_history_back) {
+            window.history.back();
+            this.can_use_history_back = false;
+        } else
+            window.location.hash = "";
     }
     
     handleShowAbout() {
         window.location.hash = "about";
+        this.can_use_history_back = true;
     };
     
     componentDidMount() {
-        this.listener = window.addEventListener('hashchange', (e) => {
-            if (this.state.show && window.location.hash !== "#about") {
-                this.setState({show: false});
-            } else if (!this.state.show && window.location.hash === "#about") {
-                this.setState({show: true});
-            }
-        });
+        this.listener = window.addEventListener(
+            'hashchange', this.hashListener);
+        this.hashListener();
+        this.can_use_history_back = false;
     }
     
     componentWillUnmount() {
         window.removeEventListener('hashchange', this.listener);
         this.listener = null;
+    }
+    
+    hashListener() {
+        if (window.location.hash === "#about")
+            this.setState({show: true});
+        else {
+            this.setState({show: false});
+            this.can_use_history_back = false;
+        }
     }
     
     render() {
