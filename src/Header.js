@@ -78,6 +78,22 @@ class Header extends React.PureComponent {
 const AboutContents = React.memo(() => {
     return (
         <div>
+            <div style={{
+                textAlign: "right",
+                marginBottom: "12px",
+            }}>
+                <a href="https://github.com/svank/appa-web"
+                   target="_blank"
+                   rel="noopener noreferrer"
+               >
+                    View on GitHub
+                </a>
+                &nbsp; | &nbsp;
+                <a href="stats.html" target="_blank">
+                    View backend stats
+                </a>
+           </div>
+            
             Astronomy Publication Proximity Analyzer (APPA) is a {}
             tool to search {}
             <a target="_blank" rel="noopener noreferrer"
@@ -125,21 +141,6 @@ const AboutContents = React.memo(() => {
             </Alert>
             
             <NameMatchingHelp />
-            
-            <div style={{
-                display: "flex",
-                justifyContent: "space-between"
-            }}>
-                <a href="stats.html" target="_blank">
-                    View backend stats
-                </a>
-                <a href="https://github.com/svank/appa-web"
-                   target="_blank"
-                   rel="noopener noreferrer"
-               >
-                    View on GitHub
-                </a>
-           </div>
         </div>
     );
 })
