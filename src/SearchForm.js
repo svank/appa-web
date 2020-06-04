@@ -63,7 +63,7 @@ class SearchForm extends React.Component {
                                       onChange={this.onChange}
                                       name="src"
                                       value={this.state.src}
-                                      placeholder="Last, First Middle"
+                                      placeholder="Last, First Middle or ORCID ID"
                         />
                     </Form.Group>
                     <img src="arrow.png"
@@ -78,7 +78,7 @@ class SearchForm extends React.Component {
                                       onChange={this.onChange}
                                       name="dest"
                                       value={this.state.dest}
-                                      placeholder="Last, First Middle"
+                                      placeholder="Last, First Middle or ORCID ID"
                         />
                     </Form.Group>
                     
