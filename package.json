@@ -6,7 +6,7 @@
     "@primer/octicons-react": "^9.6.0",
     "bootstrap": "^4.5.0",
     "react": "^16.13.1",
-    "react-bootstrap": "^1.0.1",
+    "react-bootstrap": "^1.2.2",
     "react-constellation-sketcher": "^1.0.1",
     "react-cytoscapejs": "^1.2.1",
     "react-d3-cloud": "^0.7.0",
