@@ -165,7 +165,8 @@ class Graph extends React.Component {
                     edges[author + nextAuthor] = {
                         data: {
                             source: author,
-                            target: nextAuthor
+                            target: nextAuthor,
+                            id: author + " to " + nextAuthor
                         },
                         style: {width: 1}
                     };
