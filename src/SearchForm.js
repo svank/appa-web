@@ -57,13 +57,13 @@ class SearchForm extends React.Component {
                 >
                     <Form.Group controlId="src">
                         <Form.Label>
-                            Search for a link between this author
+                            Search for connections between this author
                         </Form.Label>
                         <Form.Control type="text"
                                       onChange={this.onChange}
                                       name="src"
                                       value={this.state.src}
-                                      placeholder="Last, First Middle or ORCID ID"
+                                      placeholder="Last, First Middle, or ORCID ID"
                         />
                     </Form.Group>
                     <img src="arrow.png"
@@ -78,11 +78,13 @@ class SearchForm extends React.Component {
                                       onChange={this.onChange}
                                       name="dest"
                                       value={this.state.dest}
-                                      placeholder="Last, First Middle or ORCID ID"
+                                      placeholder="Last, First Middle, or ORCID ID"
                         />
                     </Form.Group>
                     
-                    <Form.Group controlId="excluding">
+                    <Form.Group controlId="excluding"
+                                style={{marginTop: "10px"}}
+                    >
                         <Form.Label>
                             Excluding these
                         </Form.Label>
@@ -93,8 +95,9 @@ class SearchForm extends React.Component {
                                       value={this.state.exclusions}
                         />
                         <Form.Text className="text-muted">
-                            Enter any author names or bibcodes to ignore, {}
-                            one per line.
+                            Enter any author names or paper bibcodes to {}
+                            exclude as possible links in the chain, one per {}
+                            line.
                         </Form.Text>
                     </Form.Group>
                     <div className="search-form-button-container">

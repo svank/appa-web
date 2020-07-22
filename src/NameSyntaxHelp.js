@@ -30,6 +30,11 @@ function NameSyntaxHelpContents() {
                 ADS' name syntax</a> in all search fields.
             <ul>
                 <li>
+                    Names must be in the format "Last, First Middle", where {}
+                    every component but the last name may be a spelled-out {}
+                    name or an initial.
+                </li>
+                <li>
                     First and middle names or initials are optional (as are {}
                     periods after initials), and case is ignored.
                 </li>
@@ -44,7 +49,7 @@ function NameSyntaxHelpContents() {
                     Like with ADS, type '<b>=</b>' before a name {}
                     to match only exactly what you type (so {}
                     "=Last, First" will <i>not</i> match {}
-                    "Last, F").
+                    "Last, F" or "Last, First M.").
                 </li>
             </ul>
             APPA adds <i>specificity</i> prefixes which function like the {}
@@ -63,20 +68,22 @@ function NameSyntaxHelpContents() {
                     less/more specific or exactly equal to the name provided.
                 </li>
                 <li>
-                    E.g. given the possibilities "Last, F.", "Last, First" {}
+                    For example, given the possibilities "Last, F.", "Last, First" {}
                     and "Last, First M.", the latter two will be matched by {}
                     "&gt;=Last, First", while only the last choice will be {}
                     matched by "&gt;Last, First".
                 </li>
+                <li>
+                A name is <i>more specific</i> than another name if it is the {}
+                latter name but with more information added (e.g. an initial is {}
+                replaced with a spelled-out name, or a middle initial is added). {}
+                A name is <i>less specific</i> than another if it is the latter {}
+                name but with information removed. When information is both {}
+                added <i>and</i> removed (e.g. comparing "Last, First M." and {}
+                "Last, F. Middle"), each name is neither more nor less {}
+                specific than the other.
+                </li>
             </ul>
-            A name is <i>more specific</i> than another name if it is the {}
-            latter name but with more information added (e.g. an initial is {}
-            replaced with a spelled-out name, or a middle initial is added). {}
-            A name is <i>less specific</i> than another if it is the latter {}
-            name but with information removed. When information is both {}
-            added <i>and</i> removed (e.g. comparing "Last, First M." and {}
-            "Last, F. Middle"), each name is neither more nor less {}
-            specific than the other.
         </div>
     )
 }
