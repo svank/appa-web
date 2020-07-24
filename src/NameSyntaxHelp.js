@@ -12,7 +12,7 @@ const NameSyntaxHelp = React.memo(props => {
                             style={{padding: 0}}
                             onClick={() => setShow(!show)}
                     >
-                        About name syntax &nbsp;
+                        About name syntax and filtering&nbsp;
                         <Octicon icon={show ? ChevronUp : ChevronDown}
                                  verticalAlign="middle" />
                     </Button>
