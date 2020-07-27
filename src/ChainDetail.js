@@ -82,7 +82,7 @@ class ChainDetailItem extends React.PureComponent {
     }
     
     setSelection(newSelection) {
-        this.props.setDocumentNumber(this.props.index, newSelection);
+        this.props.setDocumentNumber(this.props.index, parseInt(newSelection));
     }
     
     render() {
@@ -92,7 +92,7 @@ class ChainDetailItem extends React.PureComponent {
         const orcid = document.orcid_ids[nextAuthorIdx]
         const date = new Date(Date.parse(document.pubdate));
         let nextOrcid = null;
-        if (this.props.nextDocumentData !== null) {
+        if (this.props.nextDocumentData) {
             const nextDocument = findDocument(
                 this.props, this.props.nextDocumentData[0]);
             nextOrcid = nextDocument.orcid_ids[this.props.nextDocumentData[1]];
@@ -326,7 +326,7 @@ const DocumentPart = React.memo(props => {
                     <Dropdown.Menu>
                         {props.documents.map((data, idx) =>
                             <Dropdown.Item key={data[0]}
-                                           eventKey={idx}
+                                           eventKey={idx.toString()}
                                            onSelect={props.onDocumentSelected}
                                            active={data[0] === bibcode}
                                            size="lg"
