@@ -16,7 +16,7 @@ class LoadingDisplay extends React.Component {
             || this.props.data.isDummy)
             content = [
                 <div key="fillerRow1">
-                    <div className="loading-status-piece">Connecting to server...</div>
+                    <div className="loading-status-piece">Waiting for server...</div>
                 </div>,
                 <div key="fillerRow2">
                     <div className="loading-status-piece">&nbsp;</div>

@@ -5,6 +5,7 @@ import './NameSyntaxHelp.css';
 
 const NameSyntaxHelp = React.memo(props => {
     const [show, setShow] = useState(false);
+    const label = props.label ? props.label : "About name syntax & filtering";
     return (
         <div className="name-syntax-help" style={props.style}>
                     <Button variant="link"
@@ -12,7 +13,7 @@ const NameSyntaxHelp = React.memo(props => {
                             style={{padding: 0}}
                             onClick={() => setShow(!show)}
                     >
-                        About name syntax and filtering&nbsp;
+                        {label}&nbsp;
                         <Octicon icon={show ? ChevronUp : ChevronDown}
                                  verticalAlign="middle" />
                     </Button>

@@ -186,7 +186,7 @@ function ExcludeConfirmation(props) {
               }}
         >
             <Form.Group controlId="exclusionConfirmation" style={{margin: 0}}>
-                Adding
+                Exclude all chains involving
                 <Form.Control className="exclusion-confirmation-input"
                               type="text"
                               value={exclusion}
@@ -194,7 +194,6 @@ function ExcludeConfirmation(props) {
                                   (event) => setExclusion(event.target.value)
                               }
                 />
-                to the exclusion list
             </Form.Group>
             
             <div className="exclusion-confirmation-button-row">

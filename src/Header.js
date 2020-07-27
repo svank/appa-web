@@ -54,7 +54,7 @@ class Header extends React.PureComponent {
                      className="header-link-home"
                 >
                     <a href="https://samvankooten.net">
-                    <span style={{display: "flex", alignItems: "center"}}>
+                    <span style={{display: "none", alignItems: "center"}}>
                     <Octicon icon={ChevronLeft} />
                         &nbsp;Home
                         </span>
@@ -114,11 +114,15 @@ const AboutContents = React.memo(() => {
                href="https://ui.adsabs.harvard.edu/">ADS</a> (via {}
             their <a target="_blank" rel="noopener noreferrer"
                 href="http://adsabs.github.io/help/api/">API</a>) {}
-            and find the shortest chains of collaboration that link {}
+            to find the shortest chains of collaboration that link {}
             two astronomers. It is inspired by the {}
             <a target="_blank" rel="noopener noreferrer"
                 href="https://en.wikipedia.org/wiki/Erd%C5%91s_number">
                 Erdős number
+            </a> and was created by {}
+            {/*eslint-disable-next-line*/}
+            <a target="_blank" href="https://samvankooten.net">
+                Sam Van Kooten
             </a>.
             
             <br /><br />
