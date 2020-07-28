@@ -5,6 +5,7 @@
   "dependencies": {
     "@primer/octicons-react": "^9.6.0",
     "bootstrap": "^4.5.0",
+    "dompurify": "^2.0.12",
     "react": "^16.13.1",
     "react-bootstrap": "^1.2.2",
     "react-constellation-sketcher": "^1.0.1",

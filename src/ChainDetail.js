@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Dropdown, Form, Overlay, Popover} from "react-bootstrap";
+import DOMPurify from 'dompurify';
 import NameSyntaxHelp from "./NameSyntaxHelp";
 import './ChainDetail.css';
 
@@ -305,7 +306,7 @@ const DocumentPart = React.memo(props => {
                         className="chain-detail-single-doc-button chain-detail-doc-button"
                         variant="link"
                 >
-                    {document.title}
+                    {displayDocumentTitle(document.title)}
                 </Button>
             </div>
         );
@@ -320,7 +321,7 @@ const DocumentPart = React.memo(props => {
                                      size="lg"
                                      variant="link"
                     >
-                        {document.title}
+                        {displayDocumentTitle(document.title)}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         {props.documents.map((data, idx) =>
@@ -330,7 +331,8 @@ const DocumentPart = React.memo(props => {
                                            active={data[0] === bibcode}
                                            size="lg"
                             >
-                                {findDocument(props, data[0]).title}
+                                {displayDocumentTitle(
+                                    findDocument(props, data[0]).title)}
                             </Dropdown.Item>
                         )}
                     </Dropdown.Menu>
@@ -338,6 +340,10 @@ const DocumentPart = React.memo(props => {
             </div>
         )
 });
+
+function displayDocumentTitle(title) {
+    return <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title)}}/>
+}
 
 const ADSPart = React.memo(props => {
     const url = "https://ui.adsabs.harvard.edu/abs/" + props.bibcode + "/abstract";
