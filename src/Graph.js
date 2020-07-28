@@ -5,7 +5,6 @@ import './Graph.css';
 class Graph extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {shouldShow: false};
         this.buildData = this.buildData.bind(this);
         this.onCyRefSet = this.onCyRefSet.bind(this);
     }
@@ -44,15 +43,7 @@ class Graph extends React.Component {
         });
     }
     
-    static getDerivedStateFromProps(props, state) {
-        if (props.active && !state.shouldShow)
-            return {shouldShow: true};
-        return null;
-    }
-    
     render() {
-        if (!this.state.shouldShow)
-            return null;
         return (
             <div className="graph">
                 <div className="text-muted">

@@ -2,8 +2,8 @@ import React from 'react';
 import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
 import Octicon, {ChevronLeft, Stop} from "@primer/octicons-react";
 import {applyNewExclusion} from './RepoManager';
-import ChainTable from './ChainTable'
-import ChainDetail from './ChainDetail'
+import ChainTable from './ChainTable';
+import ChainDetail from './ChainDetail';
 import DistanceReport from "./DistanceReport";
 import Graph from "./Graph";
 import {NameMatchingDialogButton} from "./NameMatchingHelp";
@@ -153,6 +153,7 @@ class ResultDisplay extends React.Component {
                 </div>
                 <Tabs activeKey={this.state.activeTab}
                       onSelect={this.onTabSelected}
+                      mountOnEnter={true}
                       id="top-row-tabs"
                 >
                     <Tab eventKey="table" title="Table">
@@ -186,7 +187,6 @@ class ResultDisplay extends React.Component {
                     <Tab eventKey="graph" title="Graph">
                         <Graph chains={this.state.chains}
                                key={this.state.sortOption}
-                               active={this.state.activeTab === "graph"}
                         />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
