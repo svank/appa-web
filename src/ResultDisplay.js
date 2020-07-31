@@ -10,6 +10,7 @@ import {NameMatchingDialogButton} from "./NameMatchingHelp";
 import StatsDisplay from "./StatsDisplay";
 import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
+import {URL_BASE_GRAPH_DATA} from "./LocalConfig";
 
 const sortOptions = [
     'confidence',
@@ -38,15 +39,19 @@ class ResultDisplay extends React.Component {
             sortedChainIdx: 0,
             sortOption: "confidence",
             activeTab: "table",
+            graphData: null,
         };
         
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
         this.onTabSelected = this.onTabSelected.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
+        this.loadGraphData = this.loadGraphData.bind(this);
         
         this.width = null;
         this.containerRef = React.createRef();
+        this.graphDataIsLoading = false;
+        this.idxsOfRemovedChains = [];
     }
     
     onChainSelected(idx) {
@@ -81,16 +86,34 @@ class ResultDisplay extends React.Component {
             const oldChains = this.state.chains;
             const newChains = sortChains(this.state.sortOption, newRepo);
             let newSortedChainIdx = this.state.sortedChainIdx;
+            
             // Check if any of the removed chains were before the selected
             // chain. For each one that is, our selection index should
             // decrease so our chain is still selected.
+            const removedChainsIndices = [];
             removedChains.forEach((removedChain) => {
                 const idx = oldChains.indexOf(removedChain);
+                removedChainsIndices.push(idx);
                 if (idx < this.state.sortedChainIdx)
                     newSortedChainIdx--;
             });
             if (newSortedChainIdx >= newChains.length)
                 newSortedChainIdx = newChains.length - 1;
+            
+            // Update graphData if it has been downloaded
+            if (this.state.graphData && removedChainsIndices.length) {
+                const newGraphData = this.state.graphData.slice();
+                removedChainsIndices.reverse();
+                removedChainsIndices.forEach(
+                    idx => newGraphData.splice(idx, 1))
+                this.setState({graphData: newGraphData});
+            } else {
+                // Otherwise log the indices that have to be removed from
+                // graphData if/when it is downloaded.
+                removedChainsIndices.reverse();
+                this.idxsOfRemovedChains.push(...removedChainsIndices);
+            }
+            
             this.setState({
                 repo: newRepo,
                 chains: newChains,
@@ -99,6 +122,37 @@ class ResultDisplay extends React.Component {
             });
         }
         this.props.addExclusion(exclusion, needServer);
+    }
+    
+    loadGraphData() {
+        if (this.graphDataIsLoading)
+            return;
+        this.graphDataIsLoading = true;
+        fetch(URL_BASE_GRAPH_DATA + '?' + this.props.queryString)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if ("error" in data || !("graphData" in data))
+                    throw new Error("not ok");
+                else {
+                    this.idxsOfRemovedChains.forEach(
+                        idx => data.graphData.splice(idx, 1));
+                    this.idxsOfRemovedChains = [];
+                    this.setState({
+                        graphData: data.graphData
+                    });
+                }
+            })
+            .catch(() => {
+                this.setState({
+                    graphData: {error: 'not ok'}
+                });
+            })
+            .finally(() => this.graphDataIsLoading = false);
     }
     
     componentDidMount() {
@@ -185,8 +239,9 @@ class ResultDisplay extends React.Component {
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
-                        <Graph chains={this.state.chains}
-                               key={this.state.sortOption}
+                        <Graph chains={this.state.graphData}
+                               key={this.state.graphData}
+                               loadData={this.loadGraphData}
                         />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">

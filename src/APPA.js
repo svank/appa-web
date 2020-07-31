@@ -95,6 +95,8 @@ class APPA extends React.Component {
     }
     
     queryServerForData(params) {
+        const queryString = params.toString();
+        
         this.setState({
             searchState: {
                 src: params.get("src") || "",
@@ -104,12 +106,13 @@ class APPA extends React.Component {
             isLoading: true,
             error: null,
             loadData: null,
-            data: null
+            data: null,
+            queryString: queryString,
         });
         
         const pKey = generateProgressKey();
         
-        this.getDataFromUrl(URL_BASE + "?" + params.toString(), pKey);
+        this.getDataFromUrl(URL_BASE + "?" + queryString, pKey);
         
         // Set a recent, dummy timestamp to ensure we don't use stale data
         // from a previous query run
@@ -229,6 +232,7 @@ class APPA extends React.Component {
                                key={this.state.data}
                                addExclusion={this.addExclusion}
                                onEditSearch={this.onBackToSearch}
+                               queryString={this.state.queryString}
                 />
             );
             mainClass += " main-content-without-search"

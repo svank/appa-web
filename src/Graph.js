@@ -1,5 +1,6 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import Spinner from "react-bootstrap/Spinner";
 import './Graph.css';
 
 class Graph extends React.Component {
@@ -51,49 +52,33 @@ class Graph extends React.Component {
                     move. Size indicates the number of routes through that {}
                     node or edge.
                 </div>
-                <CytoscapeComponent className="graph-display"
-                                    elements={this.buildData()}
-                                    autolock={true}
-                                    autoungrabify={true}
-                                    boxSelectionEnabled={false}
-                                    cy={this.onCyRefSet}
-                                    stylesheet={[
-                                        {
-                                            selector: 'edge',
-                                            style: {
-                                                'target-arrow-shape': 'triangle',
-                                                'target-arrow-color': 'black',
-                                                'line-color': 'black',
-                                                'curve-style': 'straight'
-                                            }
-                                        },{
-                                            selector: 'node',
-                                            style: {
-                                                label: 'data(label)',
-                                                'text-margin-y': "-5px",
-                                                'text-outline-color': "#FFF",
-                                                'text-outline-opacity': 0.7,
-                                                'text-outline-width': 3,
-                                                'background-color': 'black'
-                                            }
-                                        },{
-                                            selector: '.selection',
-                                            style: {
-                                                'background-color': 'rgb(245,160,64)',
-                                                'line-color': 'rgb(245,160,64)',
-                                                'target-arrow-color': 'rgb(245,160,64)'
-                                            }
-                                        },{
-                                            selector: '.highlighted',
-                                            style: {
-                                                'background-color': 'rgb(0,123,253)',
-                                                'line-color': 'rgb(0,123,253)',
-                                                'target-arrow-color': 'rgb(0,123,253)'
-                                            }
-                                        }
-                                    ]}
-                >
-                </CytoscapeComponent>
+                {this.props.chains === null ?
+                    <h4 style={{textAlign: "center", paddingTop: "20px"}}
+                          className="graph-display"
+                      >
+                        Retrieving graph data&nbsp;&nbsp;&nbsp;
+                        <Spinner animation="border"
+                                 variant="primary"
+                        />
+                        {this.props.loadData()}
+                      </h4>
+                    : this.props.chains.error ?
+                        <h6 style={{textAlign: "center", paddingTop: "20px"}}
+                          className="graph-display"
+                      >
+                        Error retrieving graph data. Please reload the page.
+                      </h6>
+                    :
+                    <CytoscapeComponent className="graph-display"
+                                        elements={this.buildData()}
+                                        autolock={true}
+                                        autoungrabify={true}
+                                        boxSelectionEnabled={false}
+                                        cy={this.onCyRefSet}
+                                        stylesheet={STYLESHEET}
+                    >
+                    </CytoscapeComponent>
+                }
                 
                 <div className="result-display-footer text-muted">
                     Generated with {}
@@ -198,5 +183,41 @@ class Graph extends React.Component {
         return elements;
     }
 }
+
+const STYLESHEET = [ 
+    {
+        selector: 'edge',
+        style: {
+            'target-arrow-shape': 'triangle',
+            'target-arrow-color': 'black',
+            'line-color': 'black',
+            'curve-style': 'straight'
+        }
+    }, {
+        selector: 'node',
+        style: {
+            label: 'data(label)',
+            'text-margin-y': "-5px",
+            'text-outline-color': "#FFF",
+            'text-outline-opacity': 0.7,
+            'text-outline-width': 3,
+            'background-color': 'black'
+        }
+    }, {
+        selector: '.selection',
+        style: {
+            'background-color': 'rgb(245,160,64)',
+            'line-color': 'rgb(245,160,64)',
+            'target-arrow-color': 'rgb(245,160,64)'
+        }
+    }, {
+        selector: '.highlighted',
+        style: {
+            'background-color': 'rgb(0,123,253)',
+            'line-color': 'rgb(0,123,253)',
+            'target-arrow-color': 'rgb(0,123,253)'
+        }
+    }
+];
 
 export default Graph
