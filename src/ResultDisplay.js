@@ -239,7 +239,11 @@ class ResultDisplay extends React.Component {
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
-                        <Graph chains={this.state.graphData}
+                        <Graph chains={
+                                this.state.graphData
+                                    ? sortChains('alphabetical',
+                                        {'chains': this.state.graphData})
+                                    : this.state.graphData}
                                key={this.state.graphData}
                                loadData={this.loadGraphData}
                         />
