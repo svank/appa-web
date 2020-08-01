@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button} from "react-bootstrap";
-import Octicon, {ChevronDown, ChevronUp} from "@primer/octicons-react";
+import {ChevronDownIcon, ChevronUpIcon} from "@primer/octicons-react";
 import './NameSyntaxHelp.css';
 
 const NameSyntaxHelp = React.memo(props => {
@@ -14,8 +14,9 @@ const NameSyntaxHelp = React.memo(props => {
                             onClick={() => setShow(!show)}
                     >
                         {label}&nbsp;
-                        <Octicon icon={show ? ChevronUp : ChevronDown}
-                                 verticalAlign="middle" />
+                        {show
+                            ? <ChevronUpIcon verticalAlign="middle" />
+                            : <ChevronDownIcon verticalAlign="middle" />}
                     </Button>
                     {show ? <NameSyntaxHelpContents /> : null}
                 </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import Octicon, {ChevronRight} from "@primer/octicons-react";
+import {ChevronRightIcon} from "@primer/octicons-react";
 import './ChainTable.css';
 
 class ChainTable extends React.PureComponent {
@@ -50,8 +50,8 @@ class ChainTableCell extends React.PureComponent {
                 <div className="chain-table-cell-contents">
                     {this.props.arrow
                         ? (
-                            <Octicon icon={ChevronRight}
-                                     className="chain-table-cell-arrow"
+                            <ChevronRightIcon
+                                className="chain-table-cell-arrow"
                             /> )
                         : null}
                     {this.props.name}

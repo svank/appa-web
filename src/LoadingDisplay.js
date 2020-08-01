@@ -2,7 +2,7 @@ import React from 'react';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import './LoadingDisplay.css';
 import ConstellationSketcher, {categories} from 'react-constellation-sketcher';
-import Octicon, {Question} from "@primer/octicons-react";
+import {QuestionIcon} from "@primer/octicons-react";
 
 class LoadingDisplay extends React.Component {
     constructor(props) {
@@ -115,7 +115,7 @@ const ADSHelp = React.memo(() => (
                     overlay={renderTooltip}
     >
         <div style={{display: "inline"}}>
-            <Octicon icon={Question} />
+            <QuestionIcon />
         </div>
     </OverlayTrigger>
 ));

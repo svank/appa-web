@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Form} from "react-bootstrap";
-import Octicon, {CloudDownload} from "@primer/octicons-react";
+import {DownloadIcon} from "@primer/octicons-react";
 import D3WordCloud from 'react-d3-cloud';
 import './WordCloud.css';
 
@@ -133,8 +133,7 @@ class WordCloud extends React.Component {
                             <Button variant="primary"
                                     onClick={this.saveAsPNG}
                             >
-                                <Octicon icon={CloudDownload}
-                                         verticalAlign="middle"/>
+                                <DownloadIcon verticalAlign="middle"/>
                                      &nbsp;Save as Image
                             </Button>
                         </div>

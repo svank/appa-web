@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, Button, Modal} from 'react-bootstrap';
-import Octicon, {ChevronLeft} from "@primer/octicons-react";
+import {ChevronLeftIcon} from "@primer/octicons-react";
 import {NameMatchingHelp} from "./NameMatchingHelp";
 import './Header.css';
 
@@ -55,7 +55,7 @@ class Header extends React.PureComponent {
                 >
                     <a href="https://samvankooten.net">
                     <span style={{display: "none", alignItems: "center"}}>
-                    <Octicon icon={ChevronLeft} />
+                    <ChevronLeftIcon />
                         &nbsp;Home
                         </span>
                     </a>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Dropdown, DropdownButton, Tab, Tabs} from "react-bootstrap";
-import Octicon, {ChevronLeft, Stop} from "@primer/octicons-react";
+import {ChevronLeftIcon, StopIcon} from "@primer/octicons-react";
 import {applyNewExclusion} from './RepoManager';
 import ChainTable from './ChainTable';
 import ChainDetail from './ChainDetail';
@@ -180,8 +180,7 @@ class ResultDisplay extends React.Component {
                             className="result-display-edit-search-button"
                              style={{display: "flex", alignItems: "center"}}
                     >
-                        <Octicon icon={ChevronLeft} />
-                    &nbsp;Edit search
+                        <ChevronLeftIcon />&nbsp;Edit&nbsp;search
                     </Button>
                     <StatsDisplay stats={this.state.repo.stats}
                                   repo={this.state.repo}
@@ -192,7 +191,7 @@ class ResultDisplay extends React.Component {
                                 dist={this.state.chains[0].length - 1}
                 />
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <Octicon icon={Stop} />
+                    <StopIcon />
                     &nbsp;Name-matching can be ambiguous.
                     <NameMatchingDialogButton>
                         (why?)
