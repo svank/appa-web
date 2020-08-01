@@ -45,6 +45,43 @@ class Graph extends React.Component {
     }
     
     render() {
+        let core;
+        if (this.props.chains === null)
+            core = (
+                <h4 style={{textAlign: "center", paddingTop: "20px"}}
+                    className="graph-display"
+                >
+                    Retrieving graph data&nbsp;&nbsp;&nbsp;
+                    <Spinner animation="border"
+                             variant="primary"
+                    />
+                    {this.props.loadData()}
+                </h4>
+            );
+        else if (this.props.chains.error)
+            core = (
+                <h6 style={{textAlign: "center", paddingTop: "20px"}}
+                    className="graph-display"
+                >
+                    Error retrieving graph data. Please reload the page.
+                </h6>
+            );
+        else {
+            const [elements, zoom, pan] = this.buildData();
+            core = (
+                <CytoscapeComponent className="graph-display"
+                                    elements={elements}
+                                    zoom={zoom}
+                                    pan={pan}
+                                    autolock={true}
+                                    autoungrabify={true}
+                                    boxSelectionEnabled={false}
+                                    cy={this.onCyRefSet}
+                                    stylesheet={STYLESHEET}
+                >
+                </CytoscapeComponent>
+            );
+        }
         return (
             <div className="graph">
                 <div className="text-muted">
@@ -52,33 +89,8 @@ class Graph extends React.Component {
                     move. Size indicates the number of routes through that {}
                     node or edge.
                 </div>
-                {this.props.chains === null ?
-                    <h4 style={{textAlign: "center", paddingTop: "20px"}}
-                          className="graph-display"
-                      >
-                        Retrieving graph data&nbsp;&nbsp;&nbsp;
-                        <Spinner animation="border"
-                                 variant="primary"
-                        />
-                        {this.props.loadData()}
-                      </h4>
-                    : this.props.chains.error ?
-                        <h6 style={{textAlign: "center", paddingTop: "20px"}}
-                          className="graph-display"
-                      >
-                        Error retrieving graph data. Please reload the page.
-                      </h6>
-                    :
-                    <CytoscapeComponent className="graph-display"
-                                        elements={this.buildData()}
-                                        autolock={true}
-                                        autoungrabify={true}
-                                        boxSelectionEnabled={false}
-                                        cy={this.onCyRefSet}
-                                        stylesheet={STYLESHEET}
-                    >
-                    </CytoscapeComponent>
-                }
+                
+                {core}
                 
                 <div className="result-display-footer text-muted">
                     Generated with {}
@@ -96,14 +108,20 @@ class Graph extends React.Component {
     }
     
     buildData() {
+        const HEIGHT = 800;
+        const WIDTH = 836;
+        // Leave room for names wider than the nodes
+        const HORIZ_BUFFER = 100
+        const USABLE_WIDTH = WIDTH - 2 * HORIZ_BUFFER;
+        
         const nodes = {};
         const edges = {};
+        
+        // Width of the graph in nodes
         const nodeWidth = this.props.chains[0].length;
-        
-        const horizStepSize = 635 / (nodeWidth - 1);
-        const horizOffset = 100;
-        
+        // `counters` stores a nodeHeight for each column
         const counters = [];
+        
         let maxWidth = 1;
         let maxNodeSize = 1;
         
@@ -118,7 +136,7 @@ class Graph extends React.Component {
                     nodes[author] = {
                         data: {id: author, label: author, i: i,},
                         position: {
-                            x: horizStepSize * i + horizOffset,
+                            x: i,
                             y: counters[i]
                         },
                         style: {width: 1, height: 1}
@@ -153,22 +171,34 @@ class Graph extends React.Component {
             }
         }
         
+        // Now that we know how many nodes are in each column, we can
+        // properly distribute them.
+        let vertOffset = -HEIGHT/2;
+        let horizOffset = -WIDTH/2 + HORIZ_BUFFER;
+        
+        let horizStepSize = USABLE_WIDTH / (nodeWidth - 1);
+        let vertStepSize = counters.map(counter => HEIGHT / (counter + 1));
+        
         // Normally, we distribute nodes over the 800px height of the graph.
         // But if that puts nodes in any "column" too close together, we scale
         // up the vertical separations between nodes in every column so text
         // labels don't overlap, and offset everything a constant amount so
-        // the src and dest nodes are in the initial view field.
+        // the src and dest nodes are in the initial view field. The horiz
+        // separation also scales to maintain the aspect ratio.
+        let scale = 1;
         const maxCount = Math.max(...counters);
-        let posMult = 1;
-        let posOff = 0;
-        if (800 / maxCount < 50) {
-            posMult = 50 / (800 / maxCount);
-            posOff = (posMult - 1) * 800 / 2;
+        if (HEIGHT / maxCount < 50) {
+            scale = 50 / (HEIGHT / maxCount);
+            vertOffset = -scale * HEIGHT / 2;
+            horizOffset = -scale * USABLE_WIDTH/2;
+            vertStepSize = vertStepSize.map(size => scale * size)
+            horizStepSize *= scale;
         }
         
         // Redistribute nodes vertically, normalize node sizes
         const elements = Object.values(nodes).map((node, idx) => {
-            node.position.y = 800 / (counters[node.data.i]+1) * (node.position.y+1) * posMult - posOff;
+            node.position.y = vertStepSize[node.data.i] * (node.position.y + 1) + vertOffset;
+            node.position.x = node.position.x * horizStepSize + horizOffset;
             node.style.width = node.style.width * 30 / maxNodeSize + 10;
             node.style.height = node.style.width;
             return node;
@@ -180,7 +210,9 @@ class Graph extends React.Component {
             edge.style.width = edge.style.width * 10 / maxWidth + .25;
         
         elements.push(...edgesArray);
-        return elements;
+        
+        let pan = {x: WIDTH/2, y: HEIGHT/2}
+        return [elements, 0.95 / scale, pan];
     }
 }
 
