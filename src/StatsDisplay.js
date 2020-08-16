@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {Button, Overlay, Popover} from "react-bootstrap";
 import './StatsDisplay.css';
 
@@ -33,8 +33,9 @@ const StatsDisplay = React.memo(props => {
                     <Popover.Content>
                         Queried {props.stats.n_authors_queried} authors and {}
                         checked {props.stats.n_docs_queried} documents. {}
-                        A total of {props.stats.n_network_queries} {}
-                        queries to ADS were required, which took {}
+                        A total of {props.stats.n_authors_from_ads} authors {}
+                        were queried from ADS in {}
+                        {props.stats.n_network_queries} queries, which took {}
                         {props.stats.time_waiting_network.toFixed(2)} {}
                         of the {}
                         {props.stats.total_time.toFixed(2)} {}
