@@ -192,7 +192,7 @@ class ResultDisplay extends React.Component {
                 />
                 <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
                     <StopIcon />
-                    &nbsp;Name-matching can be ambiguous.
+                    &nbsp;These results cannot be guaranteed to be correct.
                     <NameMatchingDialogButton>
                         (why?)
                     </NameMatchingDialogButton>

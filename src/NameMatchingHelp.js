@@ -7,7 +7,8 @@ const NameMatchingHelp = React.memo(() => {
         <div>
             An important caveat in APPA's work is that name {}
             disambiguation is hard. If Jane Doe and John Doe both {}
-            publish in astronomy, it isn't possible to determine who {}
+            publish in astronomy, it isn't possible to (automatically) {}
+            determine who {}
             wrote a paper published under the name &ldquo;J. Doe&rdquo;. {}
             APPA follows how ADS performs {}
             <a target="_blank" rel="noopener noreferrer"
@@ -27,10 +28,21 @@ const NameMatchingHelp = React.memo(() => {
             
             <br /><br />
             
+            Additionally, if one person has published under two different names {}
+            or two different spellings of a name, there may be chains that {}
+            cannot be found due to this variation, and so there may be more {}
+            or closer connections than APPA is able to find. APPA is able to {}
+            use ADS' hand-curated list of name synonyms to handle some, but {}
+            not all, of these name variations.
+            
+            <br /><br />
+            
             <Alert variant="warning">
-                Because of this name ambiguity, every {}
+                Because of these factors, every {}
                 coauthorship chain <i>must</i> be verified before it {}
-                is believed. Once a search is complete, APPA offers {}
+                is believed, and APPA cannot promise it will find the {}
+                most direct connection between authors. Once a search {}
+                is complete, APPA offers {}
                 you tools to explore the proposed coauthorship {}
                 chains and remove false positives. APPA also lets you {}
                 restrict name-matching with =, &lt;, and &gt; modifiers.
