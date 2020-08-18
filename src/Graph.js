@@ -14,33 +14,69 @@ class Graph extends React.Component {
         cy.$('node').on('mouseover', (e) => {
             const sel = e.target;
             sel.successors()
-                .union(sel.predecessors())
-                .union(sel)
-                .addClass('highlighted');
+               .union(sel.predecessors())
+               .union(sel)
+               .addClass('highlighted');
         });
     
         cy.$('node').on('mouseout', (e) => {
             const sel = e.target;
             sel.successors()
-                .union(sel.predecessors())
-                .union(sel)
-                .removeClass('highlighted');
+               .union(sel.predecessors())
+               .union(sel)
+               .removeClass('highlighted');
+        });
+        
+        cy.$('edge').on('mouseover', (e) => {
+            const sel = e.target;
+            sel.union(sel.source())
+               .union(sel.target())
+               .union(sel.target().successors())
+               .union(sel.source().predecessors())
+               .addClass('highlighted');
+        });
+        
+        cy.$('edge').on('mouseout', (e) => {
+            const sel = e.target;
+            sel.union(sel.source())
+               .union(sel.target())
+               .union(sel.target().successors())
+               .union(sel.source().predecessors())
+               .removeClass('highlighted');
         });
     
         cy.$('node').on('select', (e) => {
             const sel = e.target;
             sel.successors()
-                .union(sel.predecessors())
-                .union(sel)
-                .addClass('selection');
+               .union(sel.predecessors())
+               .union(sel)
+               .addClass('selection');
         });
         
         cy.$('node').on('unselect', (e) => {
             const sel = e.target;
             sel.successors()
-                .union(sel.predecessors())
-                .union(sel)
-                .removeClass('selection');
+               .union(sel.predecessors())
+               .union(sel)
+               .removeClass('selection');
+        });
+        
+        cy.$('edge').on('select', (e) => {
+            const sel = e.target;
+            sel.union(sel.source())
+               .union(sel.target())
+               .union(sel.target().successors())
+               .union(sel.source().predecessors())
+               .addClass('selection');
+        });
+        
+        cy.$('edge').on('unselect', (e) => {
+            const sel = e.target;
+            sel.union(sel.source())
+               .union(sel.target())
+               .union(sel.target().successors())
+               .union(sel.source().predecessors())
+               .removeClass('selection');
         });
     }
     
