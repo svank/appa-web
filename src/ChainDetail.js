@@ -316,7 +316,7 @@ const DocumentPart = React.memo(props => {
                 <ExcludeButtonPart exclusion={bibcode}
                                    addExclusion={props.addExclusion}
                 />
-                <Dropdown alignRight>
+                <Dropdown>
                     <Dropdown.Toggle className="chain-detail-doc-button"
                                      size="lg"
                                      variant="link"
@@ -342,7 +342,7 @@ const DocumentPart = React.memo(props => {
 });
 
 function displayDocumentTitle(title) {
-    return <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title)}}/>
+    return <span dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(title)}}/>
 }
 
 const ADSPart = React.memo(props => {
