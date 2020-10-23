@@ -41,9 +41,18 @@ class GraphInner extends React.Component {
     onCyRefSet(cy) {
         if (this.cy)
             return;
+        
         this.cy = cy;
         this.oldWidth = this.cy.container().clientWidth;
         this.oldHeight = this.cy.container().clientHeight;
+        
+        const [elements, zoom, pan] = this.buildData(
+            cy.container().clientWidth,
+            cy.container().clientHeight);
+        
+        cy.add(elements);
+        cy.pan(pan);
+        cy.zoom(zoom);
         
         cy.$('node').on('mouseover', (e) => {
             const sel = e.target;
@@ -155,12 +164,11 @@ class GraphInner extends React.Component {
                 </h6>
             );
         else {
-            const [elements, zoom, pan] = this.buildData();
             core = (
                 <CytoscapeComponent className="graph-display"
-                                    elements={elements}
-                                    zoom={zoom}
-                                    pan={pan}
+                                    // If an empty list isn't provided, a
+                                    // default set of elements seems to be used
+                                    elements={[]}
                                     autolock={true}
                                     autoungrabify={true}
                                     boxSelectionEnabled={false}
@@ -199,9 +207,13 @@ class GraphInner extends React.Component {
         );
     }
     
-    buildData() {
-        const HEIGHT = 800;
-        const WIDTH = 836;
+    buildData(initialWidth, initialHeight) {
+        const WIDTH = initialWidth;
+        // If we find ourselves with a very tall aspect ratio, don't
+        // use it all.
+        const HEIGHT = initialHeight < 1.4 * initialWidth
+                        ? initialHeight
+                        : initialWidth;
         // Leave room for names wider than the nodes
         const HORIZ_BUFFER = 100
         const USABLE_WIDTH = WIDTH - 2 * HORIZ_BUFFER;
