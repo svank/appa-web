@@ -94,6 +94,7 @@ class GraphInner extends React.Component {
                .union(sel.predecessors())
                .union(sel)
                .addClass('selection');
+            sel.addClass('main-selection');
         });
         
         cy.$('node').on('unselect', (e) => {
@@ -102,6 +103,7 @@ class GraphInner extends React.Component {
                .union(sel.predecessors())
                .union(sel)
                .removeClass('selection');
+            sel.removeClass('main-selection');
         });
         
         cy.$('edge').on('select', (e) => {
@@ -215,8 +217,9 @@ class GraphInner extends React.Component {
                         ? initialHeight
                         : initialWidth;
         // Leave room for names wider than the nodes
-        const HORIZ_BUFFER = 100
+        const HORIZ_BUFFER = 50 * initialWidth / 800;
         const USABLE_WIDTH = WIDTH - 2 * HORIZ_BUFFER;
+        const MIN_HORIZ_STEP_SIZE = 125;
         
         const nodes = {};
         const edges = {};
@@ -281,6 +284,8 @@ class GraphInner extends React.Component {
         let horizOffset = -WIDTH/2 + HORIZ_BUFFER;
         
         let horizStepSize = USABLE_WIDTH / (nodeWidth - 1);
+        if (horizStepSize < MIN_HORIZ_STEP_SIZE)
+            horizStepSize = MIN_HORIZ_STEP_SIZE;
         let vertStepSize = counters.map(counter => HEIGHT / (counter + 1));
         
         // Normally, we distribute nodes over the 800px height of the graph.
@@ -351,6 +356,11 @@ const STYLESHEET = [
             'background-color': 'rgb(0,123,253)',
             'line-color': 'rgb(0,123,253)',
             'target-arrow-color': 'rgb(0,123,253)'
+        }
+    }, {
+        selector: '.main-selection',
+        style: {
+            'z-index': 99999,
         }
     }
 ];
