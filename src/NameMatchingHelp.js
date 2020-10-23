@@ -98,13 +98,13 @@ class NameMatchingDialogButton extends React.PureComponent {
     }
     
     render() {
+        const Aux = props => props.children;
         return (
-            <div>
+            <Aux>
                 <Button variant="link"
                         onClick={this.handleShowDialog}
                         style={{
-                            paddingTop: "0px",
-                            paddingBottom: "0px",
+                            padding: "0px",
                             borderTop: "0px",
                         }}
                 >
@@ -124,7 +124,7 @@ class NameMatchingDialogButton extends React.PureComponent {
                         <NameMatchingHelp />
                     </Modal.Body>
                 </Modal>
-            </div>
+            </Aux>
         )
     }
 }

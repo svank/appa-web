@@ -190,9 +190,9 @@ class ResultDisplay extends React.Component {
                                 dest={this.state.repo.originalDestWithMods}
                                 dist={this.state.chains[0].length - 1}
                 />
-                <div style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
-                    <StopIcon />
-                    &nbsp;These results cannot be guaranteed to be correct.
+                <div>
+                    <StopIcon verticalAlign="text-top" />
+                    &nbsp;&nbsp;These results cannot be guaranteed to be correct.&nbsp;&nbsp;
                     <NameMatchingDialogButton>
                         (why?)
                     </NameMatchingDialogButton>
