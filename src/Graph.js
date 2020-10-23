@@ -1,9 +1,37 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import Spinner from "react-bootstrap/Spinner";
+import {ScreenFullIcon, ScreenNormalIcon} from "@primer/octicons-react";
+import {FullScreen, useFullScreenHandle} from "react-full-screen";
 import './Graph.css';
 
-class Graph extends React.Component {
+function Graph(props) {
+    const fullScreenHandle = useFullScreenHandle();
+    
+    return (
+        <div>
+            <FullScreen handle={fullScreenHandle}>
+                <GraphInner {...props}
+                    fullScreenHandle={fullScreenHandle}
+                />
+            </FullScreen>
+            
+            <div className="result-display-footer text-muted">
+                Generated with {}
+                <a target="_blank" rel="noopener noreferrer"
+                   href="https://github.com/plotly/react-cytoscapejs">
+                    react-cytoscapejs
+                </a> and {}
+                <a target="_blank" rel="noopener noreferrer"
+                   href="https://github.com/cytoscape/cytoscape.js">
+                    cytoscape.js
+                </a>.
+            </div>
+        </div>
+    );
+}
+
+class GraphInner extends React.Component {
     constructor(props) {
         super(props);
         this.buildData = this.buildData.bind(this);
@@ -11,6 +39,12 @@ class Graph extends React.Component {
     }
     
     onCyRefSet(cy) {
+        if (this.cy)
+            return;
+        this.cy = cy;
+        this.oldWidth = this.cy.container().clientWidth;
+        this.oldHeight = this.cy.container().clientHeight;
+        
         cy.$('node').on('mouseover', (e) => {
             const sel = e.target;
             sel.successors()
@@ -80,6 +114,24 @@ class Graph extends React.Component {
         });
     }
     
+    componentDidUpdate() {
+        const newWidth = this.cy.container().clientWidth;
+        const newHeight = this.cy.container().clientHeight;
+        
+        const dw = (newWidth - this.oldWidth);
+        const dh = (newHeight - this.oldHeight);
+        
+        if (newWidth === 0 || newHeight === 0 || dw === 0 || dh === 0)
+            return;
+        
+        this.cy.panBy({x: dw/2, y: dh/2});
+        
+        this.cy.zoom(this.cy.zoom() * newHeight / this.oldHeight);
+        
+        this.oldWidth = this.cy.container().clientWidth;
+        this.oldHeight = this.cy.container().clientHeight;
+    }
+    
     render() {
         let core;
         if (this.props.chains === null)
@@ -118,27 +170,31 @@ class Graph extends React.Component {
                 </CytoscapeComponent>
             );
         }
+        
         return (
             <div className="graph">
-                <div className="text-muted">
+                <div className="text-muted graph-header-text">
                     Click or hover to highlight, scroll/pinch to zoom, drag to {}
                     move. Size indicates the number of routes through that {}
                     node or edge.
                 </div>
                 
+                <button onClick={this.props.fullScreenHandle.enter}
+                   className="graph-enter-fullscreen graph-fullscreen-btn"
+                   title="Go full-screen"
+                >
+                    <ScreenFullIcon size={24} />
+                </button>
+                
+                <button onClick={this.props.fullScreenHandle.exit}
+                   className="graph-exit-fullscreen graph-fullscreen-btn"
+                   title="Exit full-screen"
+                >
+                    <ScreenNormalIcon size={24} />
+                </button>
+                
                 {core}
                 
-                <div className="result-display-footer text-muted">
-                    Generated with {}
-                    <a target="_blank" rel="noopener noreferrer"
-                       href="https://github.com/plotly/react-cytoscapejs">
-                        react-cytoscapejs
-                    </a> and {}
-                    <a target="_blank" rel="noopener noreferrer"
-                       href="https://github.com/cytoscape/cytoscape.js">
-                        cytoscape.js
-                    </a>.
-                </div>
             </div>
         );
     }

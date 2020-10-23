@@ -8,8 +8,29 @@
 .graph-display {
   width: 836px;
   height: 800px;
-  margin-top: 10px;
+  margin-top: -24px;
   border: solid 3px #CCC;
+}
+
+.fullscreen-enabled {
+  background: #FFF;
+}
+
+.fullscreen-enabled .graph {
+  display: flex !important;
+  height: 100%;
+  flex-direction: column;
+}
+
+.fullscreen-enabled .graph-display {
+  width: 100% !important;
+  height: unset !important;
+  flex-grow: 1;
+}
+
+.fullscreen-enabled .graph-header-text {
+  text-align: center;
+  flex: 0 0 auto;
 }
 
 @media screen and (max-width: 912px) {
@@ -17,4 +38,31 @@
     width: 100%;
     height: 80vh;
   }
+}
+
+.graph-fullscreen-btn {
+  position: relative;
+  top: 8px;
+  left: 5px;
+  z-index: 999;
+  
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline;
+  margin: 0;
+  padding: 0;
+  align-self: flex-start;
+}
+
+.graph-exit-fullscreen {
+  display: none;
+}
+
+.fullscreen-enabled .graph-exit-fullscreen {
+  display: inline !important;
+}
+
+.fullscreen-enabled .graph-enter-fullscreen {
+  display: none !important;
 }
