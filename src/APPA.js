@@ -254,6 +254,15 @@ class APPA extends React.Component {
 }
 
 function welcomeMessage(component) {
+    try {
+        localStorage.getItem("APPA-WelcomeSeen")
+    } catch(err) {
+        // If any error is raised accessing localStorage, fall back
+        // to not showing the welcome message. This can occur if local
+        // storage is not allowed by the browser, and we don't want to pester
+        // the user with every page load.
+        return null;
+    }
     if (localStorage.getItem("APPA-WelcomeSeen") !== null)
         return null;
     return (
@@ -273,7 +282,9 @@ function welcomeMessage(component) {
 }
 
 function recordWelcomeSeen() {
-    localStorage.setItem("APPA-WelcomeSeen", "y");
+    try {
+        localStorage.setItem("APPA-WelcomeSeen", "y");
+    } catch(err) {}
 }
 
 function parseError(error) {
