@@ -35,3 +35,9 @@
     border-radius: 0;
   }
 }
+
+.alert-dismissible {
+  /* Adds padding to compensate for the 'x' button to close the banner,
+   so the banner contents are centered */
+  padding-left: 4rem;
+}
