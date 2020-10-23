@@ -256,7 +256,6 @@ const STYLESHEET = [
     {
         selector: 'edge',
         style: {
-            'target-arrow-shape': 'triangle',
             'target-arrow-color': 'black',
             'line-color': 'black',
             'curve-style': 'straight'
@@ -267,7 +266,7 @@ const STYLESHEET = [
             label: 'data(label)',
             'text-margin-y': "-5px",
             'text-outline-color': "#FFF",
-            'text-outline-opacity': 0.7,
+            'text-outline-opacity': 0.8,
             'text-outline-width': 3,
             'background-color': 'black'
         }
