@@ -145,6 +145,7 @@ class GraphInner extends React.Component {
     
     render() {
         let core;
+        let buttons = <div className="graph-buttons-container" />
         if (this.props.chains === null)
             core = (
                 <h4 style={{textAlign: "center", paddingTop: "20px"}}
@@ -179,6 +180,23 @@ class GraphInner extends React.Component {
                 >
                 </CytoscapeComponent>
             );
+            buttons = (
+                <div className="graph-buttons-container">
+                    <button onClick={this.props.fullScreenHandle.enter}
+                       className="graph-enter-fullscreen graph-fullscreen-btn"
+                       title="Go full-screen"
+                    >
+                        <ScreenFullIcon size={24} />
+                    </button>
+                    
+                    <button onClick={this.props.fullScreenHandle.exit}
+                       className="graph-exit-fullscreen graph-fullscreen-btn"
+                       title="Exit full-screen"
+                    >
+                        <ScreenNormalIcon size={24} />
+                    </button>
+                </div>
+            )
         }
         
         return (
@@ -189,19 +207,7 @@ class GraphInner extends React.Component {
                     node or edge.
                 </div>
                 
-                <button onClick={this.props.fullScreenHandle.enter}
-                   className="graph-enter-fullscreen graph-fullscreen-btn"
-                   title="Go full-screen"
-                >
-                    <ScreenFullIcon size={24} />
-                </button>
-                
-                <button onClick={this.props.fullScreenHandle.exit}
-                   className="graph-exit-fullscreen graph-fullscreen-btn"
-                   title="Exit full-screen"
-                >
-                    <ScreenNormalIcon size={24} />
-                </button>
+                {buttons}
                 
                 {core}
                 

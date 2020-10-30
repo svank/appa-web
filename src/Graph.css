@@ -8,8 +8,8 @@
 .graph-display {
   width: 836px;
   height: 800px;
-  margin-top: -24px;
   border: solid 3px #CCC;
+  margin-top: -20px;
 }
 
 .fullscreen-enabled {
@@ -40,12 +40,15 @@
   }
 }
 
-.graph-fullscreen-btn {
+.graph-buttons-container {
   position: relative;
-  top: 8px;
+  top: 9px;
   left: 5px;
   z-index: 999;
-  
+  height: 24px;
+}
+
+.graph-fullscreen-btn {
   background-color: transparent;
   border: none;
   cursor: pointer;
