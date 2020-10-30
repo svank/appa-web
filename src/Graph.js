@@ -39,7 +39,7 @@ class GraphInner extends React.Component {
     }
     
     onCyRefSet(cy) {
-        if (this.cy)
+        if (this.cy || cy.container().clientWidth === 0)
             return;
         
         this.cy = cy;
@@ -126,13 +126,21 @@ class GraphInner extends React.Component {
     }
     
     componentDidUpdate() {
+        if (this.cy === undefined)
+            return;
+        
         const newWidth = this.cy.container().clientWidth;
         const newHeight = this.cy.container().clientHeight;
         
         const dw = (newWidth - this.oldWidth);
         const dh = (newHeight - this.oldHeight);
         
-        if (newWidth === 0 || newHeight === 0 || dw === 0 || dh === 0)
+        if (this.oldWidth === 0
+            || this.oldHeight === 0
+            || newWidth === 0
+            || newHeight === 0
+            || dw === 0
+            || dh === 0)
             return;
         
         this.cy.panBy({x: dw/2, y: dh/2});
@@ -141,6 +149,12 @@ class GraphInner extends React.Component {
         
         this.oldWidth = this.cy.container().clientWidth;
         this.oldHeight = this.cy.container().clientHeight;
+    }
+    
+    componentWillUnmount() {
+        delete this.cy;
+        delete this.oldHeight;
+        delete this.oldWidth;
     }
     
     render() {
