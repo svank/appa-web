@@ -8,6 +8,7 @@ function parseServerResponse(data) {
         chains: data.chains,
         paperChoicesForChain: data.paper_choices_for_chain,
         stats: data.stats,
+        graphTranslation: data.graph_translation,
     };
 }
 
@@ -25,6 +26,7 @@ function copyRepo(repo) {
     newRepo.originalSourceWithMods = repo.originalSourceWithMods;
     newRepo.originalDestWithMods= repo.originalDestWithMods;
     newRepo.stats = Object.assign({}, repo.stats);
+    newRepo.graphTranslation = repo.graphTranslation;
     return newRepo;
 }
 

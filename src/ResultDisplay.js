@@ -10,7 +10,6 @@ import {NameMatchingDialogButton} from "./NameMatchingHelp";
 import StatsDisplay from "./StatsDisplay";
 import WordCloud from "./WordCloud";
 import './ResultDisplay.css';
-import {URL_BASE_GRAPH_DATA} from "./LocalConfig";
 
 const sortOptions = [
     'confidence',
@@ -39,19 +38,15 @@ class ResultDisplay extends React.Component {
             sortedChainIdx: 0,
             sortOption: "confidence",
             activeTab: "table",
-            graphData: null,
         };
         
         this.onChainSelected = this.onChainSelected.bind(this);
         this.onSortSelected = this.onSortSelected.bind(this);
         this.onTabSelected = this.onTabSelected.bind(this);
         this.addExclusion = this.addExclusion.bind(this);
-        this.loadGraphData = this.loadGraphData.bind(this);
         
         this.width = null;
         this.containerRef = React.createRef();
-        this.graphDataIsLoading = false;
-        this.idxsOfRemovedChains = [];
     }
     
     onChainSelected(idx) {
@@ -100,20 +95,6 @@ class ResultDisplay extends React.Component {
             if (newSortedChainIdx >= newChains.length)
                 newSortedChainIdx = newChains.length - 1;
             
-            // Update graphData if it has been downloaded
-            if (this.state.graphData && removedChainsIndices.length) {
-                const newGraphData = this.state.graphData.slice();
-                removedChainsIndices.reverse();
-                removedChainsIndices.forEach(
-                    idx => newGraphData.splice(idx, 1))
-                this.setState({graphData: newGraphData});
-            } else {
-                // Otherwise log the indices that have to be removed from
-                // graphData if/when it is downloaded.
-                removedChainsIndices.reverse();
-                this.idxsOfRemovedChains.push(...removedChainsIndices);
-            }
-            
             this.setState({
                 repo: newRepo,
                 chains: newChains,
@@ -122,37 +103,6 @@ class ResultDisplay extends React.Component {
             });
         }
         this.props.addExclusion(exclusion, needServer);
-    }
-    
-    loadGraphData() {
-        if (this.graphDataIsLoading)
-            return;
-        this.graphDataIsLoading = true;
-        fetch(URL_BASE_GRAPH_DATA + '?' + this.props.queryString)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("not ok");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if ("error" in data || !("graphData" in data))
-                    throw new Error("not ok");
-                else {
-                    this.idxsOfRemovedChains.forEach(
-                        idx => data.graphData.splice(idx, 1));
-                    this.idxsOfRemovedChains = [];
-                    this.setState({
-                        graphData: data.graphData
-                    });
-                }
-            })
-            .catch(() => {
-                this.setState({
-                    graphData: {error: 'not ok'}
-                });
-            })
-            .finally(() => this.graphDataIsLoading = false);
     }
     
     componentDidMount() {
@@ -238,13 +188,8 @@ class ResultDisplay extends React.Component {
                         />
                     </Tab>
                     <Tab eventKey="graph" title="Graph">
-                        <Graph chains={
-                                this.state.graphData
-                                    ? sortChains('alphabetical',
-                                        {'chains': this.state.graphData})
-                                    : this.state.graphData}
-                               key={this.state.graphData}
-                               loadData={this.loadGraphData}
+                        <Graph repo={this.state.repo}
+                               key={this.state.repo.chains.length}
                         />
                     </Tab>
                     <Tab eventKey="word-cloud" title="Word Cloud">
@@ -364,3 +309,4 @@ function calcReadCountScore(chain, repo) {
 }
 
 export default ResultDisplay;
+export {sortChains};

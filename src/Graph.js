@@ -1,8 +1,8 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import Spinner from "react-bootstrap/Spinner";
 import {ScreenFullIcon, ScreenNormalIcon} from "@primer/octicons-react";
 import {FullScreen, useFullScreenHandle} from "react-full-screen";
+import {sortChains} from "./ResultDisplay";
 import './Graph.css';
 
 function Graph(props) {
@@ -158,60 +158,36 @@ class GraphInner extends React.Component {
     }
     
     render() {
-        let core;
-        let buttons = <div className="graph-buttons-container" />
-        if (this.props.chains === null)
-            core = (
-                <h4 style={{textAlign: "center", paddingTop: "20px"}}
-                    className="graph-display"
+        let core = (
+            <CytoscapeComponent className="graph-display"
+                                // If an empty list isn't provided, a
+                                // default set of elements seems to be used
+                                elements={[]}
+                                autolock={true}
+                                autoungrabify={true}
+                                boxSelectionEnabled={false}
+                                cy={this.onCyRefSet}
+                                stylesheet={STYLESHEET}
+            >
+            </CytoscapeComponent>
+        );
+        let buttons = (
+            <div className="graph-buttons-container">
+                <button onClick={this.props.fullScreenHandle.enter}
+                   className="graph-enter-fullscreen graph-fullscreen-btn"
+                   title="Go full-screen"
                 >
-                    Retrieving graph data&nbsp;&nbsp;&nbsp;
-                    <Spinner animation="border"
-                             variant="primary"
-                    />
-                    {this.props.loadData()}
-                </h4>
-            );
-        else if (this.props.chains.error)
-            core = (
-                <h6 style={{textAlign: "center", paddingTop: "20px"}}
-                    className="graph-display"
+                    <ScreenFullIcon size={24} />
+                </button>
+                
+                <button onClick={this.props.fullScreenHandle.exit}
+                   className="graph-exit-fullscreen graph-fullscreen-btn"
+                   title="Exit full-screen"
                 >
-                    Error retrieving graph data. Please reload the page.
-                </h6>
-            );
-        else {
-            core = (
-                <CytoscapeComponent className="graph-display"
-                                    // If an empty list isn't provided, a
-                                    // default set of elements seems to be used
-                                    elements={[]}
-                                    autolock={true}
-                                    autoungrabify={true}
-                                    boxSelectionEnabled={false}
-                                    cy={this.onCyRefSet}
-                                    stylesheet={STYLESHEET}
-                >
-                </CytoscapeComponent>
-            );
-            buttons = (
-                <div className="graph-buttons-container">
-                    <button onClick={this.props.fullScreenHandle.enter}
-                       className="graph-enter-fullscreen graph-fullscreen-btn"
-                       title="Go full-screen"
-                    >
-                        <ScreenFullIcon size={24} />
-                    </button>
-                    
-                    <button onClick={this.props.fullScreenHandle.exit}
-                       className="graph-exit-fullscreen graph-fullscreen-btn"
-                       title="Exit full-screen"
-                    >
-                        <ScreenNormalIcon size={24} />
-                    </button>
-                </div>
-            )
-        }
+                    <ScreenNormalIcon size={24} />
+                </button>
+            </div>
+        )
         
         return (
             <div className="graph">
@@ -245,7 +221,7 @@ class GraphInner extends React.Component {
         const edges = {};
         
         // Width of the graph in nodes
-        const nodeWidth = this.props.chains[0].length;
+        const nodeWidth = this.props.repo.chains[0].length;
         // `counters` stores a nodeHeight for each column
         const counters = [];
         
@@ -255,13 +231,16 @@ class GraphInner extends React.Component {
         for (let i=0; i<nodeWidth; i++)
             counters.push(0);
         
+        const chains = sortChains('alphabetical', this.props.repo);
+        
         // Generate all the nodes
-        for (let chain of this.props.chains) {
+        for (let chain of chains) {
             // eslint-disable-next-line
             chain.forEach((author, i) => {
-                if (!(author in nodes)) {
-                    nodes[author] = {
-                        data: {id: author, label: author, i: i,},
+                const label = this.props.repo.graphTranslation[i][author.toLowerCase()];
+                if (!(label in nodes)) {
+                    nodes[label] = {
+                        data: {id: label, label: label, i: i},
                         position: {
                             x: i,
                             y: counters[i]
@@ -270,18 +249,20 @@ class GraphInner extends React.Component {
                     };
                     counters[i]++;
                 } else {
-                    nodes[author].style.width += 1;
-                    nodes[author].style.height += 1;
-                    maxNodeSize = Math.max(maxNodeSize, nodes[author].style.width);
+                    nodes[label].style.width += 1;
+                    nodes[label].style.height += 1;
+                    maxNodeSize = Math.max(maxNodeSize, nodes[label].style.width);
                 }
             });
         }
         
         // Generate all the edges
-        for (let chain of this.props.chains) {
+        for (let chain of chains) {
             for (let i=0; i<chain.length - 1; i++) {
-                const author = chain[i];
-                const nextAuthor = chain[i+1];
+                const author = this.props.repo.graphTranslation[i][
+                    chain[i].toLowerCase()];
+                const nextAuthor = this.props.repo.graphTranslation[i+1][
+                    chain[i+1].toLowerCase()];
                 if (!(author+nextAuthor in edges)) {
                     edges[author + nextAuthor] = {
                         data: {
