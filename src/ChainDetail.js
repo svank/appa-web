@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Button, Dropdown, Form, Overlay, Popover} from "react-bootstrap";
 import DOMPurify from 'dompurify';
 import NameSyntaxHelp from "./NameSyntaxHelp";
+import {ADSUrl} from "./Util";
 import './ChainDetail.css';
 
 class ChainDetail extends React.PureComponent {
@@ -346,7 +347,7 @@ function displayDocumentTitle(title) {
 }
 
 const ADSPart = React.memo(props => {
-    const url = "https://ui.adsabs.harvard.edu/abs/" + props.bibcode + "/abstract";
+    const url = ADSUrl(props.bibcode);
     return (
         <a href={url}
            target="_blank"
@@ -454,3 +455,4 @@ const month_list = ["January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December"];
 
 export default ChainDetail
+export {ADSPart}

@@ -69,3 +69,18 @@
 .fullscreen-enabled .graph-enter-fullscreen {
   display: none !important;
 }
+
+.graph-tooltip-head {
+  font-weight: bold;
+  margin: 0 0 .25em 0;
+}
+
+.graph-tooltip-item {
+  margin: 0 0 .25em 0;
+  padding-bottom: .25em;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.graph-tooltip-item:last-child {
+  border-bottom: unset;
+}

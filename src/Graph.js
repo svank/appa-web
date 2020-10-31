@@ -1,9 +1,17 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import cytoscape from 'cytoscape';
+import popper from 'cytoscape-popper';
+import Tippy, {sticky} from 'tippy.js';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light-border.css';
 import {ScreenFullIcon, ScreenNormalIcon} from "@primer/octicons-react";
 import {FullScreen, useFullScreenHandle} from "react-full-screen";
 import {sortChains} from "./ResultDisplay";
+import {ADSUrl} from "./Util";
 import './Graph.css';
+
+cytoscape.use(popper);
 
 function Graph(props) {
     const fullScreenHandle = useFullScreenHandle();
@@ -113,6 +121,8 @@ class GraphInner extends React.Component {
                .union(sel.target().successors())
                .union(sel.source().predecessors())
                .addClass('selection');
+            
+            this.showPapersTooltip(sel);
         });
         
         cy.$('edge').on('unselect', (e) => {
@@ -122,7 +132,73 @@ class GraphInner extends React.Component {
                .union(sel.target().successors())
                .union(sel.source().predecessors())
                .removeClass('selection');
+            this.clearToolTip();
         });
+        
+        cy.$('edge').on('tap', (e) => {
+            const sel = e.target;
+            if (!this.tip && sel.selected())
+                this.showPapersTooltip(sel);
+        });
+    }
+    
+    showPapersTooltip(sel) {
+        this.clearToolTip();
+        
+        // Yeah, this all feels hacky and super un-React, but deal with it
+        let content = [...sel.data().papers].map(
+            (bibcode) => [bibcode, this.props.repo.docData[bibcode]]);
+        content = content.map(
+            ([bibcode, data]) => 
+                '<div class="graph-tooltip-item">'
+                + data.title
+                + '<div class="text-muted">'
+                + new Date(data.pubdate).getUTCFullYear()
+                + `, ${data.publication}&nbsp;&nbsp;`
+                + `<a href="${ADSUrl(bibcode)}" target="_blank"`
+                + ' rel="noopener noreferrer">[ADS]</a>'
+                + '</div></div>'
+        );
+        
+        const paper_plural = content.length === 1 ? '' : 's';
+        const verb_plural = content.length === 1 ? 's' : '';
+        let heading = `${content.length} paper${paper_plural}`;
+        heading += ` connect${verb_plural} `;
+        heading += `${sel.data().source} and ${sel.data().target}:`;
+        content.unshift(`<p class="graph-tooltip-head">${heading}</p>`);
+        
+        this.showTooltip(sel, content.join(''))
+    }
+    
+    showTooltip(sel, content) {
+        // Per the README of cytoscape.js-popper.
+        const ref = sel.popperRef();
+        const dummyDomEle = document.createElement('div');
+        
+        this.tip = new Tippy(dummyDomEle, {
+            trigger: 'manual',
+            lazy: false,
+            onCreate: instance => { instance.popperInstance.reference = ref; },
+            onHidden: () => {this.clearToolTip();},
+            appendTo: this.cy.container().parentElement,
+            interactive: true,
+            theme: 'light-border',
+            plugins: [sticky],
+            sticky: true,
+            content: () => {
+                const container = document.createElement('div');
+                container.innerHTML = content;
+                return container;
+          }
+        });
+        this.tip.show();
+    }
+    
+    clearToolTip() {
+        if (this.tip) {
+            this.tip.destroy();
+            delete this.tip;
+        }
     }
     
     componentDidUpdate() {
@@ -194,7 +270,8 @@ class GraphInner extends React.Component {
                 <div className="text-muted graph-header-text">
                     Click or hover to highlight, scroll/pinch to zoom, drag to {}
                     move. Size indicates the number of routes through that {}
-                    node or edge.
+                    node or edge. Click any connection to view the relevant {}
+                    papers.
                 </div>
                 
                 {buttons}
@@ -257,27 +334,37 @@ class GraphInner extends React.Component {
         }
         
         // Generate all the edges
-        for (let chain of chains) {
+        // Display positions are dictated by the node positions. When going
+        // through edges, we can use the original, unsorted chains list so
+        // we can also access the paper choices for each chain
+        this.props.repo.chains.forEach((chain, chainIdx) => {
+            const paperChoices = this.props.repo.paperChoicesForChain[chainIdx];
             for (let i=0; i<chain.length - 1; i++) {
                 const author = this.props.repo.graphTranslation[i][
                     chain[i].toLowerCase()];
                 const nextAuthor = this.props.repo.graphTranslation[i+1][
                     chain[i+1].toLowerCase()];
+                let edge;
                 if (!(author+nextAuthor in edges)) {
-                    edges[author + nextAuthor] = {
+                    edge = {
                         data: {
                             source: author,
                             target: nextAuthor,
-                            id: author + " to " + nextAuthor
+                            id: author + " to " + nextAuthor,
+                            papers: new Set(),
                         },
                         style: {width: 1}
                     };
+                    edges[author + nextAuthor] = edge;
                 } else {
-                    edges[author + nextAuthor].style.width += 1;
-                    maxWidth = Math.max(maxWidth, edges[author + nextAuthor].style.width);
+                    edge = edges[author + nextAuthor]
+                    edge.style.width += 1;
+                    maxWidth = Math.max(maxWidth, edge.style.width);
                 }
+                paperChoices[i].forEach(
+                    (paper) => edge.data.papers.add(paper[0]));
             }
-        }
+        });
         
         // Now that we know how many nodes are in each column, we can
         // properly distribute them.
