@@ -347,16 +347,16 @@ const STYLESHEET = [
     }, {
         selector: '.selection',
         style: {
-            'background-color': 'rgb(245,160,64)',
-            'line-color': 'rgb(245,160,64)',
-            'target-arrow-color': 'rgb(245,160,64)'
+            'background-color': 'rgb(0,123,253)',
+            'line-color': 'rgb(0,123,253)',
+            'target-arrow-color': 'rgb(0,123,253)'
         }
     }, {
         selector: '.highlighted',
         style: {
-            'background-color': 'rgb(0,123,253)',
-            'line-color': 'rgb(0,123,253)',
-            'target-arrow-color': 'rgb(0,123,253)'
+            'background-color': 'rgb(245,160,64)',
+            'line-color': 'rgb(245,160,64)',
+            'target-arrow-color': 'rgb(245,160,64)'
         }
     }, {
         selector: '.main-selection',
