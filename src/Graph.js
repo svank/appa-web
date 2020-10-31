@@ -103,6 +103,8 @@ class GraphInner extends React.Component {
                .union(sel)
                .addClass('selection');
             sel.addClass('main-selection');
+            
+            this.showAuthorTooltip(sel);
         });
         
         cy.$('node').on('unselect', (e) => {
@@ -112,6 +114,13 @@ class GraphInner extends React.Component {
                .union(sel)
                .removeClass('selection');
             sel.removeClass('main-selection');
+            this.clearToolTip();
+        });
+        
+        cy.$('node').on('tap', (e) => {
+            const sel = e.target;
+            if (!this.tip && sel.selected())
+                this.showAuthorTooltip(sel);
         });
         
         cy.$('edge').on('select', (e) => {
@@ -168,6 +177,28 @@ class GraphInner extends React.Component {
         content.unshift(`<p class="graph-tooltip-head">${heading}</p>`);
         
         this.showTooltip(sel, content.join(''))
+    }
+    
+    showAuthorTooltip(sel) {
+        const before = sel.incomers().difference(sel.connectedEdges());
+        const after = sel.outgoers().difference(sel.connectedEdges());
+        
+        let content = `<b>${sel.data().id}</b> `;
+        if (after.length) {
+            content += ` connects to ${after.length} author`;
+            if (after.length > 1)
+                content += 's';
+            if (before.length)
+                content += " and"
+        }
+        if (before.length) {
+            content += ` is connected to by ${before.length} author`;
+            if (before.length > 1)
+                content += 's';
+        }
+        content += '.';
+        
+        this.showTooltip(sel, content);
     }
     
     showTooltip(sel, content) {
@@ -269,9 +300,9 @@ class GraphInner extends React.Component {
             <div className="graph">
                 <div className="text-muted graph-header-text">
                     Click or hover to highlight, scroll/pinch to zoom, drag to {}
-                    move. Size indicates the number of routes through that {}
-                    node or edge. Click any connection to view the relevant {}
-                    papers.
+                    move. Size indicates the number of routes through a {}
+                    person or connection. Click any person or connection to {}
+                    view extra information.
                 </div>
                 
                 {buttons}
