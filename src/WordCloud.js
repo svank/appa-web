@@ -345,7 +345,12 @@ class D3WordCloudWrapper extends React.Component{
 }
 
 function trimPunctuationAndExcludedWords(word, excludedWords) {
-    word = word.replace(/^[,.\-:"'()]+|[,.\-:"'()]+$/g, '');
+    // Use a reduced set of excluded punctuation for strings containing spaces
+    // (which are probably journal names)
+    if (word.includes(" "))
+        word = word.replace(/^[,.\-:]+|[,.\-:]+$/g, '');
+    else
+        word = word.replace(/^[,.\-:"'()]+|[,.\-:"'()]+$/g, '');
     if (word.length === 1 || excludedWords.includes(word.toLowerCase()))
         return '';
     return word;
