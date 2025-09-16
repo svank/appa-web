@@ -14,7 +14,7 @@
     "react-d3-cloud": "^0.7.0",
     "react-dom": "^16.14.0",
     "react-full-screen": "^0.3.1",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "tippy.js": "^5.2.1"
   },
   "scripts": {
